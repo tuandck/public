@@ -1393,7 +1393,7 @@ function bhdt_wirecutter_default_menu_blocks() {
 			'children' => array(
 				array( 'label_vi' => 'Review breadboard', 'label_en' => 'Breadboard reviews', 'url' => $review_search( 'breadboard' ), 'order' => 10, 'enabled' => 1 ),
 				array( 'label_vi' => 'Review mỏ hàn và phụ kiện hàn', 'label_en' => 'Soldering iron and accessory reviews', 'url' => $review_search( 'mo han' ), 'order' => 20, 'enabled' => 1 ),
-				array( 'label_vi' => 'So sánh bộ dây dupont', 'label_en' => 'Dupont wire kit comparisons', 'url' => $comparison_search( 'day dupont' ), 'order' => 30, 'enabled' => 1 ),
+				array( 'label_vi' => 'So sánh bộ dây Dupont', 'label_en' => 'Dupont wire kit comparisons', 'url' => $comparison_search( 'day dupont' ), 'order' => 30, 'enabled' => 1 ),
 				array( 'label_vi' => 'Tổng hợp review phụ kiện maker', 'label_en' => 'Maker accessory roundup', 'url' => $review_archive, 'order' => 40, 'enabled' => 1 ),
 			),
 		),
@@ -3460,7 +3460,7 @@ function bhdt_wirecutter_polylang_translate( $translated, $original, $domain ) {
 		'Ưu đãi hàng ngày BHDT' => 'BHDT Daily Deals',
 		'Tìm kiếm phổ biến BHDT' => 'BHDT Popular Searches',
 		'Một mục mỗi dòng theo định dạng: Nhãn|URL|Ghi chú' => 'One item per line in the format: Label|URL|Short note',
-		'Tìm kiếm bài viết, hướng dẫn, linh kiện...' => 'Search posts, guides, electronics...',
+		'Tìm bài viết, hướng dẫn, linh kiện...' => 'Search posts, guides, electronics...',
 		'Tìm kiếm:' => 'Search:',
 		'Tìm kiếm' => 'Search',
 		'Công cụ chuyển ngôn ngữ' => 'Language Switcher',
@@ -3471,8 +3471,8 @@ function bhdt_wirecutter_polylang_translate( $translated, $original, $domain ) {
 		'Linh kiện điện tử' => 'Electronics',
 		'Công cụ' => 'Tools',
 		'Ưu đãi' => 'Deals',
-		'Bố cục biên tập sạch được lấy cảm hứng từ Wirecutter' => 'Clean editorial layout inspired by Wirecutter',
-		'Hướng dẫn thực tế, bài đánh giá điện tử và ghi chú dự án.' => 'Practical guides, electronic reviews, and project notes.',
+		'Bố cục biên tập gọn gàng, lấy cảm hứng từ Wirecutter' => 'Clean editorial layout inspired by Wirecutter',
+		'Hướng dẫn thực tế, đánh giá linh kiện và ghi chú dự án.' => 'Practical guides, electronic reviews, and project notes.',
 		'Mới nhất' => 'The Latest',
 		'Lưu trữ đánh giá' => 'Review Archive',
 		'Chỉ mục đánh giá biên tập với ghi chú có cấu trúc, thông số kỹ thuật chuẩn và luồng đọc rõ ràng.' => 'Editorial review index with structured notes, key specs, and clean reading flow.',
@@ -3510,7 +3510,7 @@ function bhdt_wirecutter_polylang_translate( $translated, $original, $domain ) {
 		'Cập nhật %s' => 'Updated %s',
 		'Ưu đãi hàng ngày' => 'Daily Deals',
 		'%d%% GIẢM' => '%d%% OFF',
-		'Ưu đãi hàng ngày sẽ hiện thị khi WooCommerce và giá khuyến mãi sẵn sàng.' => 'Daily Deals will display when WooCommerce and sale prices are available.',
+		'Ưu đãi hàng ngày sẽ hiển thị khi WooCommerce và giá khuyến mãi sẵn sàng.' => 'Daily Deals will display when WooCommerce and sale prices are available.',
 		'Menu danh mục kiểu Wirecutter' => 'Wirecutter-style Category Menu',
 		'Đồng hồ vạn năng tốt nhất' => 'Best Multimeters',
 		'Hướng dẫn ESP32' => 'ESP32 Guides',
@@ -3524,7 +3524,7 @@ function bhdt_wirecutter_polylang_translate( $translated, $original, $domain ) {
 		'Quản lý cáp' => 'Cable Management',
 		'Nhà bếp' => 'Kitchen',
 		'Nhiệt kế tốt nhất' => 'Best Thermometers',
-		'Bộ hến giờ và cân' => 'Timers and Scales',
+		'Bộ hẹn giờ và cân' => 'Timers and Scales',
 		'Công nghệ' => 'Technology',
 		'Lưu trữ nhỏ gọn' => 'Compact Storage',
 		'Menu chức năng trang' => 'Site Function Menu',
@@ -3536,12 +3536,12 @@ function bhdt_wirecutter_polylang_translate( $translated, $original, $domain ) {
 		'Chưa có nội dung mới.' => 'No new content yet.',
 		'Sản phẩm nổi bật' => 'Featured Product',
 		'Bài phụ %d' => 'Side Story %d',
-		'%s - Bài chín' => '%s - Main Story',
+		'%s - Bài chính' => '%s - Main Story',
 		'%s - Bài phụ %d' => '%s - Side Story %d',
-		'Khu vực này sẽ hiển thị bài nổi bật của chủ đề khi có dự liệu sản phẩm.' => 'This area shows the featured story for the topic when product data is available.',
+		'Khu vực này sẽ hiển thị bài nổi bật của chủ đề khi có dữ liệu sản phẩm.' => 'This area shows the featured story for the topic when product data is available.',
 		'Khu vực hiển thị bài phụ theo chiều ngang.' => 'This area displays side stories in a horizontal layout.',
 		'Ưu đãi hàng ngày sẽ hiển thị khi WooCommerce và giá khuyến mãi sẵn sàng.' => 'Daily Deals will display when WooCommerce and sale prices are ready.',
-		'Bố cục biên tập sạch được lấy cảm hứng từ Wirecutter.' => 'Clean editorial layout inspired by Wirecutter.',
+		'Bố cục biên tập gọn gàng, lấy cảm hứng từ Wirecutter.' => 'Clean editorial layout inspired by Wirecutter.',
 		'Trang chủ' => 'Home',
 		'Tốt nhất' => 'Best Of',
 		'Menu chính' => 'Main Menu',
@@ -3932,7 +3932,7 @@ class BHDT_Wirecutter_Popular_Searches_Widget extends WP_Widget {
 			'bhdt_wirecutter_popular_searches',
 			__( 'Tìm kiếm phổ biến BHDT', 'bhdt-wirecutter' ),
 			array(
-				'description' => __( 'Danh sách chip đơn giản của các tìm kiếm phổ biến cho cột phải.', 'bhdt-wirecutter' ),
+				'description' => __( 'Danh sách tìm kiếm phổ biến dạng chip cho cột phải.', 'bhdt-wirecutter' ),
 			)
 		);
 	}
@@ -3948,10 +3948,10 @@ class BHDT_Wirecutter_Popular_Searches_Widget extends WP_Widget {
 
 		if ( empty( $links ) ) {
 			$links = array(
-				array( 'label' => __( 'Máy đo đa năng', 'bhdt-wirecutter' ), 'url' => home_url( '/?s=multimeter' ), 'note' => __( 'Tìm hướng dẫn đánh giá', 'bhdt-wirecutter' ) ),
+				array( 'label' => __( 'Máy đo đa năng', 'bhdt-wirecutter' ), 'url' => home_url( '/?s=multimeter' ), 'note' => __( 'Tìm bài hướng dẫn và đánh giá', 'bhdt-wirecutter' ) ),
 				array( 'label' => __( 'ESP32', 'bhdt-wirecutter' ), 'url' => home_url( '/?s=esp32' ), 'note' => __( 'Bo mạch và tự động hóa', 'bhdt-wirecutter' ) ),
 				array( 'label' => __( 'Nguồn điện', 'bhdt-wirecutter' ), 'url' => home_url( '/?s=power supply' ), 'note' => __( 'Đầu ra ổn định và kiểm tra tải', 'bhdt-wirecutter' ) ),
-				array( 'label' => __( 'Hàn', 'bhdt-wirecutter' ), 'url' => home_url( '/?s=soldering' ), 'note' => __( 'Thiết yếu bàn làm việc', 'bhdt-wirecutter' ) ),
+				array( 'label' => __( 'Hàn', 'bhdt-wirecutter' ), 'url' => home_url( '/?s=soldering' ), 'note' => __( 'Thiết yếu cho bàn làm việc', 'bhdt-wirecutter' ) ),
 			);
 		}
 
@@ -4421,7 +4421,7 @@ function bhdt_wirecutter_mega_menu_sections() {
 			'links' => array(
 				array( 'label' => __( 'Review breadboard', 'bhdt-wirecutter' ), 'url' => $review_search( 'breadboard' ) ),
 				array( 'label' => __( 'Review mỏ hàn và phụ kiện hàn', 'bhdt-wirecutter' ), 'url' => $review_search( 'mo han' ) ),
-				array( 'label' => __( 'So sánh bộ dây dupont', 'bhdt-wirecutter' ), 'url' => $comparison_search( 'day dupont' ) ),
+				array( 'label' => __( 'So sánh bộ dây Dupont', 'bhdt-wirecutter' ), 'url' => $comparison_search( 'day dupont' ) ),
 				array( 'label' => __( 'Tổng hợp review phụ kiện maker', 'bhdt-wirecutter' ), 'url' => $review_archive ),
 			),
 		),
@@ -4547,7 +4547,6 @@ function bhdt_wirecutter_render_function_menu() {
 	?>
 	<section class="bhdt-function-menu" aria-label="<?php esc_attr_e( 'Menu Chức Năng', 'bhdt-wirecutter' ); ?>">
 		<div class="bhdt-function-menu-inner">
-			<span class="bhdt-function-menu-label"><?php esc_html_e( 'Menu Chức Năng', 'bhdt-wirecutter' ); ?></span>
 			<ul class="bhdt-function-menu-list">
 				<?php foreach ( $sections as $section ) : ?>
 					<?php
@@ -4598,12 +4597,12 @@ function bhdt_wirecutter_top_topics() {
 		array(
 			'label' => __( 'Hàn', 'bhdt-wirecutter' ),
 			'url'   => home_url( '/?s=soldering' ),
-			'note'  => __( 'Thiết yếu bàn làm việc', 'bhdt-wirecutter' ),
+			'note'  => __( 'Thiết yếu cho bàn làm việc', 'bhdt-wirecutter' ),
 		),
 		array(
-			'label' => __( 'Bộ khở đầu', 'bhdt-wirecutter' ),
+			'label' => __( 'Bộ khởi đầu', 'bhdt-wirecutter' ),
 			'url'   => home_url( '/?s=kit' ),
-			'note'  => __( 'Lựa chọn thân thiến người mới bắt đầu', 'bhdt-wirecutter' ),
+			'note'  => __( 'Lựa chọn thân thiện cho người mới bắt đầu', 'bhdt-wirecutter' ),
 		),
 	);
 }
@@ -4638,9 +4637,9 @@ function bhdt_wirecutter_trending_now_items() {
 			'note'  => __( 'Chủ đề phát triển nhanh nhất tuần này', 'bhdt-wirecutter' ),
 		),
 		array(
-			'label' => __( 'Xu hướng: những lựa chọn đồng hồ vạn năng tốt nhất', 'bhdt-wirecutter' ),
+			'label' => __( 'Xu hướng: đồng hồ vạn năng nổi bật', 'bhdt-wirecutter' ),
 			'url'   => get_post_type_archive_link( 'bhdt_review' ),
-			'note'  => __( 'Hướng dẫn mua có ý định cao', 'bhdt-wirecutter' ),
+			'note'  => __( 'Hướng dẫn mua cho nhu cầu rõ ràng', 'bhdt-wirecutter' ),
 		),
 		array(
 			'label' => __( 'Xu hướng: dự án mô-đun công suất', 'bhdt-wirecutter' ),
@@ -4648,9 +4647,9 @@ function bhdt_wirecutter_trending_now_items() {
 			'note'  => __( 'Phổ biến trong DIY và sửa chữa', 'bhdt-wirecutter' ),
 		),
 		array(
-			'label' => __( 'Xu hướng: thiết yếu hàn', 'bhdt-wirecutter' ),
+			'label' => __( 'Xu hướng: đồ hàn thiết yếu', 'bhdt-wirecutter' ),
 			'url'   => home_url( '/?s=soldering' ),
-			'note'  => __( 'Các đồ cơ bản của bàn làm việc', 'bhdt-wirecutter' ),
+			'note'  => __( 'Đồ cơ bản cho bàn làm việc', 'bhdt-wirecutter' ),
 		),
 	);
 }

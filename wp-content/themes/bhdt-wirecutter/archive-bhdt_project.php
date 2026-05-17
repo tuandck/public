@@ -44,7 +44,7 @@ $post_count = wp_count_posts( 'bhdt_project' );
 					<?php endif; ?>
 					<?php $strength = get_post_meta( get_the_ID(), '_bhdt_project_strengths', true ); ?>
 					<?php if ( ! empty( $strength ) ) : ?>
-								<p class="bhdt-read-more"><?php esc_html_e( 'Có những điểm nhiện bắt', 'bhdt-wirecutter' ); ?></p>
+							<p class="bhdt-read-more"><?php esc_html_e( 'Có những điểm nổi bật', 'bhdt-wirecutter' ); ?></p>
 					<?php endif; ?>
 					<a class="bhdt-read-more" href="<?php the_permalink(); ?>"><?php esc_html_e( 'Đọc dự án', 'bhdt-wirecutter' ); ?></a>
 				</div>

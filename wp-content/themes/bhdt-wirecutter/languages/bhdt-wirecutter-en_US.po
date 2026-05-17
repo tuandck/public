@@ -58,7 +58,7 @@ msgstr "BHDT Popular Searches"
 msgid "Một mục mỗi dòng theo định dạng: Nhãn|URL|Ghi chú"
 msgstr "One item per line in the format: Label|URL|Short note"
 
-msgid "Tìm kiếm bài viết, hướng dẫn, linh kiện..."
+msgid "Tìm bài viết, hướng dẫn, linh kiện..."
 msgstr "Search posts, guides, electronics..."
 
 msgid "Tìm kiếm:"
@@ -91,10 +91,10 @@ msgstr "Tools"
 msgid "Ưu đãi"
 msgstr "Deals"
 
-msgid "Bố cục biên tập sạch được lấy cảm hứng từ Wirecutter"
+msgid "Bố cục biên tập gọn gàng, lấy cảm hứng từ Wirecutter"
 msgstr "Clean editorial layout inspired by Wirecutter"
 
-msgid "Hướng dẫn thực tế, bài đánh giá điện tử và ghi chú dự án."
+msgid "Hướng dẫn thực tế, đánh giá linh kiện và ghi chú dự án."
 msgstr "Practical guides, electronic reviews, and project notes."
 
 msgid "Mới nhất"
@@ -102,26 +102,36 @@ msgstr "The Latest"
 
 msgid "Lưu trữ đánh giá"
 msgstr "Review Archive"
+msgid "Bài đánh giá"
+msgstr "Đánh giá"
 
 msgid "Chỉ mục đánh giá biên tập với ghi chú có cấu trúc, thông số kỹ thuật chuẩn và luồng đọc rõ ràng."
 msgstr "Editorial review index with structured notes, key specs, and clean reading flow."
 
 msgid "%d bài đánh giá được xuất bản"
+msgid "Lưu trữ đánh giá"
+msgstr "Lưu trữ đánh giá"
 msgstr "%d reviews published"
 
 msgid "Đánh giá"
 msgstr "Review"
 
 msgid "Đọc bài đánh giá"
+msgstr "Đọc đánh giá"
+msgid "Đọc bài đánh giá"
 msgstr "Read Review"
 
 msgid "Không có hình ảnh"
 msgstr "No image"
+msgid "%d bài đánh giá được xuất bản"
+msgstr "%d bài đánh giá đã xuất bản"
 
 msgid "Lưu trữ dự án"
 msgstr "Project Archive"
 
 msgid "Quy trình dự án, ý tưởng BOM và ghi chú xây dựng được hiển thị trong lưới biên tập rõ ràng."
+msgid "Đánh giá"
+msgstr "Đánh giá"
 msgstr "Project workflows, BOM ideas, and build notes displayed in a clean editorial grid."
 
 msgid "Dự án"
@@ -208,7 +218,7 @@ msgstr "Daily Deals"
 msgid "%d%% GIẢM"
 msgstr "%d%% OFF"
 
-msgid "Ưu đãi hàng ngày sẽ hiện thị khi WooCommerce và giá khuyến mãi sẵn sàng."
+msgid "Ưu đãi hàng ngày sẽ hiển thị khi WooCommerce và giá khuyến mãi sẵn sàng."
 msgstr "Daily Deals will display when WooCommerce and sale prices are available."
 
 msgid "Menu danh mục kiểu Wirecutter"

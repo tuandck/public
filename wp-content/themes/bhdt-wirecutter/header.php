@@ -27,7 +27,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<?php get_search_form(); ?>
 				<div class="bhdt-header-actions">
 					<?php if ( function_exists( 'pll_the_languages' ) ) : ?>
-						<div class="bhdt-lang-switcher" aria-label="<?php esc_attr_e( 'CÃ´ng cá»¥ chuyá»ƒn ngÃ´n ngá»¯', 'bhdt-wirecutter' ); ?>">
+						<div class="bhdt-lang-switcher" aria-label="<?php esc_attr_e( 'Công cụ chuyển ngôn ngữ', 'bhdt-wirecutter' ); ?>">
 							<?php $bhdt_languages = pll_the_languages( array( 'raw' => 1, 'hide_if_no_translation' => 0, 'hide_if_empty' => 0, 'force_home' => 1 ) ); ?>
 							<?php if ( is_array( $bhdt_languages ) ) : ?>
 								<?php foreach ( $bhdt_languages as $bhdt_language ) : ?>
@@ -40,16 +40,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 							<?php endif; ?>
 						</div>
 					<?php endif; ?>
-				<a href="<?php echo esc_url( wp_login_url() ); ?>"><?php esc_html_e( 'ÄÄƒng nháº­p', 'bhdt-wirecutter' ); ?></a>
-				<a class="bhdt-header-subscribe" href="#"><?php esc_html_e( 'ÄÄƒng kÃ½', 'bhdt-wirecutter' ); ?></a>
+				<a href="<?php echo esc_url( wp_login_url() ); ?>"><?php esc_html_e( 'Đăng nhập', 'bhdt-wirecutter' ); ?></a>
+				<a class="bhdt-header-subscribe" href="#"><?php esc_html_e( 'Đăng ký', 'bhdt-wirecutter' ); ?></a>
 				</div>
 			</div>
 		</div>
-		<div class="bhdt-mega-menu-wrap">
-			<?php echo wp_kses_post( bhdt_wirecutter_render_mega_menu() ); ?>
-		</div>
 		<div class="bhdt-function-menu-wrap">
 			<?php echo wp_kses_post( bhdt_wirecutter_render_function_menu() ); ?>
+		</div>
+		<div class="bhdt-mega-menu-wrap">
+			<?php echo wp_kses_post( bhdt_wirecutter_render_mega_menu() ); ?>
 		</div>
 	</header>
 	<div class="bhdt-content">

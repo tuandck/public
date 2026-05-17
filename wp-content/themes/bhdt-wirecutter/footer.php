@@ -18,14 +18,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<?php if ( is_active_sidebar( 'bhdt-footer-1' ) ) : ?>
 						<?php dynamic_sidebar( 'bhdt-footer-1' ); ?>
 					<?php else : ?>
-							<p><strong><?php esc_html_e( 'Banhangdientu', 'bhdt-wirecutter' ); ?></strong><br><?php esc_html_e( 'Bố cục biên tập sạch được lấy cảm hứng từ Wirecutter.', 'bhdt-wirecutter' ); ?></p>
+							<p><strong><?php esc_html_e( 'Banhangdientu', 'bhdt-wirecutter' ); ?></strong><br><?php esc_html_e( 'Bố cục biên tập gọn gàng, cảm hứng từ Wirecutter.', 'bhdt-wirecutter' ); ?></p>
 					<?php endif; ?>
 				</div>
 				<div>
 					<?php if ( is_active_sidebar( 'bhdt-footer-2' ) ) : ?>
 						<?php dynamic_sidebar( 'bhdt-footer-2' ); ?>
 					<?php else : ?>
-						<p><?php esc_html_e( 'Hướng dẫn thực tế, bài đánh giá điện tử và ghi chú dự án.', 'bhdt-wirecutter' ); ?></p>
+						<p><?php esc_html_e( 'Hướng dẫn thực tế, đánh giá linh kiện, ghi chú dự án.', 'bhdt-wirecutter' ); ?></p>
 					<?php endif; ?>
 				</div>
 				<div>

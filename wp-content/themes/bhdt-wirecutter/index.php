@@ -171,7 +171,7 @@ if ( $bhdt_has_woo ) {
 							</a>
 						</div>
 						<div class="bhdt-wire-hero-copy">
-							<p class="bhdt-wire-kicker"><?php esc_html_e( 'Hướng dẫn nổi bật', 'bhdt-wirecutter' ); ?></p>
+						<p class="bhdt-wire-kicker"><?php esc_html_e( 'Hướng dẫn nổi bật', 'bhdt-wirecutter' ); ?></p>
 							<h1><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h1>
 							<p><?php echo esc_html( wp_trim_words( get_the_excerpt(), 28, '...' ) ); ?></p>
 							<ul class="bhdt-wire-curated-links">
@@ -184,8 +184,8 @@ if ( $bhdt_has_woo ) {
 					<?php wp_reset_postdata(); ?>
 				<?php else : ?>
 					<div class="bhdt-wire-hero-copy bhdt-wire-panel">
-						<h1><?php bloginfo( 'name' ); ?></h1>
-						<p><?php bloginfo( 'description' ); ?></p>
+					<h1><?php bloginfo( 'name' ); ?></h1>
+					<p><?php bloginfo( 'description' ); ?></p>
 					</div>
 				<?php endif; ?>
 			</section>
@@ -278,7 +278,7 @@ if ( $bhdt_has_woo ) {
 						<article class="bhdt-wire-category-lead bhdt-wire-placeholder-block">
 							<div class="bhdt-wire-category-lead-thumb bhdt-wire-thumb-fallback"><?php esc_html_e( 'Bài nổi bật', 'bhdt-wirecutter' ); ?></div>
 							<div class="bhdt-wire-category-lead-copy">
-								<h3><?php echo esc_html( sprintf( __( '%s - Bài chín', 'bhdt-wirecutter' ), $bhdt_cat_label ) ); ?></h3>
+								<h3><?php echo esc_html( sprintf( __( '%s - Bài chính', 'bhdt-wirecutter' ), $bhdt_cat_label ) ); ?></h3>
 								<p><?php esc_html_e( 'Khu vực này sẽ hiển thị bài nổi bật của chủ đề khi đã có bài đúng chuyên mục.', 'bhdt-wirecutter' ); ?></p>
 							</div>
 						</article>
