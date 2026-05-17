@@ -1,0 +1,705 @@
+{
+    "missing_count": 140,
+    "items": [
+        {
+            "file": "archive-bhdt_review.php",
+            "line": 21,
+            "text": "%d bài đánh giá được xuất bản"
+        },
+        {
+            "file": "archive-bhdt_project.php",
+            "line": 21,
+            "text": "%d dự án được xuất bản"
+        },
+        {
+            "file": "category.php",
+            "line": 23,
+            "text": "%d mục trong danh mục này"
+        },
+        {
+            "file": "index.php",
+            "line": 365,
+            "text": "%d%% GIẢM"
+        },
+        {
+            "file": "index.php",
+            "line": 311,
+            "text": "%s - Bài chín"
+        },
+        {
+            "file": "index.php",
+            "line": 319,
+            "text": "%s - Bài phụ %d"
+        },
+        {
+            "file": "functions.php",
+            "line": 720,
+            "text": "BOM \/ Danh sách các phần"
+        },
+        {
+            "file": "functions.php",
+            "line": 572,
+            "text": "Bo mạch và tự động hóa"
+        },
+        {
+            "file": "index.php",
+            "line": 318,
+            "text": "Bài phụ %d"
+        },
+        {
+            "file": "taxonomy.php",
+            "line": 39,
+            "text": "Bài viết"
+        },
+        {
+            "file": "functions.php",
+            "line": 987,
+            "text": "Bài đánh giá"
+        },
+        {
+            "file": "category.php",
+            "line": 39,
+            "text": "Bài đăng danh mục"
+        },
+        {
+            "file": "footer.php",
+            "line": 21,
+            "text": "Bánhangdiệntu"
+        },
+        {
+            "file": "footer.php",
+            "line": 21,
+            "text": "Bố cục biên tập sạch được lấy cảm hứng từ Wirecutter."
+        },
+        {
+            "file": "functions.php",
+            "line": 930,
+            "text": "Bộ hến giờ và cân"
+        },
+        {
+            "file": "functions.php",
+            "line": 1053,
+            "text": "Bộ khở đầu"
+        },
+        {
+            "file": "functions.php",
+            "line": 946,
+            "text": "Bộ khởi đầu"
+        },
+        {
+            "file": "index.php",
+            "line": 183,
+            "text": "Chưa có nội dung mới."
+        },
+        {
+            "file": "archive-bhdt_review.php",
+            "line": 20,
+            "text": "Chỉ mục đánh giá biên tập với ghi chú có cấu trúc, thông số kỹ thuật chuẩn và luồng đọc rõ ràng."
+        },
+        {
+            "file": "functions.php",
+            "line": 298,
+            "text": "Chủ đề"
+        },
+        {
+            "file": "functions.php",
+            "line": 265,
+            "text": "Chủ đề hàng đầu"
+        },
+        {
+            "file": "functions.php",
+            "line": 252,
+            "text": "Chủ đề hàng đầu BHDT"
+        },
+        {
+            "file": "index.php",
+            "line": 162,
+            "text": "Chủ đề linh kiện"
+        },
+        {
+            "file": "functions.php",
+            "line": 1087,
+            "text": "Chủ đề phát triển nhanh nhất tuần này"
+        },
+        {
+            "file": "functions.php",
+            "line": 1040,
+            "text": "Các ray DC ổn định"
+        },
+        {
+            "file": "functions.php",
+            "line": 1102,
+            "text": "Các đồ cơ bản của bàn làm việc"
+        },
+        {
+            "file": "archive-bhdt_project.php",
+            "line": 47,
+            "text": "Có những điểm nhiện bắt"
+        },
+        {
+            "file": "functions.php",
+            "line": 1007,
+            "text": "Công cụ"
+        },
+        {
+            "file": "header.php",
+            "line": 30,
+            "text": "Công cụ chuyển ngôn ngữ"
+        },
+        {
+            "file": "functions.php",
+            "line": 935,
+            "text": "Công nghệ"
+        },
+        {
+            "file": "functions.php",
+            "line": 922,
+            "text": "Công suất bàn làm việc"
+        },
+        {
+            "file": "index.php",
+            "line": 270,
+            "text": "Cập nhật %s"
+        },
+        {
+            "file": "functions.php",
+            "line": 215,
+            "text": "Cột chân trang 1"
+        },
+        {
+            "file": "functions.php",
+            "line": 226,
+            "text": "Cột chân trang 2"
+        },
+        {
+            "file": "functions.php",
+            "line": 237,
+            "text": "Cột chân trang 3"
+        },
+        {
+            "file": "functions.php",
+            "line": 191,
+            "text": "Cột phải trang chủ"
+        },
+        {
+            "file": "functions.php",
+            "line": 179,
+            "text": "Cột trái trang chủ"
+        },
+        {
+            "file": "functions.php",
+            "line": 639,
+            "text": "Của %s"
+        },
+        {
+            "file": "functions.php",
+            "line": 555,
+            "text": "Danh sách chip đơn giản của các tìm kiếm phổ biến cho cột phải."
+        },
+        {
+            "file": "functions.php",
+            "line": 254,
+            "text": "Danh sách chủ đề biên tập nhỏ gọn cho cột trái."
+        },
+        {
+            "file": "functions.php",
+            "line": 488,
+            "text": "Danh sách thẻ Ưu đãi hàng ngày nhỏ gọn cho cột phải."
+        },
+        {
+            "file": "functions.php",
+            "line": 368,
+            "text": "Danh sách xu hướng nhỏ gọn cho cột phải."
+        },
+        {
+            "file": "archive-bhdt_project.php",
+            "line": 37,
+            "text": "Dự án"
+        },
+        {
+            "file": "single-bhdt_project.php",
+            "line": 19,
+            "text": "Dự án DIY"
+        },
+        {
+            "file": "functions.php",
+            "line": 1043,
+            "text": "Dự án ESP32"
+        },
+        {
+            "file": "single-bhdt_review.php",
+            "line": 66,
+            "text": "Ghi chú Người đánh giá \/ Thông số"
+        },
+        {
+            "file": "single-bhdt_project.php",
+            "line": 72,
+            "text": "Ghi chú dự án"
+        },
+        {
+            "file": "functions.php",
+            "line": 574,
+            "text": "Hàn"
+        },
+        {
+            "file": "index.php",
+            "line": 197,
+            "text": "Hình ảnh nổi bật"
+        },
+        {
+            "file": "functions.php",
+            "line": 938,
+            "text": "Hướng dẫn ESP32"
+        },
+        {
+            "file": "functions.php",
+            "line": 1092,
+            "text": "Hướng dẫn mua có ý định cao"
+        },
+        {
+            "file": "index.php",
+            "line": 202,
+            "text": "Hướng dẫn nổi bật"
+        },
+        {
+            "file": "footer.php",
+            "line": 28,
+            "text": "Hướng dẫn thực tế, bài đánh giá điện tử và ghi chú dự án."
+        },
+        {
+            "file": "taxonomy.php",
+            "line": 23,
+            "text": "ID thuật ngữ: %d"
+        },
+        {
+            "file": "functions.php",
+            "line": 1045,
+            "text": "IoT & tự động hóa"
+        },
+        {
+            "file": "single-bhdt_review.php",
+            "line": 75,
+            "text": "JSON Kỹ thuật"
+        },
+        {
+            "file": "index.php",
+            "line": 320,
+            "text": "Khu vực hiển thị bài phụ theo chiều ngang."
+        },
+        {
+            "file": "index.php",
+            "line": 312,
+            "text": "Khu vực này sẽ hiển thị bài nổi bật của chủ đề khi có dự liệu sản phẩm."
+        },
+        {
+            "file": "archive-bhdt_project.php",
+            "line": 32,
+            "text": "Không có hình ảnh"
+        },
+        {
+            "file": "functions.php",
+            "line": 426,
+            "text": "Khối lựa chọn biên tập được làm nổi bật cho cột phải."
+        },
+        {
+            "file": "single-bhdt_review.php",
+            "line": 43,
+            "text": "Kết luận"
+        },
+        {
+            "file": "functions.php",
+            "line": 1003,
+            "text": "Linh kiện điện tử"
+        },
+        {
+            "file": "category.php",
+            "line": 18,
+            "text": "Lưu trữ danh mục"
+        },
+        {
+            "file": "archive-bhdt_project.php",
+            "line": 18,
+            "text": "Lưu trữ dự án"
+        },
+        {
+            "file": "functions.php",
+            "line": 931,
+            "text": "Lưu trữ nhỏ gọn"
+        },
+        {
+            "file": "taxonomy.php",
+            "line": 18,
+            "text": "Lưu trữ phân loại"
+        },
+        {
+            "file": "archive-bhdt_review.php",
+            "line": 18,
+            "text": "Lưu trữ đánh giá"
+        },
+        {
+            "file": "functions.php",
+            "line": 437,
+            "text": "Lựa chọn của biên tập viên"
+        },
+        {
+            "file": "functions.php",
+            "line": 424,
+            "text": "Lựa chọn của biên tập viên BHDT"
+        },
+        {
+            "file": "functions.php",
+            "line": 444,
+            "text": "Lựa chọn nâng cấp: ESP32 DevKit"
+        },
+        {
+            "file": "functions.php",
+            "line": 1055,
+            "text": "Lựa chọn thân thiến người mới bắt đầu"
+        },
+        {
+            "file": "functions.php",
+            "line": 443,
+            "text": "Lựa chọn tiết kiếm: mô-đun LM2596"
+        },
+        {
+            "file": "functions.php",
+            "line": 1018,
+            "text": "Menu chức năng trang"
+        },
+        {
+            "file": "functions.php",
+            "line": 958,
+            "text": "Menu danh mục kiểu Wirecutter"
+        },
+        {
+            "file": "functions.php",
+            "line": 571,
+            "text": "Máy đo đa năng"
+        },
+        {
+            "file": "functions.php",
+            "line": 939,
+            "text": "Mô-đun công suất"
+        },
+        {
+            "file": "functions.php",
+            "line": 301,
+            "text": "Một mục mỗi dòng theo định dạng: Nhãn|URL|Ghi chú"
+        },
+        {
+            "file": "functions.php",
+            "line": 442,
+            "text": "Một đồng hồ vạn năng đáng tin cậy hàng ngày"
+        },
+        {
+            "file": "index.php",
+            "line": 171,
+            "text": "Mới nhất"
+        },
+        {
+            "file": "functions.php",
+            "line": 573,
+            "text": "Nguồn điện"
+        },
+        {
+            "file": "functions.php",
+            "line": 929,
+            "text": "Nhiệt kế tốt nhất"
+        },
+        {
+            "file": "functions.php",
+            "line": 919,
+            "text": "Nhà & Vườn"
+        },
+        {
+            "file": "functions.php",
+            "line": 927,
+            "text": "Nhà bếp"
+        },
+        {
+            "file": "functions.php",
+            "line": 700,
+            "text": "Nhược điểm"
+        },
+        {
+            "file": "functions.php",
+            "line": 1097,
+            "text": "Phổ biến trong DIY và sửa chữa"
+        },
+        {
+            "file": "archive-bhdt_project.php",
+            "line": 20,
+            "text": "Quy trình dự án, ý tưởng BOM và ghi chú xây dựng được hiển thị trong lưới biên tập rõ ràng."
+        },
+        {
+            "file": "functions.php",
+            "line": 923,
+            "text": "Quản lý cáp"
+        },
+        {
+            "file": "index.php",
+            "line": 309,
+            "text": "Sản phẩm nổi bật"
+        },
+        {
+            "file": "single-bhdt_project.php",
+            "line": 74,
+            "text": "Sử dụng khu vực này cho BOM, công cụ, điểm kiểm tra, ghi chú dây điện và liên kết khởi chạy. Bố cục có ý đọc trước vì vậy thêm thông tin dự án có thể được phân lớp mà không bị lộn xộn."
+        },
+        {
+            "file": "functions.php",
+            "line": 690,
+            "text": "Sử dụng một mục mỗi dòng. Các trường này sẽ xuất hiện trong mẫu đánh giá đơn."
+        },
+        {
+            "file": "functions.php",
+            "line": 718,
+            "text": "Sử dụng một mục mỗi dòng. Mẫu dự án sẽ nổi bật các trường này."
+        },
+        {
+            "file": "functions.php",
+            "line": 205,
+            "text": "Thanh bên dự phòng cho bài viết và trang."
+        },
+        {
+            "file": "functions.php",
+            "line": 203,
+            "text": "Thanh bên mặc định"
+        },
+        {
+            "file": "functions.php",
+            "line": 193,
+            "text": "Thanh bên phải trên trang chủ cho các khuyến mãi và liên kết."
+        },
+        {
+            "file": "functions.php",
+            "line": 181,
+            "text": "Thanh bên trái trên trang chủ và các cột biên tập."
+        },
+        {
+            "file": "functions.php",
+            "line": 921,
+            "text": "Thiết bị hàn hàng đầu"
+        },
+        {
+            "file": "functions.php",
+            "line": 574,
+            "text": "Thiết yếu bàn làm việc"
+        },
+        {
+            "file": "functions.php",
+            "line": 732,
+            "text": "Thông số \/ Ghi chú"
+        },
+        {
+            "file": "single-bhdt_project.php",
+            "line": 66,
+            "text": "Thông số Dự án \/ Ghi chú"
+        },
+        {
+            "file": "functions.php",
+            "line": 704,
+            "text": "Thông số kỹ thuậ t"
+        },
+        {
+            "file": "functions.php",
+            "line": 979,
+            "text": "Trang chủ"
+        },
+        {
+            "file": "functions.php",
+            "line": 673,
+            "text": "Trường dự án BHDT"
+        },
+        {
+            "file": "functions.php",
+            "line": 664,
+            "text": "Trường đánh giá BHDT"
+        },
+        {
+            "file": "functions.php",
+            "line": 571,
+            "text": "Tìm hướng dẫn đánh giá"
+        },
+        {
+            "file": "functions.php",
+            "line": 995,
+            "text": "Tìm kiếm"
+        },
+        {
+            "file": "searchform.php",
+            "line": 15,
+            "text": "Tìm kiếm bài viết, hướng dẫn, linh kiện..."
+        },
+        {
+            "file": "functions.php",
+            "line": 566,
+            "text": "Tìm kiếm phổ biến"
+        },
+        {
+            "file": "functions.php",
+            "line": 553,
+            "text": "Tìm kiếm phổ biến BHDT"
+        },
+        {
+            "file": "searchform.php",
+            "line": 13,
+            "text": "Tìm kiếm:"
+        },
+        {
+            "file": "functions.php",
+            "line": 983,
+            "text": "Tốt nhất"
+        },
+        {
+            "file": "functions.php",
+            "line": 899,
+            "text": "Tốt nhất \/ Lựa chọn của biên tập viên"
+        },
+        {
+            "file": "functions.php",
+            "line": 442,
+            "text": "Tốt nhất: FNIRSI S1"
+        },
+        {
+            "file": "functions.php",
+            "line": 444,
+            "text": "WiFi\/BLE cho các bản dựng kết nối"
+        },
+        {
+            "file": "functions.php",
+            "line": 907,
+            "text": "Xem tổng hợp"
+        },
+        {
+            "file": "functions.php",
+            "line": 379,
+            "text": "Xu hướng hiện tại"
+        },
+        {
+            "file": "functions.php",
+            "line": 366,
+            "text": "Xu hướng hiện tại BHDT"
+        },
+        {
+            "file": "functions.php",
+            "line": 1095,
+            "text": "Xu hướng: dự án mô-đun công suất"
+        },
+        {
+            "file": "functions.php",
+            "line": 1090,
+            "text": "Xu hướng: những lựa chọn đồng hồ vạn năng tốt nhất"
+        },
+        {
+            "file": "functions.php",
+            "line": 1100,
+            "text": "Xu hướng: thiết yếu hàn"
+        },
+        {
+            "file": "functions.php",
+            "line": 1085,
+            "text": "Xu hướng: xây dựng tự động hóa ESP32"
+        },
+        {
+            "file": "functions.php",
+            "line": 692,
+            "text": "Xếp hạng \/ Kết luận"
+        },
+        {
+            "file": "functions.php",
+            "line": 443,
+            "text": "Điều chỉnh công suất chi phí thấp"
+        },
+        {
+            "file": "functions.php",
+            "line": 1020,
+            "text": "Điều hướng nhanh"
+        },
+        {
+            "file": "functions.php",
+            "line": 900,
+            "text": "Điểm bắt đầu nhanh cho độc giả muốn con đường ngắn nhất đến lựa chọn hữu ích."
+        },
+        {
+            "file": "archive-bhdt_review.php",
+            "line": 37,
+            "text": "Đánh giá"
+        },
+        {
+            "file": "single-bhdt_review.php",
+            "line": 19,
+            "text": "Đánh giá Linh Kiện"
+        },
+        {
+            "file": "header.php",
+            "line": 43,
+            "text": "Đăng ký"
+        },
+        {
+            "file": "header.php",
+            "line": 42,
+            "text": "Đăng nhập"
+        },
+        {
+            "file": "functions.php",
+            "line": 573,
+            "text": "Đầu ra ổn định và kiểm tra tải"
+        },
+        {
+            "file": "archive-bhdt_review.php",
+            "line": 49,
+            "text": "Đọc bài đánh giá"
+        },
+        {
+            "file": "archive-bhdt_project.php",
+            "line": 49,
+            "text": "Đọc dự án"
+        },
+        {
+            "file": "category.php",
+            "line": 43,
+            "text": "Đọc thêm"
+        },
+        {
+            "file": "functions.php",
+            "line": 937,
+            "text": "Đồng hồ vạn năng tốt nhất"
+        },
+        {
+            "file": "functions.php",
+            "line": 696,
+            "text": "Ưu điểm"
+        },
+        {
+            "file": "single-bhdt_project.php",
+            "line": 50,
+            "text": "Ưu điểm & Nhược điểm"
+        },
+        {
+            "file": "functions.php",
+            "line": 943,
+            "text": "Ưu đãi"
+        },
+        {
+            "file": "functions.php",
+            "line": 499,
+            "text": "Ưu đãi hàng ngày"
+        },
+        {
+            "file": "functions.php",
+            "line": 486,
+            "text": "Ưu đãi hàng ngày BHDT"
+        },
+        {
+            "file": "index.php",
+            "line": 373,
+            "text": "Ưu đãi hàng ngày sẽ hiển thị khi WooCommerce và giá khuyến mãi sẵn sàng."
+        },
+        {
+            "file": "functions.php",
+            "line": 945,
+            "text": "Ưu đãi linh kiện hàng ngày"
+        }
+    ]
+}

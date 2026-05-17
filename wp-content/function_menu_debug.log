@@ -1,0 +1,810 @@
+=== FUNCTION MENU DEBUG 2026-05-17 05:25:23 ===
+Total parents: 4
+Linked children map keys: 
+
+Parent: Bài đánh giá | URL: http://banhangdientu.local/reviews-linh-kien/
+  parent_key: /reviews-linh-kien
+  parent_slug_key: slug:bai-danh-gia
+
+Parent: Dự án | URL: http://banhangdientu.local/du-an-diy/
+  parent_key: /du-an-diy
+  parent_slug_key: slug:du-an
+
+Parent: Linh kiện điện tử | URL: http://banhangdientu.local/?s=esp32
+  parent_key: ?s=esp32
+  parent_slug_key: slug:linh-kien-dien-tu
+
+Parent: Công cụ | URL: http://banhangdientu.local/tien-ich-ky-thuat/
+  parent_key: /tien-ich-ky-thuat
+  parent_slug_key: slug:cong-cu
+
+=== FUNCTION MENU DEBUG 2026-05-17 05:25:25 ===
+Total parents: 4
+Linked children map keys: 
+
+Parent: Bài đánh giá | URL: http://banhangdientu.local/reviews-linh-kien/
+  parent_key: /reviews-linh-kien
+  parent_slug_key: slug:bai-danh-gia
+
+Parent: Dự án | URL: http://banhangdientu.local/du-an-diy/
+  parent_key: /du-an-diy
+  parent_slug_key: slug:du-an
+
+Parent: Linh kiện điện tử | URL: http://banhangdientu.local/?s=esp32
+  parent_key: ?s=esp32
+  parent_slug_key: slug:linh-kien-dien-tu
+
+Parent: Công cụ | URL: http://banhangdientu.local/tien-ich-ky-thuat/
+  parent_key: /tien-ich-ky-thuat
+  parent_slug_key: slug:cong-cu
+
+=== FUNCTION MENU DEBUG 2026-05-17 05:25:26 ===
+Total parents: 4
+Linked children map keys: /tien-ich-ky-thuat, slug:tien-ich-ky-thuat, /du-an-diy, slug:du-an-diy
+
+Parent: Bài đánh giá | URL: http://banhangdientu.local/reviews-linh-kien/
+  parent_key: /reviews-linh-kien
+  parent_slug_key: slug:bai-danh-gia
+
+Parent: Dự án | URL: http://banhangdientu.local/du-an-diy/
+  parent_key: /du-an-diy
+  parent_slug_key: slug:du-an
+  ✓ Found 1 children by parent_key
+    - test (http://banhangdientu.local/test/)
+
+Parent: Linh kiện điện tử | URL: http://banhangdientu.local/?s=esp32
+  parent_key: ?s=esp32
+  parent_slug_key: slug:linh-kien-dien-tu
+
+Parent: Công cụ | URL: http://banhangdientu.local/tien-ich-ky-thuat/
+  parent_key: /tien-ich-ky-thuat
+  parent_slug_key: slug:cong-cu
+  ✓ Found 2 children by parent_key
+    - Sơ đồ linh kiện (http://banhangdientu.local/so-do-linh-kien/)
+    - Tra giá trị điện trở (http://banhangdientu.local/tra-gia-tri-dien-tro/)
+
+=== FUNCTION MENU DEBUG 2026-05-17 05:25:26 ===
+Total parents: 4
+Linked children map keys: /tien-ich-ky-thuat, slug:tien-ich-ky-thuat, /du-an-diy, slug:du-an-diy
+
+Parent: Bài đánh giá | URL: http://banhangdientu.local/reviews-linh-kien/
+  parent_key: /reviews-linh-kien
+  parent_slug_key: slug:bai-danh-gia
+
+Parent: Dự án | URL: http://banhangdientu.local/du-an-diy/
+  parent_key: /du-an-diy
+  parent_slug_key: slug:du-an
+  ✓ Found 1 children by parent_key
+    - test (http://banhangdientu.local/test/)
+
+Parent: Linh kiện điện tử | URL: http://banhangdientu.local/?s=esp32
+  parent_key: ?s=esp32
+  parent_slug_key: slug:linh-kien-dien-tu
+
+Parent: Công cụ | URL: http://banhangdientu.local/tien-ich-ky-thuat/
+  parent_key: /tien-ich-ky-thuat
+  parent_slug_key: slug:cong-cu
+  ✓ Found 2 children by parent_key
+    - Sơ đồ linh kiện (http://banhangdientu.local/so-do-linh-kien/)
+    - Tra giá trị điện trở (http://banhangdientu.local/tra-gia-tri-dien-tro/)
+
+=== FUNCTION MENU DEBUG 2026-05-17 05:25:39 ===
+Total parents: 4
+Linked children map keys: 
+
+Parent: Bài đánh giá | URL: http://banhangdientu.local/reviews-linh-kien/
+  parent_key: /reviews-linh-kien
+  parent_slug_key: slug:bai-danh-gia
+
+Parent: Dự án | URL: http://banhangdientu.local/du-an-diy/
+  parent_key: /du-an-diy
+  parent_slug_key: slug:du-an
+
+Parent: Linh kiện điện tử | URL: http://banhangdientu.local/?s=esp32
+  parent_key: ?s=esp32
+  parent_slug_key: slug:linh-kien-dien-tu
+
+Parent: Công cụ | URL: http://banhangdientu.local/tien-ich-ky-thuat/
+  parent_key: /tien-ich-ky-thuat
+  parent_slug_key: slug:cong-cu
+
+=== FUNCTION MENU DEBUG 2026-05-17 05:25:48 ===
+Total parents: 4
+Linked children map keys: /tien-ich-ky-thuat, slug:tien-ich-ky-thuat, /du-an-diy, slug:du-an-diy
+
+Parent: Bài đánh giá | URL: http://banhangdientu.local/reviews-linh-kien/
+  parent_key: /reviews-linh-kien
+  parent_slug_key: slug:bai-danh-gia
+
+Parent: Dự án | URL: http://banhangdientu.local/du-an-diy/
+  parent_key: /du-an-diy
+  parent_slug_key: slug:du-an
+  ✓ Found 1 children by parent_key
+    - test (http://banhangdientu.local/test/)
+
+Parent: Linh kiện điện tử | URL: http://banhangdientu.local/?s=esp32
+  parent_key: ?s=esp32
+  parent_slug_key: slug:linh-kien-dien-tu
+
+Parent: Công cụ | URL: http://banhangdientu.local/tien-ich-ky-thuat/
+  parent_key: /tien-ich-ky-thuat
+  parent_slug_key: slug:cong-cu
+  ✓ Found 2 children by parent_key
+    - Sơ đồ linh kiện (http://banhangdientu.local/so-do-linh-kien/)
+    - Tra giá trị điện trở (http://banhangdientu.local/tra-gia-tri-dien-tro/)
+
+=== FUNCTION MENU DEBUG 2026-05-17 05:25:48 ===
+Total parents: 4
+Linked children map keys: /tien-ich-ky-thuat, slug:tien-ich-ky-thuat, /du-an-diy, slug:du-an-diy
+
+Parent: Bài đánh giá | URL: http://banhangdientu.local/reviews-linh-kien/
+  parent_key: /reviews-linh-kien
+  parent_slug_key: slug:bai-danh-gia
+
+Parent: Dự án | URL: http://banhangdientu.local/du-an-diy/
+  parent_key: /du-an-diy
+  parent_slug_key: slug:du-an
+  ✓ Found 1 children by parent_key
+    - test (http://banhangdientu.local/test/)
+
+Parent: Linh kiện điện tử | URL: http://banhangdientu.local/?s=esp32
+  parent_key: ?s=esp32
+  parent_slug_key: slug:linh-kien-dien-tu
+
+Parent: Công cụ | URL: http://banhangdientu.local/tien-ich-ky-thuat/
+  parent_key: /tien-ich-ky-thuat
+  parent_slug_key: slug:cong-cu
+  ✓ Found 2 children by parent_key
+    - Sơ đồ linh kiện (http://banhangdientu.local/so-do-linh-kien/)
+    - Tra giá trị điện trở (http://banhangdientu.local/tra-gia-tri-dien-tro/)
+
+=== FUNCTION MENU DEBUG 2026-05-17 05:25:48 ===
+Total parents: 4
+Linked children map keys: /tien-ich-ky-thuat, slug:tien-ich-ky-thuat, /du-an-diy, slug:du-an-diy
+
+Parent: Bài đánh giá | URL: http://banhangdientu.local/reviews-linh-kien/
+  parent_key: /reviews-linh-kien
+  parent_slug_key: slug:bai-danh-gia
+
+Parent: Dự án | URL: http://banhangdientu.local/du-an-diy/
+  parent_key: /du-an-diy
+  parent_slug_key: slug:du-an
+  ✓ Found 1 children by parent_key
+    - test (http://banhangdientu.local/test/)
+
+Parent: Linh kiện điện tử | URL: http://banhangdientu.local/?s=esp32
+  parent_key: ?s=esp32
+  parent_slug_key: slug:linh-kien-dien-tu
+
+Parent: Công cụ | URL: http://banhangdientu.local/tien-ich-ky-thuat/
+  parent_key: /tien-ich-ky-thuat
+  parent_slug_key: slug:cong-cu
+  ✓ Found 2 children by parent_key
+    - Sơ đồ linh kiện (http://banhangdientu.local/so-do-linh-kien/)
+    - Tra giá trị điện trở (http://banhangdientu.local/tra-gia-tri-dien-tro/)
+
+=== FUNCTION MENU DEBUG 2026-05-17 05:25:48 ===
+Total parents: 4
+Linked children map keys: /tien-ich-ky-thuat, slug:tien-ich-ky-thuat, /du-an-diy, slug:du-an-diy
+
+Parent: Bài đánh giá | URL: http://banhangdientu.local/reviews-linh-kien/
+  parent_key: /reviews-linh-kien
+  parent_slug_key: slug:bai-danh-gia
+
+Parent: Dự án | URL: http://banhangdientu.local/du-an-diy/
+  parent_key: /du-an-diy
+  parent_slug_key: slug:du-an
+  ✓ Found 1 children by parent_key
+    - test (http://banhangdientu.local/test/)
+
+Parent: Linh kiện điện tử | URL: http://banhangdientu.local/?s=esp32
+  parent_key: ?s=esp32
+  parent_slug_key: slug:linh-kien-dien-tu
+
+Parent: Công cụ | URL: http://banhangdientu.local/tien-ich-ky-thuat/
+  parent_key: /tien-ich-ky-thuat
+  parent_slug_key: slug:cong-cu
+  ✓ Found 2 children by parent_key
+    - Sơ đồ linh kiện (http://banhangdientu.local/so-do-linh-kien/)
+    - Tra giá trị điện trở (http://banhangdientu.local/tra-gia-tri-dien-tro/)
+
+=== FUNCTION MENU DEBUG 2026-05-17 05:25:55 ===
+Total parents: 4
+Linked children map keys: /tien-ich-ky-thuat, slug:tien-ich-ky-thuat, /du-an-diy, slug:du-an-diy
+
+Parent: Bài đánh giá | URL: http://banhangdientu.local/reviews-linh-kien/
+  parent_key: /reviews-linh-kien
+  parent_slug_key: slug:bai-danh-gia
+
+Parent: Dự án | URL: http://banhangdientu.local/du-an-diy/
+  parent_key: /du-an-diy
+  parent_slug_key: slug:du-an
+  ✓ Found 1 children by parent_key
+    - test (http://banhangdientu.local/test/)
+
+Parent: Linh kiện điện tử | URL: http://banhangdientu.local/?s=esp32
+  parent_key: ?s=esp32
+  parent_slug_key: slug:linh-kien-dien-tu
+
+Parent: Công cụ | URL: http://banhangdientu.local/tien-ich-ky-thuat/
+  parent_key: /tien-ich-ky-thuat
+  parent_slug_key: slug:cong-cu
+  ✓ Found 2 children by parent_key
+    - Sơ đồ linh kiện (http://banhangdientu.local/so-do-linh-kien/)
+    - Tra giá trị điện trở (http://banhangdientu.local/tra-gia-tri-dien-tro/)
+
+=== FUNCTION MENU DEBUG 2026-05-17 05:25:55 ===
+Total parents: 4
+Linked children map keys: /tien-ich-ky-thuat, slug:tien-ich-ky-thuat, /du-an-diy, slug:du-an-diy
+
+Parent: Bài đánh giá | URL: http://banhangdientu.local/reviews-linh-kien/
+  parent_key: /reviews-linh-kien
+  parent_slug_key: slug:bai-danh-gia
+
+Parent: Dự án | URL: http://banhangdientu.local/du-an-diy/
+  parent_key: /du-an-diy
+  parent_slug_key: slug:du-an
+  ✓ Found 1 children by parent_key
+    - test (http://banhangdientu.local/test/)
+
+Parent: Linh kiện điện tử | URL: http://banhangdientu.local/?s=esp32
+  parent_key: ?s=esp32
+  parent_slug_key: slug:linh-kien-dien-tu
+
+Parent: Công cụ | URL: http://banhangdientu.local/tien-ich-ky-thuat/
+  parent_key: /tien-ich-ky-thuat
+  parent_slug_key: slug:cong-cu
+  ✓ Found 2 children by parent_key
+    - Sơ đồ linh kiện (http://banhangdientu.local/so-do-linh-kien/)
+    - Tra giá trị điện trở (http://banhangdientu.local/tra-gia-tri-dien-tro/)
+
+=== FUNCTION MENU DEBUG 2026-05-17 05:25:55 ===
+Total parents: 4
+Linked children map keys: /tien-ich-ky-thuat, slug:tien-ich-ky-thuat, /du-an-diy, slug:du-an-diy
+
+Parent: Bài đánh giá | URL: http://banhangdientu.local/reviews-linh-kien/
+  parent_key: /reviews-linh-kien
+  parent_slug_key: slug:bai-danh-gia
+
+Parent: Dự án | URL: http://banhangdientu.local/du-an-diy/
+  parent_key: /du-an-diy
+  parent_slug_key: slug:du-an
+  ✓ Found 1 children by parent_key
+    - test (http://banhangdientu.local/test/)
+
+Parent: Linh kiện điện tử | URL: http://banhangdientu.local/?s=esp32
+  parent_key: ?s=esp32
+  parent_slug_key: slug:linh-kien-dien-tu
+
+Parent: Công cụ | URL: http://banhangdientu.local/tien-ich-ky-thuat/
+  parent_key: /tien-ich-ky-thuat
+  parent_slug_key: slug:cong-cu
+  ✓ Found 2 children by parent_key
+    - Sơ đồ linh kiện (http://banhangdientu.local/so-do-linh-kien/)
+    - Tra giá trị điện trở (http://banhangdientu.local/tra-gia-tri-dien-tro/)
+
+=== FUNCTION MENU DEBUG 2026-05-17 05:25:55 ===
+Total parents: 4
+Linked children map keys: /tien-ich-ky-thuat, slug:tien-ich-ky-thuat, /du-an-diy, slug:du-an-diy
+
+Parent: Bài đánh giá | URL: http://banhangdientu.local/reviews-linh-kien/
+  parent_key: /reviews-linh-kien
+  parent_slug_key: slug:bai-danh-gia
+
+Parent: Dự án | URL: http://banhangdientu.local/du-an-diy/
+  parent_key: /du-an-diy
+  parent_slug_key: slug:du-an
+  ✓ Found 1 children by parent_key
+    - test (http://banhangdientu.local/test/)
+
+Parent: Linh kiện điện tử | URL: http://banhangdientu.local/?s=esp32
+  parent_key: ?s=esp32
+  parent_slug_key: slug:linh-kien-dien-tu
+
+Parent: Công cụ | URL: http://banhangdientu.local/tien-ich-ky-thuat/
+  parent_key: /tien-ich-ky-thuat
+  parent_slug_key: slug:cong-cu
+  ✓ Found 2 children by parent_key
+    - Sơ đồ linh kiện (http://banhangdientu.local/so-do-linh-kien/)
+    - Tra giá trị điện trở (http://banhangdientu.local/tra-gia-tri-dien-tro/)
+
+=== FUNCTION MENU DEBUG 2026-05-17 05:26:02 ===
+Total parents: 4
+Linked children map keys: /tien-ich-ky-thuat, slug:tien-ich-ky-thuat, /du-an-diy, slug:du-an-diy
+
+Parent: Bài đánh giá | URL: http://banhangdientu.local/reviews-linh-kien/
+  parent_key: /reviews-linh-kien
+  parent_slug_key: slug:bai-danh-gia
+
+Parent: Dự án | URL: http://banhangdientu.local/du-an-diy/
+  parent_key: /du-an-diy
+  parent_slug_key: slug:du-an
+  ✓ Found 1 children by parent_key
+    - test (http://banhangdientu.local/test/)
+
+Parent: Linh kiện điện tử | URL: http://banhangdientu.local/?s=esp32
+  parent_key: ?s=esp32
+  parent_slug_key: slug:linh-kien-dien-tu
+
+Parent: Công cụ | URL: http://banhangdientu.local/tien-ich-ky-thuat/
+  parent_key: /tien-ich-ky-thuat
+  parent_slug_key: slug:cong-cu
+  ✓ Found 2 children by parent_key
+    - Sơ đồ linh kiện (http://banhangdientu.local/so-do-linh-kien/)
+    - Tra giá trị điện trở (http://banhangdientu.local/tra-gia-tri-dien-tro/)
+
+=== FUNCTION MENU DEBUG 2026-05-17 05:26:02 ===
+Total parents: 4
+Linked children map keys: /tien-ich-ky-thuat, slug:tien-ich-ky-thuat, /du-an-diy, slug:du-an-diy
+
+Parent: Bài đánh giá | URL: http://banhangdientu.local/reviews-linh-kien/
+  parent_key: /reviews-linh-kien
+  parent_slug_key: slug:bai-danh-gia
+
+Parent: Dự án | URL: http://banhangdientu.local/du-an-diy/
+  parent_key: /du-an-diy
+  parent_slug_key: slug:du-an
+  ✓ Found 1 children by parent_key
+    - test (http://banhangdientu.local/test/)
+
+Parent: Linh kiện điện tử | URL: http://banhangdientu.local/?s=esp32
+  parent_key: ?s=esp32
+  parent_slug_key: slug:linh-kien-dien-tu
+
+Parent: Công cụ | URL: http://banhangdientu.local/tien-ich-ky-thuat/
+  parent_key: /tien-ich-ky-thuat
+  parent_slug_key: slug:cong-cu
+  ✓ Found 2 children by parent_key
+    - Sơ đồ linh kiện (http://banhangdientu.local/so-do-linh-kien/)
+    - Tra giá trị điện trở (http://banhangdientu.local/tra-gia-tri-dien-tro/)
+
+=== FUNCTION MENU DEBUG 2026-05-17 05:26:09 ===
+Total parents: 4
+Linked children map keys: /tien-ich-ky-thuat, slug:tien-ich-ky-thuat, /du-an-diy, slug:du-an-diy
+
+Parent: Bài đánh giá | URL: http://banhangdientu.local/reviews-linh-kien/
+  parent_key: /reviews-linh-kien
+  parent_slug_key: slug:bai-danh-gia
+
+Parent: Dự án | URL: http://banhangdientu.local/du-an-diy/
+  parent_key: /du-an-diy
+  parent_slug_key: slug:du-an
+  ✓ Found 1 children by parent_key
+    - test (http://banhangdientu.local/test/)
+
+Parent: Linh kiện điện tử | URL: http://banhangdientu.local/?s=esp32
+  parent_key: ?s=esp32
+  parent_slug_key: slug:linh-kien-dien-tu
+
+Parent: Công cụ | URL: http://banhangdientu.local/tien-ich-ky-thuat/
+  parent_key: /tien-ich-ky-thuat
+  parent_slug_key: slug:cong-cu
+  ✓ Found 2 children by parent_key
+    - Sơ đồ linh kiện (http://banhangdientu.local/so-do-linh-kien/)
+    - Tra giá trị điện trở (http://banhangdientu.local/tra-gia-tri-dien-tro/)
+
+=== FUNCTION MENU DEBUG 2026-05-17 05:26:09 ===
+Total parents: 4
+Linked children map keys: /tien-ich-ky-thuat, slug:tien-ich-ky-thuat, /du-an-diy, slug:du-an-diy
+
+Parent: Bài đánh giá | URL: http://banhangdientu.local/reviews-linh-kien/
+  parent_key: /reviews-linh-kien
+  parent_slug_key: slug:bai-danh-gia
+
+Parent: Dự án | URL: http://banhangdientu.local/du-an-diy/
+  parent_key: /du-an-diy
+  parent_slug_key: slug:du-an
+  ✓ Found 1 children by parent_key
+    - test (http://banhangdientu.local/test/)
+
+Parent: Linh kiện điện tử | URL: http://banhangdientu.local/?s=esp32
+  parent_key: ?s=esp32
+  parent_slug_key: slug:linh-kien-dien-tu
+
+Parent: Công cụ | URL: http://banhangdientu.local/tien-ich-ky-thuat/
+  parent_key: /tien-ich-ky-thuat
+  parent_slug_key: slug:cong-cu
+  ✓ Found 2 children by parent_key
+    - Sơ đồ linh kiện (http://banhangdientu.local/so-do-linh-kien/)
+    - Tra giá trị điện trở (http://banhangdientu.local/tra-gia-tri-dien-tro/)
+
+=== FUNCTION MENU DEBUG 2026-05-17 05:26:09 ===
+Total parents: 4
+Linked children map keys: /tien-ich-ky-thuat, slug:tien-ich-ky-thuat, /du-an-diy, slug:du-an-diy
+
+Parent: Bài đánh giá | URL: http://banhangdientu.local/reviews-linh-kien/
+  parent_key: /reviews-linh-kien
+  parent_slug_key: slug:bai-danh-gia
+
+Parent: Dự án | URL: http://banhangdientu.local/du-an-diy/
+  parent_key: /du-an-diy
+  parent_slug_key: slug:du-an
+  ✓ Found 1 children by parent_key
+    - test (http://banhangdientu.local/test/)
+
+Parent: Linh kiện điện tử | URL: http://banhangdientu.local/?s=esp32
+  parent_key: ?s=esp32
+  parent_slug_key: slug:linh-kien-dien-tu
+
+Parent: Công cụ | URL: http://banhangdientu.local/tien-ich-ky-thuat/
+  parent_key: /tien-ich-ky-thuat
+  parent_slug_key: slug:cong-cu
+  ✓ Found 2 children by parent_key
+    - Sơ đồ linh kiện (http://banhangdientu.local/so-do-linh-kien/)
+    - Tra giá trị điện trở (http://banhangdientu.local/tra-gia-tri-dien-tro/)
+
+=== FUNCTION MENU DEBUG 2026-05-17 05:26:09 ===
+Total parents: 4
+Linked children map keys: /tien-ich-ky-thuat, slug:tien-ich-ky-thuat, /du-an-diy, slug:du-an-diy
+
+Parent: Bài đánh giá | URL: http://banhangdientu.local/reviews-linh-kien/
+  parent_key: /reviews-linh-kien
+  parent_slug_key: slug:bai-danh-gia
+
+Parent: Dự án | URL: http://banhangdientu.local/du-an-diy/
+  parent_key: /du-an-diy
+  parent_slug_key: slug:du-an
+  ✓ Found 1 children by parent_key
+    - test (http://banhangdientu.local/test/)
+
+Parent: Linh kiện điện tử | URL: http://banhangdientu.local/?s=esp32
+  parent_key: ?s=esp32
+  parent_slug_key: slug:linh-kien-dien-tu
+
+Parent: Công cụ | URL: http://banhangdientu.local/tien-ich-ky-thuat/
+  parent_key: /tien-ich-ky-thuat
+  parent_slug_key: slug:cong-cu
+  ✓ Found 2 children by parent_key
+    - Sơ đồ linh kiện (http://banhangdientu.local/so-do-linh-kien/)
+    - Tra giá trị điện trở (http://banhangdientu.local/tra-gia-tri-dien-tro/)
+
+=== FUNCTION MENU DEBUG 2026-05-17 05:26:44 ===
+Total parents: 4
+Linked children map keys: 
+
+Parent: Bài đánh giá | URL: http://banhangdientu.local/reviews-linh-kien/
+  parent_key: /reviews-linh-kien
+  parent_slug_key: slug:bai-danh-gia
+
+Parent: Dự án | URL: http://banhangdientu.local/du-an-diy/
+  parent_key: /du-an-diy
+  parent_slug_key: slug:du-an
+
+Parent: Linh kiện điện tử | URL: http://banhangdientu.local/?s=esp32
+  parent_key: ?s=esp32
+  parent_slug_key: slug:linh-kien-dien-tu
+
+Parent: Công cụ | URL: http://banhangdientu.local/tien-ich-ky-thuat/
+  parent_key: /tien-ich-ky-thuat
+  parent_slug_key: slug:cong-cu
+
+=== FUNCTION MENU DEBUG 2026-05-17 05:26:45 ===
+Total parents: 4
+Linked children map keys: /tien-ich-ky-thuat, slug:tien-ich-ky-thuat, /du-an-diy, slug:du-an-diy
+
+Parent: Bài đánh giá | URL: http://banhangdientu.local/reviews-linh-kien/
+  parent_key: /reviews-linh-kien
+  parent_slug_key: slug:bai-danh-gia
+
+Parent: Dự án | URL: http://banhangdientu.local/du-an-diy/
+  parent_key: /du-an-diy
+  parent_slug_key: slug:du-an
+  ✓ Found 1 children by parent_key
+    - test (http://banhangdientu.local/test/)
+
+Parent: Linh kiện điện tử | URL: http://banhangdientu.local/?s=esp32
+  parent_key: ?s=esp32
+  parent_slug_key: slug:linh-kien-dien-tu
+
+Parent: Công cụ | URL: http://banhangdientu.local/tien-ich-ky-thuat/
+  parent_key: /tien-ich-ky-thuat
+  parent_slug_key: slug:cong-cu
+  ✓ Found 2 children by parent_key
+    - Sơ đồ linh kiện (http://banhangdientu.local/so-do-linh-kien/)
+    - Tra giá trị điện trở (http://banhangdientu.local/tra-gia-tri-dien-tro/)
+
+=== FUNCTION MENU DEBUG 2026-05-17 05:26:45 ===
+Total parents: 4
+Linked children map keys: /tien-ich-ky-thuat, slug:tien-ich-ky-thuat, /du-an-diy, slug:du-an-diy
+
+Parent: Bài đánh giá | URL: http://banhangdientu.local/reviews-linh-kien/
+  parent_key: /reviews-linh-kien
+  parent_slug_key: slug:bai-danh-gia
+
+Parent: Dự án | URL: http://banhangdientu.local/du-an-diy/
+  parent_key: /du-an-diy
+  parent_slug_key: slug:du-an
+  ✓ Found 1 children by parent_key
+    - test (http://banhangdientu.local/test/)
+
+Parent: Linh kiện điện tử | URL: http://banhangdientu.local/?s=esp32
+  parent_key: ?s=esp32
+  parent_slug_key: slug:linh-kien-dien-tu
+
+Parent: Công cụ | URL: http://banhangdientu.local/tien-ich-ky-thuat/
+  parent_key: /tien-ich-ky-thuat
+  parent_slug_key: slug:cong-cu
+  ✓ Found 2 children by parent_key
+    - Sơ đồ linh kiện (http://banhangdientu.local/so-do-linh-kien/)
+    - Tra giá trị điện trở (http://banhangdientu.local/tra-gia-tri-dien-tro/)
+
+=== FUNCTION MENU DEBUG 2026-05-17 05:26:48 ===
+Total parents: 4
+Linked children map keys: 
+
+Parent: Bài đánh giá | URL: http://banhangdientu.local/reviews-linh-kien/
+  parent_key: /reviews-linh-kien
+  parent_slug_key: slug:bai-danh-gia
+
+Parent: Dự án | URL: http://banhangdientu.local/du-an-diy/
+  parent_key: /du-an-diy
+  parent_slug_key: slug:du-an
+
+Parent: Linh kiện điện tử | URL: http://banhangdientu.local/?s=esp32
+  parent_key: ?s=esp32
+  parent_slug_key: slug:linh-kien-dien-tu
+
+Parent: Công cụ | URL: http://banhangdientu.local/tien-ich-ky-thuat/
+  parent_key: /tien-ich-ky-thuat
+  parent_slug_key: slug:cong-cu
+
+=== FUNCTION MENU DEBUG 2026-05-17 05:26:56 ===
+Total parents: 4
+Linked children map keys: 
+
+Parent: Bài đánh giá | URL: http://banhangdientu.local/reviews-linh-kien/
+  parent_key: /reviews-linh-kien
+  parent_slug_key: slug:bai-danh-gia
+
+Parent: Dự án | URL: http://banhangdientu.local/du-an-diy/
+  parent_key: /du-an-diy
+  parent_slug_key: slug:du-an
+
+Parent: Linh kiện điện tử | URL: http://banhangdientu.local/?s=esp32
+  parent_key: ?s=esp32
+  parent_slug_key: slug:linh-kien-dien-tu
+
+Parent: Công cụ | URL: http://banhangdientu.local/tien-ich-ky-thuat/
+  parent_key: /tien-ich-ky-thuat
+  parent_slug_key: slug:cong-cu
+
+=== FUNCTION MENU DEBUG 2026-05-17 05:27:20 ===
+Total parents: 4
+Linked children map keys: /tien-ich-ky-thuat, slug:tien-ich-ky-thuat, /du-an-diy, slug:du-an-diy
+
+Parent: Bài đánh giá | URL: http://banhangdientu.local/reviews-linh-kien/
+  parent_key: /reviews-linh-kien
+  parent_slug_key: slug:bai-danh-gia
+
+Parent: Dự án | URL: http://banhangdientu.local/du-an-diy/
+  parent_key: /du-an-diy
+  parent_slug_key: slug:du-an
+  ✓ Found 1 children by parent_key
+    - test (http://banhangdientu.local/test/)
+
+Parent: Linh kiện điện tử | URL: http://banhangdientu.local/?s=esp32
+  parent_key: ?s=esp32
+  parent_slug_key: slug:linh-kien-dien-tu
+
+Parent: Công cụ | URL: http://banhangdientu.local/tien-ich-ky-thuat/
+  parent_key: /tien-ich-ky-thuat
+  parent_slug_key: slug:cong-cu
+  ✓ Found 2 children by parent_key
+    - Sơ đồ linh kiện (http://banhangdientu.local/so-do-linh-kien/)
+    - Tra giá trị điện trở (http://banhangdientu.local/tra-gia-tri-dien-tro/)
+
+=== FUNCTION MENU DEBUG 2026-05-17 05:27:20 ===
+Total parents: 4
+Linked children map keys: /tien-ich-ky-thuat, slug:tien-ich-ky-thuat, /du-an-diy, slug:du-an-diy
+
+Parent: Bài đánh giá | URL: http://banhangdientu.local/reviews-linh-kien/
+  parent_key: /reviews-linh-kien
+  parent_slug_key: slug:bai-danh-gia
+
+Parent: Dự án | URL: http://banhangdientu.local/du-an-diy/
+  parent_key: /du-an-diy
+  parent_slug_key: slug:du-an
+  ✓ Found 1 children by parent_key
+    - test (http://banhangdientu.local/test/)
+
+Parent: Linh kiện điện tử | URL: http://banhangdientu.local/?s=esp32
+  parent_key: ?s=esp32
+  parent_slug_key: slug:linh-kien-dien-tu
+
+Parent: Công cụ | URL: http://banhangdientu.local/tien-ich-ky-thuat/
+  parent_key: /tien-ich-ky-thuat
+  parent_slug_key: slug:cong-cu
+  ✓ Found 2 children by parent_key
+    - Sơ đồ linh kiện (http://banhangdientu.local/so-do-linh-kien/)
+    - Tra giá trị điện trở (http://banhangdientu.local/tra-gia-tri-dien-tro/)
+
+=== FUNCTION MENU DEBUG 2026-05-17 05:27:20 ===
+Total parents: 4
+Linked children map keys: /tien-ich-ky-thuat, slug:tien-ich-ky-thuat, /du-an-diy, slug:du-an-diy
+
+Parent: Bài đánh giá | URL: http://banhangdientu.local/reviews-linh-kien/
+  parent_key: /reviews-linh-kien
+  parent_slug_key: slug:bai-danh-gia
+
+Parent: Dự án | URL: http://banhangdientu.local/du-an-diy/
+  parent_key: /du-an-diy
+  parent_slug_key: slug:du-an
+  ✓ Found 1 children by parent_key
+    - test (http://banhangdientu.local/test/)
+
+Parent: Linh kiện điện tử | URL: http://banhangdientu.local/?s=esp32
+  parent_key: ?s=esp32
+  parent_slug_key: slug:linh-kien-dien-tu
+
+Parent: Công cụ | URL: http://banhangdientu.local/tien-ich-ky-thuat/
+  parent_key: /tien-ich-ky-thuat
+  parent_slug_key: slug:cong-cu
+  ✓ Found 2 children by parent_key
+    - Sơ đồ linh kiện (http://banhangdientu.local/so-do-linh-kien/)
+    - Tra giá trị điện trở (http://banhangdientu.local/tra-gia-tri-dien-tro/)
+
+=== FUNCTION MENU DEBUG 2026-05-17 05:27:20 ===
+Total parents: 4
+Linked children map keys: /tien-ich-ky-thuat, slug:tien-ich-ky-thuat, /du-an-diy, slug:du-an-diy
+
+Parent: Bài đánh giá | URL: http://banhangdientu.local/reviews-linh-kien/
+  parent_key: /reviews-linh-kien
+  parent_slug_key: slug:bai-danh-gia
+
+Parent: Dự án | URL: http://banhangdientu.local/du-an-diy/
+  parent_key: /du-an-diy
+  parent_slug_key: slug:du-an
+  ✓ Found 1 children by parent_key
+    - test (http://banhangdientu.local/test/)
+
+Parent: Linh kiện điện tử | URL: http://banhangdientu.local/?s=esp32
+  parent_key: ?s=esp32
+  parent_slug_key: slug:linh-kien-dien-tu
+
+Parent: Công cụ | URL: http://banhangdientu.local/tien-ich-ky-thuat/
+  parent_key: /tien-ich-ky-thuat
+  parent_slug_key: slug:cong-cu
+  ✓ Found 2 children by parent_key
+    - Sơ đồ linh kiện (http://banhangdientu.local/so-do-linh-kien/)
+    - Tra giá trị điện trở (http://banhangdientu.local/tra-gia-tri-dien-tro/)
+
+=== FUNCTION MENU DEBUG 2026-05-17 05:29:35 ===
+Total parents: 4
+Linked children map keys: 
+
+Parent: Bài đánh giá | URL: http://banhangdientu.local/reviews-linh-kien/
+  parent_key: /reviews-linh-kien
+  parent_slug_key: slug:bai-danh-gia
+
+Parent: Dự án | URL: http://banhangdientu.local/du-an-diy/
+  parent_key: /du-an-diy
+  parent_slug_key: slug:du-an
+
+Parent: Linh kiện điện tử | URL: http://banhangdientu.local/?s=esp32
+  parent_key: ?s=esp32
+  parent_slug_key: slug:linh-kien-dien-tu
+
+Parent: Công cụ | URL: http://banhangdientu.local/tien-ich-ky-thuat/
+  parent_key: /tien-ich-ky-thuat
+  parent_slug_key: slug:cong-cu
+
+=== FUNCTION MENU DEBUG 2026-05-17 05:29:35 ===
+Total parents: 4
+Linked children map keys: 
+
+Parent: Bài đánh giá | URL: http://banhangdientu.local/reviews-linh-kien/
+  parent_key: /reviews-linh-kien
+  parent_slug_key: slug:bai-danh-gia
+
+Parent: Dự án | URL: http://banhangdientu.local/du-an-diy/
+  parent_key: /du-an-diy
+  parent_slug_key: slug:du-an
+
+Parent: Linh kiện điện tử | URL: http://banhangdientu.local/?s=esp32
+  parent_key: ?s=esp32
+  parent_slug_key: slug:linh-kien-dien-tu
+
+Parent: Công cụ | URL: http://banhangdientu.local/tien-ich-ky-thuat/
+  parent_key: /tien-ich-ky-thuat
+  parent_slug_key: slug:cong-cu
+
+=== FUNCTION MENU DEBUG 2026-05-17 05:29:35 ===
+Total parents: 4
+Linked children map keys: 
+
+Parent: Bài đánh giá | URL: http://banhangdientu.local/reviews-linh-kien/
+  parent_key: /reviews-linh-kien
+  parent_slug_key: slug:bai-danh-gia
+
+Parent: Dự án | URL: http://banhangdientu.local/du-an-diy/
+  parent_key: /du-an-diy
+  parent_slug_key: slug:du-an
+
+Parent: Linh kiện điện tử | URL: http://banhangdientu.local/?s=esp32
+  parent_key: ?s=esp32
+  parent_slug_key: slug:linh-kien-dien-tu
+
+Parent: Công cụ | URL: http://banhangdientu.local/tien-ich-ky-thuat/
+  parent_key: /tien-ich-ky-thuat
+  parent_slug_key: slug:cong-cu
+
+=== FUNCTION MENU DEBUG 2026-05-17 05:29:35 ===
+Total parents: 4
+Linked children map keys: 
+
+Parent: Bài đánh giá | URL: http://banhangdientu.local/reviews-linh-kien/
+  parent_key: /reviews-linh-kien
+  parent_slug_key: slug:bai-danh-gia
+
+Parent: Dự án | URL: http://banhangdientu.local/du-an-diy/
+  parent_key: /du-an-diy
+  parent_slug_key: slug:du-an
+
+Parent: Linh kiện điện tử | URL: http://banhangdientu.local/?s=esp32
+  parent_key: ?s=esp32
+  parent_slug_key: slug:linh-kien-dien-tu
+
+Parent: Công cụ | URL: http://banhangdientu.local/tien-ich-ky-thuat/
+  parent_key: /tien-ich-ky-thuat
+  parent_slug_key: slug:cong-cu
+
+=== FUNCTION MENU DEBUG 2026-05-17 05:29:35 ===
+Total parents: 4
+Linked children map keys: 
+
+Parent: Bài đánh giá | URL: http://banhangdientu.local/reviews-linh-kien/
+  parent_key: /reviews-linh-kien
+  parent_slug_key: slug:bai-danh-gia
+
+Parent: Dự án | URL: http://banhangdientu.local/du-an-diy/
+  parent_key: /du-an-diy
+  parent_slug_key: slug:du-an
+
+Parent: Linh kiện điện tử | URL: http://banhangdientu.local/?s=esp32
+  parent_key: ?s=esp32
+  parent_slug_key: slug:linh-kien-dien-tu
+
+Parent: Công cụ | URL: http://banhangdientu.local/tien-ich-ky-thuat/
+  parent_key: /tien-ich-ky-thuat
+  parent_slug_key: slug:cong-cu
+
+=== FUNCTION MENU DEBUG 2026-05-17 05:29:35 ===
+Total parents: 4
+Linked children map keys: 
+
+Parent: Bài đánh giá | URL: http://banhangdientu.local/reviews-linh-kien/
+  parent_key: /reviews-linh-kien
+  parent_slug_key: slug:bai-danh-gia
+
+Parent: Dự án | URL: http://banhangdientu.local/du-an-diy/
+  parent_key: /du-an-diy
+  parent_slug_key: slug:du-an
+
+Parent: Linh kiện điện tử | URL: http://banhangdientu.local/?s=esp32
+  parent_key: ?s=esp32
+  parent_slug_key: slug:linh-kien-dien-tu
+
+Parent: Công cụ | URL: http://banhangdientu.local/tien-ich-ky-thuat/
+  parent_key: /tien-ich-ky-thuat
+  parent_slug_key: slug:cong-cu
+
+=== FUNCTION MENU DEBUG 2026-05-17 05:29:35 ===
+Total parents: 4
+Linked children map keys: 
+
+Parent: Bài đánh giá | URL: http://banhangdientu.local/reviews-linh-kien/
+  parent_key: /reviews-linh-kien
+  parent_slug_key: slug:bai-danh-gia
+
+Parent: Dự án | URL: http://banhangdientu.local/du-an-diy/
+  parent_key: /du-an-diy
+  parent_slug_key: slug:du-an
+
+Parent: Linh kiện điện tử | URL: http://banhangdientu.local/?s=esp32
+  parent_key: ?s=esp32
+  parent_slug_key: slug:linh-kien-dien-tu
+
+Parent: Công cụ | URL: http://banhangdientu.local/tien-ich-ky-thuat/
+  parent_key: /tien-ich-ky-thuat
+  parent_slug_key: slug:cong-cu
+

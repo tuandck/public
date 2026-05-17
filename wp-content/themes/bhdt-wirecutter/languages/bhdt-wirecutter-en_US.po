@@ -1,0 +1,239 @@
+# Translation file for BHDT Wirecutter Theme
+# Copyright (C) 2024 Vo Van Tuan
+# This file is distributed under the same license as the BHDT Wirecutter Theme package.
+msgid ""
+msgstr ""
+"Project-Id-Version: BHDT Wirecutter 1.0.0\n"
+"Report-Msgid-Bugs-To: support@banhangdientu.local\n"
+"POT-Creation-Date: 2024-05-16 00:00:00+0000\n"
+"PO-Revision-Date: 2024-05-16 00:00:00+0000\n"
+"Last-Translator: Vo Van Tuan\n"
+"Language-Team: English\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Copilot\n"
+
+msgid "Menu chính"
+msgstr "Primary Menu"
+
+msgid "Cột trái trang chủ"
+msgstr "Home Left Column"
+
+msgid "Thanh bên trái trên trang chủ và các cột biên tập."
+msgstr "Left sidebar on homepage and editorial columns."
+
+msgid "Cột phải trang chủ"
+msgstr "Home Right Column"
+
+msgid "Thanh bên phải trên trang chủ cho các khuyến mãi và liên kết."
+msgstr "Right sidebar on homepage for deals and links."
+
+msgid "Thanh bên mặc định"
+msgstr "Default Sidebar"
+
+msgid "Thanh bên dự phòng cho bài viết và trang."
+msgstr "Fallback sidebar for posts and pages."
+
+msgid "Cột chân trang 1"
+msgstr "Footer Column 1"
+
+msgid "Cột chân trang 2"
+msgstr "Footer Column 2"
+
+msgid "Cột chân trang 3"
+msgstr "Footer Column 3"
+
+msgid "Chủ đề hàng đầu BHDT"
+msgstr "BHDT Top Topics"
+
+msgid "Ưu đãi hàng ngày BHDT"
+msgstr "BHDT Daily Deals"
+
+msgid "Tìm kiếm phổ biến BHDT"
+msgstr "BHDT Popular Searches"
+
+msgid "Một mục mỗi dòng theo định dạng: Nhãn|URL|Ghi chú"
+msgstr "One item per line in the format: Label|URL|Short note"
+
+msgid "Tìm kiếm bài viết, hướng dẫn, linh kiện..."
+msgstr "Search posts, guides, electronics..."
+
+msgid "Tìm kiếm:"
+msgstr "Search:"
+
+msgid "Tìm kiếm"
+msgstr "Search"
+
+msgid "Công cụ chuyển ngôn ngữ"
+msgstr "Language Switcher"
+
+msgid "Đăng nhập"
+msgstr "Log in"
+
+msgid "Đăng ký"
+msgstr "Subscribe"
+
+msgid "Bài đánh giá"
+msgstr "Reviews"
+
+msgid "Dự án"
+msgstr "Projects"
+
+msgid "Linh kiện điện tử"
+msgstr "Electronics"
+
+msgid "Công cụ"
+msgstr "Tools"
+
+msgid "Ưu đãi"
+msgstr "Deals"
+
+msgid "Bố cục biên tập sạch được lấy cảm hứng từ Wirecutter"
+msgstr "Clean editorial layout inspired by Wirecutter"
+
+msgid "Hướng dẫn thực tế, bài đánh giá điện tử và ghi chú dự án."
+msgstr "Practical guides, electronic reviews, and project notes."
+
+msgid "Mới nhất"
+msgstr "The Latest"
+
+msgid "Lưu trữ đánh giá"
+msgstr "Review Archive"
+
+msgid "Chỉ mục đánh giá biên tập với ghi chú có cấu trúc, thông số kỹ thuật chuẩn và luồng đọc rõ ràng."
+msgstr "Editorial review index with structured notes, key specs, and clean reading flow."
+
+msgid "%d bài đánh giá được xuất bản"
+msgstr "%d reviews published"
+
+msgid "Đánh giá"
+msgstr "Review"
+
+msgid "Đọc bài đánh giá"
+msgstr "Read Review"
+
+msgid "Không có hình ảnh"
+msgstr "No image"
+
+msgid "Lưu trữ dự án"
+msgstr "Project Archive"
+
+msgid "Quy trình dự án, ý tưởng BOM và ghi chú xây dựng được hiển thị trong lưới biên tập rõ ràng."
+msgstr "Project workflows, BOM ideas, and build notes displayed in a clean editorial grid."
+
+msgid "Dự án"
+msgstr "Project"
+
+msgid "Đọc dự án"
+msgstr "Read Project"
+
+msgid "Lưu trữ danh mục"
+msgstr "Category Archive"
+
+msgid "Bài viết danh mục"
+msgstr "Category Post"
+
+msgid "Đọc thêm"
+msgstr "Read More"
+
+msgid "Lưu trữ phân loại"
+msgstr "Taxonomy Archive"
+
+msgid "ID thuật ngữ: %d"
+msgstr "Term ID: %d"
+
+msgid "Bài viết"
+msgstr "Post"
+
+msgid "Đánh giá Linh Kiện"
+msgstr "Electronics Review"
+
+msgid "Kết luận"
+msgstr "Verdict"
+
+msgid "Ưu điểm & Nhược điểm"
+msgstr "Strengths & Weaknesses"
+
+msgid "Ưu điểm"
+msgstr "Strengths"
+
+msgid "Nhược điểm"
+msgstr "Weaknesses"
+
+msgid "Ghi chú Người đánh giá / Thông số"
+msgstr "Reviewer Notes / Specs"
+
+msgid "JSON Kỹ thuật"
+msgstr "Technical JSON"
+
+msgid "Xếp hạng / Kết luận"
+msgstr "Rating / Verdict"
+
+msgid "Thông số kỹ thuật"
+msgstr "Technical Specs"
+
+msgid "Dự án DIY"
+msgstr "DIY Project"
+
+msgid "BOM / Danh sách các phần"
+msgstr "BOM / Parts List"
+
+msgid "Thông số Dự án / Ghi chú"
+msgstr "Project Specs / Notes"
+
+msgid "Sử dụng một mục mỗi dòng. Mẫu dự án sẽ nổi bật các trường này."
+msgstr "Use one item per line. Project template will highlight these fields."
+
+msgid "Sử dụng khu vực này cho BOM, công cụ, điểm kiểm tra, ghi chú dây điện và liên kết khởi chạy. Bố cục có ý đọc trước vì vậy thêm thông tin dự án có thể được phân lớp mà không bị lộn xộn."
+msgstr "Use this area for BOM, tools, checkpoints, wire notes and startup links. Layout has reading-first intent so additional project info can be layered without clutter."
+
+msgid "Ghi chú dự án"
+msgstr "Project Notes"
+
+msgid "Chủ đề linh kiện"
+msgstr "Electronics Topics"
+
+msgid "Hướng dẫn nổi bật"
+msgstr "Featured Guide"
+
+msgid "Cập nhật %s"
+msgstr "Updated %s"
+
+msgid "Ưu đãi hàng ngày"
+msgstr "Daily Deals"
+
+msgid "%d%% GIẢM"
+msgstr "%d%% OFF"
+
+msgid "Ưu đãi hàng ngày sẽ hiện thị khi WooCommerce và giá khuyến mãi sẵn sàng."
+msgstr "Daily Deals will display when WooCommerce and sale prices are available."
+
+msgid "Menu danh mục kiểu Wirecutter"
+msgstr "Wirecutter-style Category Menu"
+
+msgid "Đồng hồ vạn năng tốt nhất"
+msgstr "Best Multimeters"
+
+msgid "Hướng dẫn ESP32"
+msgstr "ESP32 Guides"
+
+msgid "Mô-đun công suất"
+msgstr "Power Modules"
+
+msgid "Ưu đãi linh kiện hàng ngày"
+msgstr "Daily Electronics Deals"
+
+msgid "Bộ khởi đầu"
+msgstr "Starter Kits"
+
+msgid "Lựa chọn của biên tập viên"
+msgstr "Editor's Picks"
+
+msgid "Trang chủ"
+msgstr "Home"
+
+msgid "Tốt nhất"
+msgstr "Best Of"

@@ -1,0 +1,649 @@
+.bhdt-tool-card {
+	--bhdt-ink: #10233f;
+	--bhdt-ink-soft: #55657d;
+	--bhdt-accent: #ef7d10;
+	--bhdt-accent-dark: #bf5c00;
+	--bhdt-line: rgba(16, 35, 63, 0.12);
+	--bhdt-surface: linear-gradient(135deg, #fff7ec 0%, #f6f9ff 58%, #eef5ff 100%);
+	--bhdt-surface-strong: #ffffff;
+	--bhdt-shadow: 0 22px 60px rgba(16, 35, 63, 0.1);
+	position: relative;
+	margin: 1.5rem 0;
+	padding: 1.65rem;
+	border: 1px solid var(--bhdt-line);
+	border-radius: 28px;
+	background: var(--bhdt-surface);
+	box-shadow: var(--bhdt-shadow);
+	color: var(--bhdt-ink);
+	overflow: hidden;
+}
+
+.bhdt-tool-card::before {
+	content: '';
+	position: absolute;
+	inset: auto -10% 72% auto;
+	width: 240px;
+	height: 240px;
+	background: radial-gradient(circle, rgba(247, 127, 0, 0.18) 0%, rgba(247, 127, 0, 0) 68%);
+	pointer-events: none;
+}
+
+.bhdt-tool-card::after {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(180deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0));
+	pointer-events: none;
+}
+
+.bhdt-tool-header {
+	position: relative;
+	z-index: 1;
+	margin-bottom: 1.25rem;
+}
+
+.bhdt-tool-header h2,
+.bhdt-tool-header h3 {
+	margin: 0 0 0.5rem;
+	font-size: clamp(1.5rem, 3vw, 2.1rem);
+	line-height: 1.15;
+}
+
+.bhdt-tool-header p,
+.bhdt-step-card p,
+.bhdt-download-card p,
+.bhdt-placeholder-card p,
+.bhdt-affiliate-panel p,
+.bhdt-output-panel,
+.bhdt-helper {
+	margin: 0;
+	color: var(--bhdt-ink-soft);
+}
+
+.bhdt-eyebrow {
+	margin-bottom: 0.45rem;
+	font-size: 0.78rem;
+	font-weight: 700;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+	color: var(--bhdt-accent-dark);
+}
+
+.bhdt-label {
+	display: block;
+	margin-bottom: 0.5rem;
+	font-weight: 600;
+}
+
+.bhdt-input {
+	width: 100%;
+	padding: 0.95rem 1rem;
+	border: 1px solid rgba(20, 33, 61, 0.14);
+	border-radius: 16px;
+	background: rgba(255, 255, 255, 0.92);
+	box-sizing: border-box;
+	font-size: 1rem;
+	color: var(--bhdt-ink);
+}
+
+.bhdt-search-shell,
+.bhdt-input-wrap,
+.bhdt-market-strip,
+.bhdt-quick-picks,
+.bhdt-status-line,
+.bhdt-band-legend {
+	position: relative;
+	z-index: 1;
+}
+
+.bhdt-market-strip {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 0.9rem;
+	margin-bottom: 1rem;
+}
+
+.bhdt-market-strip-compact {
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	margin-bottom: 1rem;
+}
+
+.bhdt-market-chip {
+	padding: 0.9rem 1rem;
+	border: 1px solid rgba(16, 35, 63, 0.1);
+	border-radius: 18px;
+	background: rgba(255, 255, 255, 0.84);
+	backdrop-filter: blur(6px);
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
+}
+
+.bhdt-market-chip strong,
+.bhdt-market-chip span {
+	display: block;
+}
+
+.bhdt-market-chip strong {
+	margin-bottom: 0.28rem;
+	font-size: 0.82rem;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	color: var(--bhdt-accent-dark);
+}
+
+.bhdt-market-chip span {
+	font-size: 0.94rem;
+	color: var(--bhdt-ink);
+}
+
+.bhdt-search-shell {
+	padding: 1rem;
+	border-radius: 20px;
+	background: rgba(255, 255, 255, 0.58);
+	border: 1px solid rgba(16, 35, 63, 0.08);
+	margin-bottom: 1rem;
+}
+
+.bhdt-input-wrap {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	padding: 0.15rem;
+	border-radius: 20px;
+	background: rgba(255, 255, 255, 0.94);
+	border: 1px solid rgba(16, 35, 63, 0.08);
+}
+
+.bhdt-input-wrap .bhdt-input {
+	border: none;
+	background: transparent;
+	padding-left: 0;
+	padding-right: 1rem;
+}
+
+.bhdt-input-wrap .bhdt-input:focus {
+	outline: none;
+	border-color: transparent;
+}
+
+.bhdt-input-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 44px;
+	height: 44px;
+	border-radius: 14px;
+	background: linear-gradient(135deg, #ef7d10 0%, #ffb84d 100%);
+	color: #1a1a1a;
+	font-size: 1.25rem;
+	font-weight: 800;
+	margin-left: 0.35rem;
+	box-shadow: 0 10px 22px rgba(239, 125, 16, 0.18);
+}
+
+.bhdt-quick-picks {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.55rem;
+	margin-top: 0.85rem;
+}
+
+.bhdt-pill-button {
+	border: 1px solid rgba(16, 35, 63, 0.1);
+	background: rgba(255, 255, 255, 0.94);
+	color: var(--bhdt-ink);
+	padding: 0.55rem 0.9rem;
+	border-radius: 999px;
+	font-size: 0.9rem;
+	font-weight: 700;
+	cursor: pointer;
+	transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.bhdt-pill-button:hover,
+.bhdt-pill-button.is-active {
+	transform: translateY(-1px);
+	border-color: rgba(239, 125, 16, 0.45);
+	background: rgba(255, 245, 232, 0.96);
+}
+
+.bhdt-input:focus {
+	outline: 2px solid rgba(247, 127, 0, 0.28);
+	border-color: rgba(247, 127, 0, 0.6);
+}
+
+.bhdt-pinout-results,
+.bhdt-card-grid,
+.bhdt-download-shell,
+.bhdt-grid-2col {
+	display: grid;
+	gap: 1rem;
+	margin-top: 1.25rem;
+}
+
+.bhdt-card-grid,
+.bhdt-download-shell,
+.bhdt-grid-2col {
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.bhdt-placeholder-card,
+.bhdt-step-card,
+.bhdt-download-card,
+.bhdt-affiliate-panel,
+.bhdt-output-panel {
+	position: relative;
+	z-index: 1;
+	padding: 1.1rem;
+	border-radius: 20px;
+	background: var(--bhdt-surface-strong);
+	border: 1px solid var(--bhdt-line);
+}
+
+.bhdt-placeholder-card.is-empty {
+	border-style: dashed;
+	text-align: center;
+}
+
+.bhdt-placeholder-card ul {
+	margin: 0.85rem 0 0;
+	padding-left: 1.15rem;
+	color: var(--bhdt-ink-soft);
+}
+
+.bhdt-pinout-figure {
+	display: grid;
+	gap: 1rem;
+	align-items: center;
+	grid-template-columns: minmax(0, 1fr) 200px;
+}
+
+.bhdt-pinout-specs {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+	margin-top: 0.9rem;
+}
+
+.bhdt-spec-pill {
+	display: inline-flex;
+	align-items: center;
+	padding: 0.42rem 0.7rem;
+	border-radius: 999px;
+	background: rgba(16, 35, 63, 0.06);
+	color: var(--bhdt-ink);
+	font-size: 0.82rem;
+	font-weight: 700;
+}
+
+.bhdt-image-placeholder {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 170px;
+	padding: 1rem;
+	border-radius: 18px;
+	background:
+		linear-gradient(145deg, rgba(20, 33, 61, 0.94), rgba(48, 63, 93, 0.96)),
+		repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.03) 0, rgba(255, 255, 255, 0.03) 2px, transparent 2px, transparent 28px);
+	color: #ffffff;
+	text-align: center;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+}
+
+.bhdt-toggle-row,
+.bhdt-button-row,
+.bhdt-status-line,
+.bhdt-band-legend {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.75rem;
+}
+
+.bhdt-band-legend {
+	margin-top: 0.25rem;
+	margin-bottom: 0.5rem;
+}
+
+.bhdt-band-legend-item {
+	padding: 0.45rem 0.75rem;
+	border-radius: 999px;
+	background: rgba(16, 35, 63, 0.06);
+	color: var(--bhdt-ink-soft);
+	font-size: 0.82rem;
+	font-weight: 700;
+}
+
+.bhdt-band-legend-item.is-hidden {
+	display: none;
+}
+
+.bhdt-toggle-button,
+.bhdt-button-primary,
+.bhdt-button-secondary,
+.bhdt-pill-button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0.85rem 1.2rem;
+	border-radius: 999px;
+	font-weight: 700;
+	text-decoration: none;
+	transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+	cursor: pointer;
+}
+
+.bhdt-toggle-button {
+	border: 1px solid rgba(20, 33, 61, 0.12);
+	background: #ffffff;
+	color: var(--bhdt-ink);
+}
+
+.bhdt-toggle-button.is-active,
+.bhdt-button-primary {
+	border: none;
+	background: linear-gradient(135deg, #f77f00 0%, #ffb703 100%);
+	color: #1a1a1a;
+	box-shadow: 0 14px 28px rgba(247, 127, 0, 0.22);
+}
+
+.bhdt-button-secondary {
+	border: 1px solid rgba(20, 33, 61, 0.12);
+	background: rgba(20, 33, 61, 0.04);
+	color: var(--bhdt-ink);
+}
+
+.bhdt-toggle-button:hover,
+.bhdt-button-primary:hover,
+.bhdt-button-secondary:hover,
+.bhdt-band-button:hover {
+	transform: translateY(-1px);
+}
+
+.bhdt-resistor-body {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	margin: 0.75rem 0 1rem;
+	padding: 1rem;
+	border-radius: 999px;
+	background: linear-gradient(90deg, #f4d7a4 0%, #ddbb89 55%, #f0d8ae 100%);
+	overflow-x: auto;
+}
+
+.bhdt-band-button {
+	position: relative;
+	flex: 0 0 56px;
+	height: 84px;
+	border: none;
+	border-radius: 14px;
+	background: #7f5539;
+	color: #ffffff;
+	font-size: 0.8rem;
+	font-weight: 700;
+	box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.3);
+	cursor: pointer;
+}
+
+.bhdt-voltage-layout {
+	display: grid;
+	grid-template-columns: minmax(0, 1.4fr) minmax(220px, 0.6fr);
+	gap: 1rem;
+	align-items: stretch;
+}
+
+.bhdt-voltage-layout .bhdt-grid-2col {
+	margin-top: 1.25rem;
+}
+
+.bhdt-voltage-schematic {
+	position: relative;
+	display: grid;
+	justify-items: center;
+	align-content: space-between;
+	min-height: 310px;
+	margin-top: 1.25rem;
+	padding: 1rem;
+	border: 1px solid var(--bhdt-line);
+	border-radius: 20px;
+	background:
+		linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(248, 252, 255, 0.96)),
+		repeating-linear-gradient(0deg, rgba(0, 95, 115, 0.08) 0, rgba(0, 95, 115, 0.08) 1px, transparent 1px, transparent 22px);
+}
+
+.bhdt-voltage-schematic::before {
+	content: '';
+	position: absolute;
+	top: 2.35rem;
+	bottom: 2.35rem;
+	left: 50%;
+	width: 2px;
+	background: rgba(20, 33, 61, 0.26);
+	transform: translateX(-50%);
+}
+
+.bhdt-node,
+.bhdt-resistor-symbol {
+	position: relative;
+	z-index: 1;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 72px;
+	min-height: 38px;
+	padding: 0.35rem 0.75rem;
+	border-radius: 999px;
+	font-weight: 800;
+}
+
+.bhdt-node {
+	background: #10233f;
+	color: #ffffff;
+}
+
+.bhdt-node-vout {
+	background: #005f73;
+}
+
+.bhdt-node-gnd {
+	background: #2f3a46;
+}
+
+.bhdt-resistor-symbol {
+	border: 1px solid rgba(247, 127, 0, 0.3);
+	background: #fff7ec;
+	color: #8a4a00;
+}
+
+.bhdt-voltage-output {
+	align-items: stretch;
+	flex-wrap: wrap;
+}
+
+.bhdt-voltage-output span {
+	display: grid;
+	gap: 0.25rem;
+	min-width: 150px;
+}
+
+.bhdt-band-button span {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%) rotate(-90deg);
+	white-space: nowrap;
+	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.18);
+}
+
+.bhdt-band-button.is-hidden {
+	display: none;
+}
+
+.bhdt-status-line {
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 1rem;
+	padding: 0.85rem 1rem;
+	border-radius: 16px;
+	background: rgba(255, 255, 255, 0.74);
+	border: 1px solid rgba(16, 35, 63, 0.08);
+	color: var(--bhdt-ink-soft);
+	font-size: 0.92rem;
+}
+
+.bhdt-step-card,
+.bhdt-download-card {
+	display: grid;
+	gap: 0.75rem;
+}
+
+.bhdt-step-index {
+	margin: 0;
+	font-size: 0.85rem;
+	font-weight: 800;
+	color: var(--bhdt-accent-dark);
+	letter-spacing: 0.16em;
+}
+
+.bhdt-affiliate-panel {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	margin-top: 1.25rem;
+	background: linear-gradient(135deg, rgba(20, 33, 61, 0.98), rgba(42, 62, 94, 0.96));
+	color: #ffffff;
+}
+
+.bhdt-affiliate-panel h3,
+.bhdt-download-card h3,
+.bhdt-step-card h3,
+.bhdt-placeholder-card h3 {
+	margin: 0;
+	font-size: 1.1rem;
+}
+
+.bhdt-affiliate-panel p {
+	color: rgba(255, 255, 255, 0.78);
+}
+
+.bhdt-output-panel {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 1rem;
+	margin-top: 1rem;
+	font-size: 1rem;
+}
+
+.bhdt-helper {
+	margin-top: 0.5rem;
+	font-size: 0.9rem;
+}
+
+.bhdt-wirecutter-pick {
+	background: #ffffff;
+	color: #222222;
+	border: 1px solid #e3e3e3;
+	padding: 1.25rem;
+	margin: 1.5rem 0;
+	display: grid;
+	gap: 1rem;
+	font-family: Arial, sans-serif;
+}
+
+.bhdt-wirecutter-head h3 {
+	font-family: Georgia, serif;
+	font-size: clamp(1.4rem, 3vw, 1.9rem);
+	margin: 0.25rem 0;
+}
+
+.bhdt-wirecutter-badge {
+	display: inline-block;
+	padding: 0.35rem 0.7rem;
+	background: #005f73;
+	color: #ffffff;
+	font-size: 0.76rem;
+	letter-spacing: 0.12em;
+	font-weight: 700;
+}
+
+.bhdt-wirecutter-price {
+	font-size: 1.1rem;
+	font-weight: 700;
+	margin: 0;
+}
+
+.bhdt-wirecutter-body {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 1rem;
+}
+
+.bhdt-wirecutter-list {
+	list-style: none;
+	padding: 0;
+	margin: 0.5rem 0 0;
+}
+
+.bhdt-wirecutter-list li {
+	position: relative;
+	padding-left: 1.4rem;
+	margin-bottom: 0.45rem;
+}
+
+.bhdt-wirecutter-pros li::before,
+.bhdt-wirecutter-cons li::before {
+	position: absolute;
+	left: 0;
+	top: 0;
+	font-weight: 700;
+}
+
+.bhdt-wirecutter-pros li::before {
+	content: '✓';
+	color: #12793d;
+}
+
+.bhdt-wirecutter-cons li::before {
+	content: '✕';
+	color: #b23a48;
+}
+
+.bhdt-wirecutter-cta {
+	display: inline-block;
+	text-decoration: none;
+	text-align: center;
+	background: #222222;
+	color: #ffffff;
+	padding: 0.75rem 1rem;
+	font-weight: 700;
+}
+
+.bhdt-wirecutter-cta:hover {
+	background: #3a3a3a;
+}
+
+@media (max-width: 820px) {
+	.bhdt-market-strip,
+	.bhdt-market-strip-compact,
+	.bhdt-card-grid,
+	.bhdt-download-shell,
+	.bhdt-grid-2col,
+	.bhdt-pinout-figure,
+	.bhdt-voltage-layout,
+	.bhdt-wirecutter-body {
+		grid-template-columns: 1fr;
+	}
+
+	.bhdt-status-line,
+	.bhdt-affiliate-panel,
+	.bhdt-output-panel {
+		flex-direction: column;
+		align-items: stretch;
+	}
+
+	.bhdt-resistor-body {
+		border-radius: 24px;
+	}
+}

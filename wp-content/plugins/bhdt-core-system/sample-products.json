@@ -1,0 +1,110 @@
+[
+  {
+    "model_name": "ESP32 DevKit V1",
+    "ai_summary": "<p><strong>ESP32 DevKit V1</strong> là board phát triển phổ biến nhất trong hệ sinh thái Espressif, tích hợp chip ESP32 với Wi-Fi 802.11 b/g/n và Bluetooth 4.2/BLE trong một module nhỏ gọn.</p><p>Phù hợp làm trung tâm điều khiển cho các dự án IoT tầm trung, hệ thống giám sát từ xa, và nguyên mẫu thiết bị thông minh. Logic 3.3V, cần chú ý khi ghép với ngoại vi 5V.</p>",
+    "specifications": {
+      "chip": "ESP32-D0WDQ6",
+      "core": "Xtensa dual-core LX6 @ 240 MHz",
+      "flash": "4 MB",
+      "sram": "520 KB",
+      "wifi": "802.11 b/g/n 2.4 GHz",
+      "bluetooth": "BLE 4.2 + Classic",
+      "logic_voltage": "3.3V",
+      "operating_voltage": "2.2V – 3.6V",
+      "vin_pin": "5V (via USB hoặc VIN)",
+      "gpio_count": 36,
+      "adc": "12-bit, 18 channels",
+      "dac": "8-bit, 2 channels",
+      "uart": 3,
+      "spi": 4,
+      "i2c": 2,
+      "usb_interface": "USB-to-UART CP2102 / CH340",
+      "board_size_mm": "52 x 28",
+      "typical_active_current_ma": 80,
+      "deep_sleep_current_ua": 10
+    }
+  },
+  {
+    "model_name": "LM2596 Buck Converter Module",
+    "ai_summary": "<p><strong>LM2596 Buck Converter</strong> là module hạ áp DC-DC dựa trên IC LM2596 của Texas Instruments. Được sử dụng rộng rãi trong các dự án DIY cần nguồn điều chỉnh linh hoạt từ bus 12V/24V xuống mức logic hoặc nguồn sạc.</p><p>Hiệu suất ~80% ở tải tiêu chuẩn. Cần thêm tải giả khi tinh chỉnh biến trở nếu không có tải thực để tránh điện áp ra bị nhảy.</p>",
+    "specifications": {
+      "ic": "LM2596-ADJ",
+      "topology": "Buck (step-down)",
+      "input_voltage_range": "4.5V – 35V",
+      "output_voltage_range": "1.25V – 30V",
+      "max_output_current_a": 3,
+      "typical_efficiency_pct": 80,
+      "switching_frequency_khz": 150,
+      "adjustment": "Multi-turn trimmer potentiometer",
+      "protection": "Over-temperature, short-circuit",
+      "board_size_mm": "43 x 21",
+      "led_indicator": true,
+      "input_capacitor_uf": 100,
+      "output_capacitor_uf": 220
+    }
+  },
+  {
+    "model_name": "Arduino Nano V3 (CH340)",
+    "ai_summary": "<p><strong>Arduino Nano V3</strong> là board MCU nhỏ gọn dựa trên ATmega328P, phù hợp cho prototype nhanh và các dự án giáo dục. Phiên bản CH340 cho giá thành thấp hơn; chỉ cần cài driver CH340 trên Windows.</p><p>Kết nối qua USB Mini-B, hỗ trợ toàn bộ thư viện Arduino, lý tưởng để điều khiển relay, đọc cảm biến, và hiển thị LCD đơn giản.</p>",
+    "specifications": {
+      "mcu": "ATmega328P @ 16 MHz",
+      "flash_kb": 32,
+      "sram_kb": 2,
+      "eeprom_kb": 1,
+      "logic_voltage": "5V",
+      "operating_voltage": "5V",
+      "vin_range": "7V – 12V",
+      "digital_io_pins": 14,
+      "pwm_pins": 6,
+      "analog_input_pins": 8,
+      "adc_resolution_bit": 10,
+      "uart": 1,
+      "spi": 1,
+      "i2c": 1,
+      "usb_connector": "Mini-B",
+      "usb_chip": "CH340G",
+      "board_size_mm": "45 x 18",
+      "max_current_per_io_pin_ma": 40,
+      "max_total_io_current_ma": 200
+    }
+  },
+  {
+    "model_name": "AMS1117 3.3V Regulator Board",
+    "ai_summary": "<p><strong>AMS1117-3.3</strong> là board ổn áp tuyến tính (LDO) phổ biến để tạo rail 3.3V cho các module logic và MCU từ nguồn USB 5V hoặc nguồn DC 6V–12V.</p><p>Tản nhiệt kém khi dòng tải cao; nên dùng cho tải ≤ 500mA để tránh quá nhiệt mà không gắn tản nhiệt. Phù hợp cho bench testing và bảo vệ module 3.3V trong các dự án nhỏ.</p>",
+    "specifications": {
+      "ic": "AMS1117-3.3",
+      "regulator_type": "LDO linear",
+      "output_voltage_v": 3.3,
+      "max_input_voltage_v": 15,
+      "min_input_voltage_v": 4.75,
+      "max_output_current_a": 1.0,
+      "recommended_max_current_ma": 800,
+      "dropout_voltage_v": 1.2,
+      "line_regulation_pct": 0.2,
+      "load_regulation_pct": 0.4,
+      "operating_temp_c": "-40 to +125",
+      "package": "SOT-223 / TO-252",
+      "board_size_mm": "23 x 16",
+      "input_capacitor_uf": 10,
+      "output_capacitor_uf": 10
+    }
+  },
+  {
+    "model_name": "1-Channel 5V Relay Module",
+    "ai_summary": "<p><strong>1-Channel Relay Module 5V</strong> cho phép vi điều khiển logic thấp điều khiển tải AC (đến 250V/10A) hoặc DC (đến 30V/10A) qua optocoupler cách ly.</p><p>Hỗ trợ cả trigger cao (HIGH active) và trigger thấp (LOW active) thông qua jumper JD-VCC. Khuyến nghị cách điện VCC module với nguồn logic khi chạy tải AC.</p>",
+    "specifications": {
+      "relay_channels": 1,
+      "coil_voltage": "5V DC",
+      "trigger_logic": "Active LOW (default) / Active HIGH via jumper",
+      "max_ac_load": "250V AC / 10A",
+      "max_dc_load": "30V DC / 10A",
+      "isolation": "Optocoupler (PC817)",
+      "indicator_led": true,
+      "jd_vcc_jumper": true,
+      "contact_type": "SPDT (COM / NO / NC)",
+      "coil_current_ma": 75,
+      "board_size_mm": "50 x 26",
+      "mounting": "4x M3 corner holes"
+    }
+  }
+]
