@@ -28,7 +28,7 @@ $post_count = wp_count_posts( 'bhdt_review' );
 					<?php if ( has_post_thumbnail() ) : ?>
 						<?php the_post_thumbnail( 'large' ); ?>
 					<?php else : ?>
-						<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:Arial,sans-serif;color:#888;">
+						<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:'Noto Sans',Arial,sans-serif;color:#888;">
 								<?php esc_html_e( 'Không có hình ảnh', 'bhdt-wirecutter' ); ?>
 						</div>
 					<?php endif; ?>

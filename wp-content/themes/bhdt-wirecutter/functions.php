@@ -156,7 +156,69 @@ function bhdt_wirecutter_register_editorial_post_types() {
 }
 add_action( 'init', 'bhdt_wirecutter_register_editorial_post_types', 9 );
 
-function bhdt_wirecutter_home_block_post_type_choices() {
+function bhdt_wirecutter_maybe_flush_rewrite_rules() {
+	$rewrite_version = '2026-05-18-1';
+	$saved_version   = (string) get_option( 'bhdt_wire_rewrite_rules_version', '' );
+
+	if ( $rewrite_version === $saved_version ) {
+		return;
+	}
+
+	flush_rewrite_rules( false );
+	update_option( 'bhdt_wire_rewrite_rules_version', $rewrite_version, false );
+}
+add_action( 'init', 'bhdt_wirecutter_maybe_flush_rewrite_rules', 20 );
+
+function bhdt_wirecutter_render_home_category_debug_page() {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_die( esc_html__( 'Bạn không có quyền truy cập.', 'bhdt-wirecutter' ) );
+	}
+
+	$groups = bhdt_wirecutter_get_home_category_groups();
+	$post_types = bhdt_wirecutter_home_block_post_types();
+	?>
+	<div class="wrap">
+		<h1><?php esc_html_e( 'Khối Danh Mục - Cấu Hình Loại Nội Dung', 'bhdt-wirecutter' ); ?></h1>
+		<p><?php esc_html_e( 'Xem loại nội dung hiện tại của từng khối danh mục. Để thay đổi, vào Settings > Khối danh mục.', 'bhdt-wirecutter' ); ?></p>
+		
+		<table class="widefat striped">
+			<thead>
+				<tr>
+					<th><?php esc_html_e( 'Tên Khối', 'bhdt-wirecutter' ); ?></th>
+					<th><?php esc_html_e( 'Slug', 'bhdt-wirecutter' ); ?></th>
+					<th><?php esc_html_e( 'Loại Nội Dung Hiện Tại', 'bhdt-wirecutter' ); ?></th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php foreach ( $groups as $group ) : ?>
+					<tr>
+						<td><?php echo esc_html( $group['label'] ); ?></td>
+						<td><code><?php echo esc_html( $group['slug'] ); ?></code></td>
+						<td><?php echo esc_html( bhdt_wirecutter_format_home_block_post_type_labels( $group['post_types'] ?? ( $group['post_type'] ?? 'post' ) ) ); ?></td>
+					</tr>
+				<?php endforeach; ?>
+			</tbody>
+		</table>
+
+		<h2><?php esc_html_e( 'Vấn Đề: Bài Được Gắn Vào Khối Không Khớp Loại Nội Dung', 'bhdt-wirecutter' ); ?></h2>
+		<p><?php esc_html_e( 'Nếu bạn gắn bài Review vào khối "Linh kiện" nhưng khối này được cấu hình cho loại POST, bài sẽ không hiển thị trên homepage.', 'bhdt-wirecutter' ); ?></p>
+		<p><?php esc_html_e( 'Giải pháp: Vào Settings > Khối danh mục và thay đổi cột "Loại nội dung" của khối phù hợp với loại bài bạn muốn hiển thị.', 'bhdt-wirecutter' ); ?></p>
+	</div>
+	<?php
+}
+
+add_action( 'admin_menu', function() {
+	add_submenu_page(
+		'themes.php',
+		__( 'Khối Danh Mục - Cấu Hình', 'bhdt-wirecutter' ),
+		__( 'Khối Danh Mục - Cấu Hình', 'bhdt-wirecutter' ),
+		'manage_options',
+		'bhdt-home-category-config',
+		'bhdt_wirecutter_render_home_category_debug_page'
+	);
+});
+
+function bhdt_wirecutter_home_block_post_types() {
 	return array(
 		'post'            => __( 'Bài viết thường', 'bhdt-wirecutter' ),
 		'bhdt_review'     => __( 'Bài review', 'bhdt-wirecutter' ),
@@ -164,8 +226,51 @@ function bhdt_wirecutter_home_block_post_type_choices() {
 	);
 }
 
+function bhdt_wirecutter_normalize_home_block_post_types( $value ) {
+	$allowed_post_types = array_keys( bhdt_wirecutter_home_block_post_types() );
+	$post_types = is_array( $value ) ? $value : array( $value );
+	$post_types = array_values(
+		array_unique(
+			array_filter(
+				array_map(
+					static function ( $post_type ) {
+						return sanitize_key( (string) $post_type );
+					},
+					$post_types
+				)
+			)
+		)
+	);
+	$post_types = array_values( array_intersect( $post_types, $allowed_post_types ) );
+
+	return empty( $post_types ) ? array( 'post' ) : $post_types;
+}
+
+function bhdt_wirecutter_get_home_block_post_types_from_row( $row ) {
+	if ( ! is_array( $row ) ) {
+		return array( 'post' );
+	}
+
+	if ( isset( $row['post_types'] ) ) {
+		return bhdt_wirecutter_normalize_home_block_post_types( $row['post_types'] );
+	}
+
+	return bhdt_wirecutter_normalize_home_block_post_types( $row['post_type'] ?? 'post' );
+}
+
+function bhdt_wirecutter_format_home_block_post_type_labels( $post_types ) {
+	$choices = bhdt_wirecutter_home_block_post_types();
+	$labels = array();
+
+	foreach ( bhdt_wirecutter_normalize_home_block_post_types( $post_types ) as $post_type ) {
+		$labels[] = $choices[ $post_type ] ?? $post_type;
+	}
+
+	return implode( ', ', $labels );
+}
+
 function bhdt_wirecutter_home_block_slug_suggestions() {
-	$post_type_choices = bhdt_wirecutter_home_block_post_type_choices();
+	$post_type_choices = bhdt_wirecutter_home_block_post_types();
 	$base_terms = get_terms(
 		array(
 			'taxonomy'   => 'category',
@@ -221,9 +326,9 @@ function bhdt_wirecutter_home_block_slug_suggestions() {
 				continue;
 			}
 
-			$row_post_type = isset( $row['post_type'] ) ? sanitize_key( $row['post_type'] ) : 'post';
+			$row_post_types = bhdt_wirecutter_get_home_block_post_types_from_row( $row );
 			$row_slug = isset( $row['slug'] ) ? sanitize_title( $row['slug'] ) : '';
-			if ( $post_type_key !== $row_post_type || '' === $row_slug ) {
+			if ( ! in_array( $post_type_key, $row_post_types, true ) || '' === $row_slug ) {
 				continue;
 			}
 
@@ -263,6 +368,7 @@ function bhdt_wirecutter_default_home_category_groups() {
 			'desc_vi' => 'Gợi ý linh kiện, module và thiết bị đo cho dự án thực tế.',
 			'desc_en' => 'Recommended components, modules, and measuring tools for real projects.',
 			'post_type' => 'post',
+			'post_types' => array( 'post' ),
 			'slug'    => 'linh-kien-dien-tu',
 			'order'   => 10,
 			'enabled' => 1,
@@ -273,6 +379,7 @@ function bhdt_wirecutter_default_home_category_groups() {
 			'desc_vi' => 'Thiết kế robot, điều khiển chuyển động và cảm biến thông minh.',
 			'desc_en' => 'Robot design, motion control, and smart sensor integrations.',
 			'post_type' => 'bhdt_review',
+			'post_types' => array( 'bhdt_review' ),
 			'slug'    => 'robot-thong-minh',
 			'order'   => 20,
 			'enabled' => 1,
@@ -283,6 +390,7 @@ function bhdt_wirecutter_default_home_category_groups() {
 			'desc_vi' => 'Vi điều khiển, firmware và giải pháp nhúng tối ưu hiệu năng.',
 			'desc_en' => 'Microcontrollers, firmware, and performance-focused embedded solutions.',
 			'post_type' => 'bhdt_comparison',
+			'post_types' => array( 'bhdt_comparison' ),
 			'slug'    => 'thiet-bi-nhung',
 			'order'   => 30,
 			'enabled' => 1,
@@ -298,7 +406,7 @@ function bhdt_wirecutter_get_home_category_groups() {
 
 	$groups = array();
 	$is_en  = function_exists( 'pll_current_language' ) && 'en' === pll_current_language( 'slug' );
-	$allowed_post_types = array_keys( bhdt_wirecutter_home_block_post_type_choices() );
+	$allowed_post_types = array_keys( bhdt_wirecutter_home_block_post_types() );
 
 	foreach ( $saved as $item ) {
 		if ( ! is_array( $item ) ) {
@@ -309,14 +417,11 @@ function bhdt_wirecutter_get_home_category_groups() {
 		$name_en = isset( $item['name_en'] ) ? sanitize_text_field( $item['name_en'] ) : '';
 		$desc_vi = isset( $item['desc_vi'] ) ? sanitize_text_field( $item['desc_vi'] ) : '';
 		$desc_en = isset( $item['desc_en'] ) ? sanitize_text_field( $item['desc_en'] ) : '';
-		$post_type = isset( $item['post_type'] ) ? sanitize_key( $item['post_type'] ) : 'post';
+		$post_types = bhdt_wirecutter_get_home_block_post_types_from_row( $item );
+		$post_type = $post_types[0];
 		$slug    = isset( $item['slug'] ) ? sanitize_title( $item['slug'] ) : '';
 		$order   = isset( $item['order'] ) ? (int) $item['order'] : 0;
 		$enabled = isset( $item['enabled'] ) ? (int) $item['enabled'] : 1;
-
-		if ( ! in_array( $post_type, $allowed_post_types, true ) ) {
-			$post_type = 'post';
-		}
 
 		if ( '' === $name_vi ) {
 			continue;
@@ -345,6 +450,7 @@ function bhdt_wirecutter_get_home_category_groups() {
 			'label' => $label,
 			'subtitle' => $subtitle,
 			'post_type' => $post_type,
+			'post_types' => $post_types,
 			'slug'  => $slug,
 			'order' => $order,
 		);
@@ -365,6 +471,7 @@ function bhdt_wirecutter_get_home_category_groups() {
 				'label' => $is_en ? $item['name_en'] : $item['name_vi'],
 				'subtitle' => $is_en ? ( $item['desc_en'] ?? '' ) : ( $item['desc_vi'] ?? '' ),
 				'post_type' => isset( $item['post_type'] ) && in_array( $item['post_type'], $allowed_post_types, true ) ? $item['post_type'] : 'post',
+				'post_types' => bhdt_wirecutter_get_home_block_post_types_from_row( $item ),
 				'slug'  => $item['slug'],
 				'order' => (int) $item['order'],
 			);
@@ -372,6 +479,528 @@ function bhdt_wirecutter_get_home_category_groups() {
 	}
 
 	return $groups;
+}
+
+function bhdt_wirecutter_build_home_category_block_key( $post_type, $slug ) {
+	$post_type = sanitize_key( (string) $post_type );
+	$slug      = sanitize_title( (string) $slug );
+
+	if ( '' === $post_type || '' === $slug ) {
+		return '';
+	}
+
+	return $post_type . '|' . $slug;
+}
+
+function bhdt_wirecutter_get_home_category_block_choices() {
+	$choices = array();
+
+	foreach ( bhdt_wirecutter_get_home_category_groups() as $group ) {
+		$post_types = bhdt_wirecutter_normalize_home_block_post_types( $group['post_types'] ?? ( $group['post_type'] ?? 'post' ) );
+		$post_type = $post_types[0];
+		$slug      = sanitize_title( $group['slug'] ?? '' );
+		$key       = $slug;
+
+		if ( '' === $key ) {
+			continue;
+		}
+
+		$legacy_keys = array();
+		foreach ( $post_types as $choice_post_type ) {
+			$legacy_key = bhdt_wirecutter_build_home_category_block_key( $choice_post_type, $slug );
+			if ( '' !== $legacy_key ) {
+				$legacy_keys[] = $legacy_key;
+			}
+		}
+
+		$choices[] = array(
+			'key'       => $key,
+			'post_type' => $post_type,
+			'post_types' => $post_types,
+			'slug'      => $slug,
+			'legacy_keys' => $legacy_keys,
+			'label'     => (string) ( $group['label'] ?? $group['name'] ?? $slug ),
+			'subtitle'  => (string) ( $group['subtitle'] ?? '' ),
+			'option'    => trim(
+				(string) ( $group['label'] ?? $group['name'] ?? $slug ) . ' (' . bhdt_wirecutter_format_home_block_post_type_labels( $post_types ) . ')'
+			),
+		);
+	}
+
+	return $choices;
+}
+
+function bhdt_wirecutter_find_home_category_block_by_key( $key ) {
+	$key = sanitize_text_field( (string) $key );
+	if ( '' === $key ) {
+		return null;
+	}
+
+	foreach ( bhdt_wirecutter_get_home_category_block_choices() as $choice ) {
+		if ( isset( $choice['key'] ) && $choice['key'] === $key ) {
+			return $choice;
+		}
+
+		if ( isset( $choice['legacy_keys'] ) && is_array( $choice['legacy_keys'] ) && in_array( $key, $choice['legacy_keys'], true ) ) {
+			return $choice;
+		}
+	}
+
+	return null;
+}
+
+function bhdt_wirecutter_home_category_block_url( $group ) {
+	$slug = is_array( $group ) ? bhdt_wirecutter_get_home_category_block_public_slug( $group ) : sanitize_title( (string) $group );
+	if ( '' === $slug ) {
+		return home_url( '/' );
+	}
+
+	return trailingslashit( bhdt_wirecutter_current_lang_home_url() . $slug );
+}
+
+function bhdt_wirecutter_get_home_category_block_public_slug( $target_group ) {
+	if ( ! is_array( $target_group ) ) {
+		return '';
+	}
+
+	$target_slug = sanitize_title( $target_group['slug'] ?? '' );
+	$used_slugs = array();
+
+	foreach ( bhdt_wirecutter_get_home_category_groups() as $group ) {
+		$base_slug = sanitize_title( $group['label'] ?? $group['name'] ?? $group['slug'] ?? '' );
+		if ( '' === $base_slug ) {
+			$base_slug = sanitize_title( $group['slug'] ?? '' );
+		}
+
+		if ( '' === $base_slug ) {
+			continue;
+		}
+
+		$public_slug = $base_slug;
+		$suffix = 2;
+		while ( in_array( $public_slug, $used_slugs, true ) ) {
+			$public_slug = $base_slug . '-' . $suffix;
+			$suffix++;
+		}
+		$used_slugs[] = $public_slug;
+
+		if ( $target_slug === sanitize_title( $group['slug'] ?? '' ) ) {
+			return $public_slug;
+		}
+	}
+
+	return sanitize_title( $target_group['label'] ?? $target_group['name'] ?? $target_group['slug'] ?? '' );
+}
+
+function bhdt_wirecutter_get_home_category_group_by_slug( $slug ) {
+	$slug = sanitize_title( (string) $slug );
+	if ( '' === $slug ) {
+		return null;
+	}
+
+	foreach ( bhdt_wirecutter_get_home_category_groups() as $group ) {
+		$public_slug = bhdt_wirecutter_get_home_category_block_public_slug( $group );
+		if ( $slug === $public_slug || $slug === sanitize_title( $group['slug'] ?? '' ) ) {
+			return $group;
+		}
+	}
+
+	return null;
+}
+
+function bhdt_wirecutter_get_home_category_block_key_variants( $group ) {
+	if ( ! is_array( $group ) ) {
+		return array();
+	}
+
+	$post_types = bhdt_wirecutter_normalize_home_block_post_types( $group['post_types'] ?? ( $group['post_type'] ?? 'post' ) );
+	$base_slugs = array(
+		$group['slug'] ?? '',
+		$group['label'] ?? '',
+		$group['name'] ?? '',
+		$group['name_vi'] ?? '',
+		$group['name_en'] ?? '',
+	);
+	$base_slugs = array_values(
+		array_unique(
+			array_filter(
+				array_map(
+					static function ( $value ) {
+						return sanitize_title( (string) $value );
+					},
+					$base_slugs
+				)
+			)
+		)
+	);
+
+	$keys = $base_slugs;
+	foreach ( $base_slugs as $base_slug ) {
+		foreach ( $post_types as $post_type ) {
+			$legacy_key = bhdt_wirecutter_build_home_category_block_key( $post_type, $base_slug );
+			if ( '' !== $legacy_key ) {
+				$keys[] = $legacy_key;
+			}
+		}
+	}
+
+	return array_values( array_unique( $keys ) );
+}
+
+function bhdt_wirecutter_home_category_block_choice_matches_group( $choice, $group ) {
+	if ( ! is_array( $choice ) || ! is_array( $group ) ) {
+		return false;
+	}
+
+	$choice_slugs = array(
+		$choice['key'] ?? '',
+		$choice['slug'] ?? '',
+		$choice['label'] ?? '',
+	);
+	$group_slugs = array(
+		$group['slug'] ?? '',
+		$group['label'] ?? '',
+		$group['name'] ?? '',
+		bhdt_wirecutter_get_home_category_block_public_slug( $group ),
+	);
+
+	$choice_slugs = array_values(
+		array_unique(
+			array_filter(
+				array_map(
+					static function ( $value ) {
+						return sanitize_title( (string) $value );
+					},
+					$choice_slugs
+				)
+			)
+		)
+	);
+	$group_slugs = array_values(
+		array_unique(
+			array_filter(
+				array_map(
+					static function ( $value ) {
+						return sanitize_title( (string) $value );
+					},
+					$group_slugs
+				)
+			)
+		)
+	);
+
+	return ! empty( array_intersect( $choice_slugs, $group_slugs ) );
+}
+
+function bhdt_wirecutter_get_home_category_block_posts( $group ) {
+	if ( ! is_array( $group ) ) {
+		return array();
+	}
+
+	$slug = sanitize_title( $group['slug'] ?? '' );
+	if ( '' === $slug ) {
+		return array();
+	}
+
+	$block_keys = bhdt_wirecutter_get_home_category_block_key_variants( $group );
+
+	$post_ids = get_posts(
+		array(
+			'post_type'      => bhdt_wirecutter_get_menu_linkable_post_types(),
+			'post_status'    => 'publish',
+			'posts_per_page' => -1,
+			'fields'         => 'ids',
+			'no_found_rows'  => true,
+			'suppress_filters' => true,
+			'meta_query'     => array(
+				array(
+					'key'     => '_bhdt_home_category_block_key',
+					'value'   => $block_keys,
+					'compare' => 'IN',
+				),
+			),
+		)
+	);
+
+	global $wpdb;
+	$linked_post_ids = array_map(
+		'intval',
+		(array) $wpdb->get_col(
+			$wpdb->prepare(
+				"SELECT DISTINCT post_id FROM {$wpdb->postmeta} WHERE meta_key = %s",
+				'_bhdt_home_category_block_key'
+			)
+		)
+	);
+
+	foreach ( $linked_post_ids as $linked_post_id ) {
+		$linked_post = get_post( (int) $linked_post_id );
+		if ( ! $linked_post || 'publish' !== $linked_post->post_status || ! in_array( $linked_post->post_type, bhdt_wirecutter_get_menu_linkable_post_types(), true ) ) {
+			continue;
+		}
+
+		$meta_values = get_post_meta( (int) $linked_post_id, '_bhdt_home_category_block_key', false );
+		foreach ( $meta_values as $meta_value ) {
+			$choice = bhdt_wirecutter_find_home_category_block_by_key( $meta_value );
+			if ( $choice && bhdt_wirecutter_home_category_block_choice_matches_group( $choice, $group ) ) {
+				$post_ids[] = (int) $linked_post_id;
+				break;
+			}
+		}
+	}
+
+	$term = get_term_by( 'slug', $slug, 'category' );
+	if ( $term && ! is_wp_error( $term ) ) {
+		$term_post_ids = get_posts(
+			array(
+				'post_type'      => bhdt_wirecutter_get_menu_linkable_post_types(),
+				'post_status'    => 'publish',
+				'posts_per_page' => -1,
+				'fields'         => 'ids',
+				'no_found_rows'  => true,
+				'suppress_filters' => true,
+				'tax_query'      => array(
+					array(
+						'taxonomy' => 'category',
+						'field'    => 'term_id',
+						'terms'    => array( (int) $term->term_id ),
+					),
+				),
+			)
+		);
+		$post_ids = array_merge( $post_ids, $term_post_ids );
+	}
+
+	$post_ids = array_values( array_unique( array_map( 'intval', $post_ids ) ) );
+	if ( empty( $post_ids ) ) {
+		return array();
+	}
+
+	$posts = array_values(
+		array_filter(
+			array_map(
+				static function ( $post_id ) {
+					$post = get_post( (int) $post_id );
+					if ( ! $post || 'publish' !== $post->post_status || ! in_array( $post->post_type, bhdt_wirecutter_get_menu_linkable_post_types(), true ) ) {
+						return null;
+					}
+
+					return $post;
+				},
+				$post_ids
+			)
+		)
+	);
+
+	usort(
+		$posts,
+		static function ( $a, $b ) {
+			return strcmp( (string) $b->post_modified_gmt, (string) $a->post_modified_gmt );
+		}
+	);
+
+	return $posts;
+}
+
+function bhdt_wirecutter_render_home_category_block_archive() {
+	if ( is_admin() ) {
+		return;
+	}
+
+	$slug = '';
+	if ( ! empty( $_GET['bhdt_home_block'] ) ) {
+		$slug = sanitize_title( wp_unslash( $_GET['bhdt_home_block'] ) );
+	} else {
+		$path = trim( (string) wp_parse_url( $_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH ), '/' );
+		$parts = array_values( array_filter( explode( '/', $path ) ) );
+		if ( ! empty( $parts ) && 'en' === $parts[0] ) {
+			array_shift( $parts );
+		}
+		if ( 1 === count( $parts ) ) {
+			$slug = sanitize_title( $parts[0] );
+		}
+	}
+
+	if ( '' === $slug ) {
+		return;
+	}
+
+	$group = bhdt_wirecutter_get_home_category_group_by_slug( $slug );
+	if ( ! $group ) {
+		return;
+	}
+
+	$posts = bhdt_wirecutter_get_home_category_block_posts( $group );
+
+	status_header( 200 );
+	nocache_headers();
+	get_header();
+	?>
+	<main class="bhdt-home-grid bhdt-home-block-archive">
+		<section class="bhdt-archive-hero">
+			<p class="bhdt-card-kicker"><?php esc_html_e( 'Khối danh mục', 'bhdt-wirecutter' ); ?></p>
+			<h1><?php echo esc_html( $group['label'] ?? $group['name'] ?? $slug ); ?></h1>
+			<?php if ( ! empty( $group['subtitle'] ) ) : ?>
+				<p><?php echo esc_html( $group['subtitle'] ); ?></p>
+			<?php endif; ?>
+			<p class="bhdt-card-meta"><?php echo esc_html( sprintf( __( '%d bài trong khối này', 'bhdt-wirecutter' ), count( $posts ) ) ); ?></p>
+		</section>
+
+		<?php foreach ( $posts as $post ) : ?>
+			<?php
+			$post_id = (int) $post->ID;
+			$type_label = bhdt_wirecutter_get_post_type_menu_label( get_post_type( $post_id ) );
+			$excerpt = get_post_field( 'post_excerpt', $post_id );
+			if ( empty( trim( $excerpt ) ) ) {
+				$excerpt = get_post_field( 'post_content', $post_id );
+			}
+			?>
+			<article class="bhdt-block-archive-card">
+				<a href="<?php echo esc_url( get_permalink( $post_id ) ); ?>" class="bhdt-block-archive-thumb" aria-hidden="true" tabindex="-1">
+					<?php if ( has_post_thumbnail( $post_id ) ) : ?>
+						<?php echo wp_kses_post( get_the_post_thumbnail( $post_id, 'large' ) ); ?>
+					<?php else : ?>
+						<div class="bhdt-wire-thumb-fallback"><?php esc_html_e( 'Không có hình ảnh', 'bhdt-wirecutter' ); ?></div>
+					<?php endif; ?>
+				</a>
+				<div class="bhdt-block-archive-copy">
+					<p class="bhdt-card-kicker"><?php echo esc_html( $type_label ); ?></p>
+					<h2><a href="<?php echo esc_url( get_permalink( $post_id ) ); ?>"><?php echo esc_html( get_the_title( $post_id ) ); ?></a></h2>
+					<p class="bhdt-block-archive-excerpt"><?php echo esc_html( wp_trim_words( wp_strip_all_tags( $excerpt ), 28, '...' ) ); ?></p>
+					<p class="bhdt-card-meta"><?php echo esc_html( sprintf( __( 'Cập nhật %s', 'bhdt-wirecutter' ), get_the_modified_date( 'M j, Y', $post_id ) ) ); ?></p>
+				</div>
+			</article>
+		<?php endforeach; ?>
+	</main>
+	<?php
+	get_footer();
+	exit;
+}
+add_action( 'template_redirect', 'bhdt_wirecutter_render_home_category_block_archive', -2 );
+
+function bhdt_wirecutter_get_home_category_linked_posts_map() {
+	$map = array();
+
+	$posts = get_posts(
+		array(
+			'post_type'      => bhdt_wirecutter_get_menu_linkable_post_types(),
+			'post_status'    => 'publish',
+			'posts_per_page' => -1,
+			'orderby'        => 'modified',
+			'order'          => 'DESC',
+			'meta_query'     => array(
+				array(
+					'key'     => '_bhdt_home_category_block_key',
+					'compare' => 'EXISTS',
+				),
+			),
+		)
+	);
+
+	foreach ( $posts as $post ) {
+		if ( ! $post instanceof WP_Post ) {
+			continue;
+		}
+
+		$key = sanitize_text_field( (string) get_post_meta( $post->ID, '_bhdt_home_category_block_key', true ) );
+		$choice = bhdt_wirecutter_find_home_category_block_by_key( $key );
+		if ( '' === $key || ! $choice ) {
+			continue;
+		}
+		$key = $choice['key'];
+
+		if ( ! isset( $map[ $key ] ) ) {
+			$map[ $key ] = array();
+		}
+
+		$map[ $key ][] = (int) $post->ID;
+	}
+
+	return $map;
+}
+
+function bhdt_wirecutter_seed_home_category_block_posts() {
+	return;
+
+	$author_id = get_current_user_id();
+	if ( $author_id <= 0 ) {
+		$author_id = 1;
+	}
+
+	foreach ( bhdt_wirecutter_get_home_category_groups() as $group ) {
+		$slug  = sanitize_title( $group['slug'] ?? '' );
+		$label = sanitize_text_field( $group['label'] ?? $group['name'] ?? $slug );
+		if ( '' === $slug || '' === $label ) {
+			continue;
+		}
+
+		$linked_posts = get_posts(
+			array(
+				'post_type'      => array( 'post', 'page', 'bhdt_review', 'bhdt_comparison' ),
+				'post_status'    => 'publish',
+				'posts_per_page' => -1,
+				'meta_query'     => array(
+					array(
+						'key'     => '_bhdt_home_category_block_key',
+						'value'   => $slug,
+					),
+				),
+			)
+		);
+
+		// Delete existing posts for this block
+		foreach ( $linked_posts as $post ) {
+			wp_delete_post( $post->ID, true );
+		}
+
+		// Create 4 new posts with mixed content types
+		$term = get_term_by( 'slug', $slug, 'category' );
+		$post_types_cycle = array( 'bhdt_review', 'post', 'post' );
+
+		for ( $i = 0; $i < 4; $i++ ) {
+			$is_featured    = 0 === $i;
+			$post_type_to_try = isset( $post_types_cycle[ $i ] ) ? $post_types_cycle[ $i ] : 'post';
+			
+			// Check if custom post type exists, fallback to post if not
+			$current_post_type = post_type_exists( $post_type_to_try ) ? $post_type_to_try : 'post';
+			
+			$title          = $is_featured ? sprintf( '%s - Bài nổi bật [%s] {attempted}', $label, $current_post_type ) : sprintf( '%s - Bài phụ %d [%s]', $label, $i + 1, $current_post_type );
+			$content        = $is_featured
+				? sprintf( "Bai viet mo dau cho chu de %s. Anh Tuan co the sua noi dung nay bat cu luc nao. Type: %s (tried: %s)", $label, $current_post_type, $post_type_to_try )
+				: sprintf( "Bai viet phu %d cho chu de %s. Noi dung duoc tao san de gan lien ket that. Type: %s (tried: %s)", $i + 1, $label, $current_post_type, $post_type_to_try );
+
+			$post_id = wp_insert_post(
+				array(
+					'post_type'    => $current_post_type,
+					'post_status'  => 'publish',
+					'post_title'   => $title,
+					'post_content' => $content,
+					'post_excerpt' => wp_trim_words( $content, 24, '...' ),
+					'post_author'  => $author_id,
+				)
+			);
+
+			// Add debug info to title for i=0
+			if ( $is_featured && $i === 0 ) {
+				error_log( sprintf( 'Seed i=0: post_id=%s, type=%s, author=%d', var_export( $post_id, true ), $current_post_type, $author_id ) );
+			}
+
+			if ( is_wp_error( $post_id ) ) {
+				error_log( 'Seed error: ' . $post_id->get_error_message() );
+				continue;
+			}
+			if ( $post_id <= 0 ) {
+				error_log( 'Seed error: Invalid post ID ' . $post_id . ' for type ' . $current_post_type . ' (i=' . $i . ')' );
+				continue;
+			}
+
+			update_post_meta( $post_id, '_bhdt_home_category_block_key', $slug );
+
+			if ( $term && ! is_wp_error( $term ) && is_object_in_taxonomy( $current_post_type, 'category' ) ) {
+				wp_set_object_terms( $post_id, array( (int) $term->term_id ), 'category', true );
+			}
+		}
+	}
 }
 
 function bhdt_wirecutter_default_hot_keys() {
@@ -523,8 +1152,147 @@ function bhdt_wirecutter_admin_home_blocks_page() {
 		'bhdt-function-menu',
 		'bhdt_wirecutter_render_function_menu_admin_page'
 	);
+
+	add_theme_page(
+		'Footer Settings',
+		'Footer Settings',
+		'manage_options',
+		'bhdt-footer-settings',
+		'bhdt_wirecutter_render_footer_settings_admin_page'
+	);
 }
 add_action( 'admin_menu', 'bhdt_wirecutter_admin_home_blocks_page' );
+
+function bhdt_wirecutter_default_footer_settings() {
+	return array(
+		'logo_text'   => 'Banhangdientu',
+		'logo_image'  => '',
+		'description' => 'Bố cục biên tập gọn gàng, cảm hứng từ Wirecutter.',
+		'middle_text' => 'Hướng dẫn thực tế, đánh giá linh kiện, ghi chú dự án.',
+		'copyright'   => '© {year} Banhangdientu',
+		'facebook'    => '',
+		'youtube'     => '',
+		'tiktok'      => '',
+		'zalo'        => '',
+		'bg_color'    => '#181818',
+		'text_color'  => '#ffffff',
+		'muted_color' => '#eeeeee',
+	);
+}
+
+function bhdt_wirecutter_clean_footer_settings( $settings ) {
+	$defaults = bhdt_wirecutter_default_footer_settings();
+	$settings = is_array( $settings ) ? $settings : array();
+	$clean = array();
+
+	foreach ( array( 'logo_text', 'description', 'middle_text', 'copyright' ) as $key ) {
+		$clean[ $key ] = isset( $settings[ $key ] ) ? sanitize_text_field( wp_unslash( $settings[ $key ] ) ) : $defaults[ $key ];
+	}
+
+	foreach ( array( 'logo_image', 'facebook', 'youtube', 'tiktok', 'zalo' ) as $key ) {
+		$clean[ $key ] = isset( $settings[ $key ] ) ? esc_url_raw( wp_unslash( $settings[ $key ] ) ) : '';
+	}
+
+	foreach ( array( 'bg_color', 'text_color', 'muted_color' ) as $key ) {
+		$value = isset( $settings[ $key ] ) ? sanitize_hex_color( wp_unslash( $settings[ $key ] ) ) : '';
+		$clean[ $key ] = $value ? $value : $defaults[ $key ];
+	}
+
+	return $clean;
+}
+
+function bhdt_wirecutter_get_footer_settings() {
+	$saved = get_option( 'bhdt_wire_footer_settings', array() );
+	return array_merge(
+		bhdt_wirecutter_default_footer_settings(),
+		bhdt_wirecutter_clean_footer_settings( is_array( $saved ) ? $saved : array() )
+	);
+}
+
+function bhdt_wirecutter_handle_footer_settings_save() {
+	if ( ! is_admin() || ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
+
+	if ( ! isset( $_GET['page'] ) || 'bhdt-footer-settings' !== $_GET['page'] ) {
+		return;
+	}
+
+	if ( ! isset( $_POST['bhdt_save_footer_settings'] ) ) {
+		return;
+	}
+
+	check_admin_referer( 'bhdt_save_footer_settings_nonce' );
+	update_option( 'bhdt_wire_footer_settings', bhdt_wirecutter_clean_footer_settings( $_POST ), false );
+	wp_safe_redirect( admin_url( 'themes.php?page=bhdt-footer-settings&updated=1' ) );
+	exit;
+}
+add_action( 'admin_init', 'bhdt_wirecutter_handle_footer_settings_save' );
+
+function bhdt_wirecutter_render_footer_settings_admin_page() {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_die( esc_html__( 'Bạn không có quyền truy cập.', 'bhdt-wirecutter' ) );
+	}
+
+	$settings = bhdt_wirecutter_get_footer_settings();
+	?>
+	<div class="wrap">
+		<h1>Footer Settings</h1>
+		<?php if ( isset( $_GET['updated'] ) ) : ?>
+			<div class="notice notice-success is-dismissible"><p>Đã lưu Footer Settings.</p></div>
+		<?php endif; ?>
+		<form method="post">
+			<?php wp_nonce_field( 'bhdt_save_footer_settings_nonce' ); ?>
+			<table class="form-table" role="presentation">
+				<tr>
+					<th scope="row"><label for="bhdt-footer-logo-text">Logo text</label></th>
+					<td><input class="regular-text" id="bhdt-footer-logo-text" name="logo_text" type="text" value="<?php echo esc_attr( $settings['logo_text'] ); ?>"></td>
+				</tr>
+				<tr>
+					<th scope="row"><label for="bhdt-footer-logo-image">Logo image URL</label></th>
+					<td>
+						<input class="regular-text" id="bhdt-footer-logo-image" name="logo_image" type="url" value="<?php echo esc_url( $settings['logo_image'] ); ?>">
+						<p class="description">Dán URL ảnh logo nếu muốn dùng ảnh; để trống sẽ dùng Logo text.</p>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row"><label for="bhdt-footer-description">Mô tả cột trái</label></th>
+					<td><textarea class="large-text" rows="3" id="bhdt-footer-description" name="description"><?php echo esc_textarea( $settings['description'] ); ?></textarea></td>
+				</tr>
+				<tr>
+					<th scope="row"><label for="bhdt-footer-middle-text">Nội dung cột giữa</label></th>
+					<td><textarea class="large-text" rows="3" id="bhdt-footer-middle-text" name="middle_text"><?php echo esc_textarea( $settings['middle_text'] ); ?></textarea></td>
+				</tr>
+				<tr>
+					<th scope="row"><label for="bhdt-footer-copyright">Copyright</label></th>
+					<td>
+						<input class="regular-text" id="bhdt-footer-copyright" name="copyright" type="text" value="<?php echo esc_attr( $settings['copyright'] ); ?>">
+						<p class="description">Dùng <code>{year}</code> để tự thay bằng năm hiện tại.</p>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row">Social links</th>
+					<td>
+						<p><label>Facebook<br><input class="regular-text" name="facebook" type="url" value="<?php echo esc_url( $settings['facebook'] ); ?>"></label></p>
+						<p><label>YouTube<br><input class="regular-text" name="youtube" type="url" value="<?php echo esc_url( $settings['youtube'] ); ?>"></label></p>
+						<p><label>TikTok<br><input class="regular-text" name="tiktok" type="url" value="<?php echo esc_url( $settings['tiktok'] ); ?>"></label></p>
+						<p><label>Zalo<br><input class="regular-text" name="zalo" type="url" value="<?php echo esc_url( $settings['zalo'] ); ?>"></label></p>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row">Màu footer</th>
+					<td>
+						<label>Nền <input name="bg_color" type="color" value="<?php echo esc_attr( $settings['bg_color'] ); ?>"></label>
+						<label style="margin-left:16px;">Chữ <input name="text_color" type="color" value="<?php echo esc_attr( $settings['text_color'] ); ?>"></label>
+						<label style="margin-left:16px;">Chữ phụ <input name="muted_color" type="color" value="<?php echo esc_attr( $settings['muted_color'] ); ?>"></label>
+					</td>
+				</tr>
+			</table>
+			<?php submit_button( 'Lưu Footer Settings', 'primary', 'bhdt_save_footer_settings' ); ?>
+		</form>
+	</div>
+	<?php
+}
 
 function bhdt_wirecutter_handle_home_blocks_save() {
 	if ( ! is_admin() || ! current_user_can( 'manage_options' ) ) {
@@ -545,24 +1313,10 @@ function bhdt_wirecutter_handle_home_blocks_save() {
 	$name_en_list = isset( $_POST['group_name_en'] ) && is_array( $_POST['group_name_en'] ) ? $_POST['group_name_en'] : array();
 	$desc_vi_list = isset( $_POST['group_desc_vi'] ) && is_array( $_POST['group_desc_vi'] ) ? $_POST['group_desc_vi'] : array();
 	$desc_en_list = isset( $_POST['group_desc_en'] ) && is_array( $_POST['group_desc_en'] ) ? $_POST['group_desc_en'] : array();
-	$post_type_list = isset( $_POST['group_post_type'] ) && is_array( $_POST['group_post_type'] ) ? $_POST['group_post_type'] : array();
+	$post_type_list = isset( $_POST['group_post_type'] ) && is_array( $_POST['group_post_type'] ) ? wp_unslash( $_POST['group_post_type'] ) : array();
 	$slug_list    = isset( $_POST['group_slug'] ) && is_array( $_POST['group_slug'] ) ? $_POST['group_slug'] : array();
 	$order_list   = isset( $_POST['group_order'] ) && is_array( $_POST['group_order'] ) ? $_POST['group_order'] : array();
 	$enabled_list = isset( $_POST['group_enabled'] ) && is_array( $_POST['group_enabled'] ) ? $_POST['group_enabled'] : array();
-	$allowed_post_types = array_keys( bhdt_wirecutter_home_block_post_type_choices() );
-	$slug_suggestion_map = bhdt_wirecutter_home_block_slug_suggestions();
-	$allowed_slugs_by_type = array();
-
-	foreach ( $slug_suggestion_map as $post_type_key => $items ) {
-		$allowed_slugs_by_type[ $post_type_key ] = array();
-		foreach ( (array) $items as $item ) {
-			$item_slug = isset( $item['slug'] ) ? sanitize_title( $item['slug'] ) : '';
-			if ( '' !== $item_slug ) {
-				$allowed_slugs_by_type[ $post_type_key ][ $item_slug ] = true;
-			}
-		}
-	}
-
 	$total = max( count( $name_vi_list ), count( $name_en_list ), count( $desc_vi_list ), count( $desc_en_list ), count( $post_type_list ), count( $slug_list ), count( $order_list ) );
 	$clean = array();
 
@@ -571,14 +1325,11 @@ function bhdt_wirecutter_handle_home_blocks_save() {
 		$name_en = isset( $name_en_list[ $i ] ) ? sanitize_text_field( $name_en_list[ $i ] ) : '';
 		$desc_vi = isset( $desc_vi_list[ $i ] ) ? sanitize_text_field( $desc_vi_list[ $i ] ) : '';
 		$desc_en = isset( $desc_en_list[ $i ] ) ? sanitize_text_field( $desc_en_list[ $i ] ) : '';
-		$post_type = isset( $post_type_list[ $i ] ) ? sanitize_key( $post_type_list[ $i ] ) : 'post';
+		$post_types = bhdt_wirecutter_normalize_home_block_post_types( $post_type_list[ $i ] ?? 'post' );
+		$post_type = $post_types[0];
 		$slug    = isset( $slug_list[ $i ] ) ? sanitize_title( $slug_list[ $i ] ) : '';
 		$order   = isset( $order_list[ $i ] ) ? (int) $order_list[ $i ] : 0;
 		$enabled = isset( $enabled_list[ $i ] ) ? 1 : 0;
-
-		if ( ! in_array( $post_type, $allowed_post_types, true ) ) {
-			$post_type = 'post';
-		}
 
 		if ( '' === $name_vi ) {
 			continue;
@@ -588,27 +1339,13 @@ function bhdt_wirecutter_handle_home_blocks_save() {
 			$slug = sanitize_title( $name_vi );
 		}
 
-		if ( empty( $allowed_slugs_by_type[ $post_type ][ $slug ] ) ) {
-			$redirect_url = add_query_arg(
-				array(
-					'page'             => 'bhdt-home-category-blocks',
-					'invalid_slug'     => 1,
-					'invalid_row'      => (string) ( $i + 1 ),
-					'invalid_post_type'=> $post_type,
-					'invalid_value'    => $slug,
-				),
-				admin_url( 'themes.php' )
-			);
-			wp_safe_redirect( $redirect_url );
-			exit;
-		}
-
 		$clean[] = array(
 			'name_vi' => $name_vi,
 			'name_en' => $name_en,
 			'desc_vi' => $desc_vi,
 			'desc_en' => $desc_en,
 			'post_type' => $post_type,
+			'post_types' => $post_types,
 			'slug'    => $slug,
 			'order'   => $order,
 			'enabled' => $enabled,
@@ -811,12 +1548,8 @@ function bhdt_wirecutter_render_home_blocks_admin_page() {
 	if ( ! is_array( $rows ) || empty( $rows ) ) {
 		$rows = bhdt_wirecutter_default_home_category_groups();
 	}
-	$post_type_choices = bhdt_wirecutter_home_block_post_type_choices();
+	$post_type_choices = bhdt_wirecutter_home_block_post_types();
 	$slug_suggestion_map = bhdt_wirecutter_home_block_slug_suggestions();
-	$post_type_options_html = '';
-	foreach ( $post_type_choices as $pt_value => $pt_label ) {
-		$post_type_options_html .= '<option value="' . esc_attr( $pt_value ) . '">' . esc_html( $pt_label ) . '</option>';
-	}
 	?>
 	<div class="wrap">
 		<h1>Khối danh mục trang chủ</h1>
@@ -835,7 +1568,7 @@ function bhdt_wirecutter_render_home_blocks_admin_page() {
 					<?php
 					echo esc_html(
 						sprintf(
-							'Slug "%1$s" không hợp lệ cho loại nội dung "%2$s" (dòng %3$d). Vui lòng chọn slug trong danh sách gợi ý.',
+							'Slug "%1$s" không hợp lệ cho loại nội dung "%2$s" (dòng %3$d).',
 							$invalid_value,
 							$post_type_label,
 							$invalid_row
@@ -874,24 +1607,28 @@ function bhdt_wirecutter_render_home_blocks_admin_page() {
 				</thead>
 				<tbody>
 					<?php foreach ( array_values( $rows ) as $idx => $row ) : ?>
-						<tr draggable="true" class="bhdt-sortable-row" data-post-type="<?php echo esc_attr( $row['post_type'] ?? 'post' ); ?>">
+						<?php $row_post_types = bhdt_wirecutter_get_home_block_post_types_from_row( $row ); ?>
+						<tr draggable="true" class="bhdt-sortable-row" data-post-types="<?php echo esc_attr( implode( ' ', $row_post_types ) ); ?>">
 							<td><span class="bhdt-drag-handle" title="Kéo để đổi vị trí" aria-label="Kéo để đổi vị trí">↕</span></td>
 							<td><input type="checkbox" name="group_enabled[<?php echo esc_attr( $idx ); ?>]" value="1" <?php checked( ! empty( $row['enabled'] ) ); ?>></td>
 							<td><input class="regular-text" type="text" name="group_name_vi[<?php echo esc_attr( $idx ); ?>]" value="<?php echo esc_attr( $row['name_vi'] ?? '' ); ?>"></td>
 							<td><input class="regular-text" type="text" name="group_name_en[<?php echo esc_attr( $idx ); ?>]" value="<?php echo esc_attr( $row['name_en'] ?? '' ); ?>"></td>
 							<td>
-								<select name="group_post_type[<?php echo esc_attr( $idx ); ?>]">
+								<div class="bhdt-post-type-checks">
 									<?php foreach ( $post_type_choices as $pt_value => $pt_label ) : ?>
-										<option value="<?php echo esc_attr( $pt_value ); ?>" <?php selected( $row['post_type'] ?? 'post', $pt_value ); ?>><?php echo esc_html( $pt_label ); ?></option>
+										<label>
+											<input type="checkbox" name="group_post_type[<?php echo esc_attr( $idx ); ?>][]" value="<?php echo esc_attr( $pt_value ); ?>" <?php checked( in_array( $pt_value, $row_post_types, true ) ); ?>>
+											<?php echo esc_html( $pt_label ); ?>
+										</label>
 									<?php endforeach; ?>
-								</select>
+								</div>
 							</td>
 							<td><input class="regular-text" type="text" name="group_desc_vi[<?php echo esc_attr( $idx ); ?>]" value="<?php echo esc_attr( $row['desc_vi'] ?? '' ); ?>"></td>
 							<td><input class="regular-text" type="text" name="group_desc_en[<?php echo esc_attr( $idx ); ?>]" value="<?php echo esc_attr( $row['desc_en'] ?? '' ); ?>"></td>
 							<td>
 								<input class="regular-text bhdt-group-slug" type="text" name="group_slug[<?php echo esc_attr( $idx ); ?>]" value="<?php echo esc_attr( $row['slug'] ?? '' ); ?>" list="bhdt-slug-list-<?php echo esc_attr( $idx ); ?>">
 								<datalist class="bhdt-slug-list" id="bhdt-slug-list-<?php echo esc_attr( $idx ); ?>"></datalist>
-								<p class="description bhdt-slug-hint">Chọn từ gợi ý để tránh sai slug.</p>
+								<p class="description bhdt-slug-hint">Chọn gợi ý hoặc nhập slug mới.</p>
 							</td>
 							<td><input type="number" min="0" step="1" readonly name="group_order[<?php echo esc_attr( $idx ); ?>]" value="<?php echo esc_attr( (string) ( $row['order'] ?? 0 ) ); ?>"></td>
 							<td><button type="button" class="button bhdt-duplicate-row">Nhân bản</button></td>
@@ -911,7 +1648,7 @@ function bhdt_wirecutter_render_home_blocks_admin_page() {
 		const tableBody = document.querySelector('#bhdt-home-blocks-table tbody');
 		const addBtn = document.getElementById('bhdt-add-row');
 		const postTypeFilter = document.getElementById('bhdt-filter-post-type');
-		const postTypeOptionsHtml = <?php echo wp_json_encode( $post_type_options_html ); ?>;
+		const postTypeChoices = <?php echo wp_json_encode( $post_type_choices ); ?>;
 		const slugSuggestionMap = <?php echo wp_json_encode( $slug_suggestion_map ); ?>;
 		if (!tableBody || !addBtn) return;
 
@@ -922,6 +1659,23 @@ function bhdt_wirecutter_render_home_blocks_admin_page() {
 			'"': '&quot;',
 			"'": '&#39;'
 		}[char]));
+
+		const getSelectedPostTypes = (row) => {
+			const values = Array.from(row.querySelectorAll('input[name^="group_post_type["]:checked')).map((input) => input.value);
+			return values.length ? values : ['post'];
+		};
+
+		const syncPostTypesDataset = (row) => {
+			row.dataset.postTypes = getSelectedPostTypes(row).join(' ');
+		};
+
+		const renderPostTypeChecks = (idx, selected = ['post']) => {
+			const selectedSet = new Set(Array.isArray(selected) && selected.length ? selected : ['post']);
+			return '<div class="bhdt-post-type-checks">' + Object.entries(postTypeChoices || {}).map(([value, label]) => {
+				const checked = selectedSet.has(value) ? ' checked' : '';
+				return '<label><input type="checkbox" name="group_post_type[' + idx + '][]" value="' + escapeAttr(value) + '"' + checked + '> ' + escapeAttr(label) + '</label>';
+			}).join('') + '</div>';
+		};
 
 		const reorderFieldNames = () => {
 			const rows = Array.from(tableBody.querySelectorAll('tr'));
@@ -936,7 +1690,6 @@ function bhdt_wirecutter_render_home_blocks_admin_page() {
 					'group_enabled[': 'input[type="checkbox"][name^="group_enabled["]',
 					'group_name_vi[': 'input[name^="group_name_vi["]',
 					'group_name_en[': 'input[name^="group_name_en["]',
-					'group_post_type[': 'select[name^="group_post_type["]',
 					'group_desc_vi[': 'input[name^="group_desc_vi["]',
 					'group_desc_en[': 'input[name^="group_desc_en["]',
 					'group_slug[': 'input[name^="group_slug["]'
@@ -945,6 +1698,11 @@ function bhdt_wirecutter_render_home_blocks_admin_page() {
 					const input = row.querySelector(selector);
 					if (input) input.name = prefix + idx + ']';
 				});
+
+				row.querySelectorAll('input[name^="group_post_type["]').forEach((input) => {
+					input.name = 'group_post_type[' + idx + '][]';
+				});
+				syncPostTypesDataset(row);
 
 				const slugInput = row.querySelector('input.bhdt-group-slug');
 				const slugList = row.querySelector('datalist.bhdt-slug-list');
@@ -955,17 +1713,17 @@ function bhdt_wirecutter_render_home_blocks_admin_page() {
 			});
 		};
 
-		const optionsForPostType = (postType) => Array.isArray(slugSuggestionMap[postType]) ? slugSuggestionMap[postType] : [];
-
-		const allowedSlugSetForPostType = (postType) => {
-			const entries = optionsForPostType(postType);
-			const allowed = new Set();
-			entries.forEach((item) => {
-				if (item && item.slug) {
-					allowed.add(String(item.slug).trim());
-				}
+		const optionsForPostTypes = (postTypes) => {
+			const bucket = new Map();
+			(postTypes.length ? postTypes : ['post']).forEach((postType) => {
+				const suggestions = Array.isArray(slugSuggestionMap[postType]) ? slugSuggestionMap[postType] : [];
+				suggestions.forEach((item) => {
+					if (item && item.slug && !bucket.has(item.slug)) {
+						bucket.set(item.slug, item);
+					}
+				});
 			});
-			return allowed;
+			return Array.from(bucket.values());
 		};
 
 		const setSlugValidity = (row, isValid, message = '') => {
@@ -982,14 +1740,12 @@ function bhdt_wirecutter_render_home_blocks_admin_page() {
 
 		const syncSlugSuggestions = (row) => {
 			if (!row) return;
-			const postTypeSelect = row.querySelector('select[name^="group_post_type["]');
 			const slugList = row.querySelector('datalist.bhdt-slug-list');
 			const hint = row.querySelector('.bhdt-slug-hint');
-			if (!postTypeSelect || !slugList) return;
+			if (!slugList) return;
 
-			const selectedType = postTypeSelect.value || 'post';
-			const suggestions = optionsForPostType(selectedType);
-			row.dataset.postType = selectedType;
+			const suggestions = optionsForPostTypes(getSelectedPostTypes(row));
+			syncPostTypesDataset(row);
 			slugList.innerHTML = '';
 
 			suggestions.forEach((item) => {
@@ -1011,33 +1767,18 @@ function bhdt_wirecutter_render_home_blocks_admin_page() {
 		};
 
 		const validateRowSlug = (row) => {
-			if (!row || row.style.display === 'none') return true;
-			const postTypeSelect = row.querySelector('select[name^="group_post_type["]');
-			const slugInput = row.querySelector('input.bhdt-group-slug');
-			if (!postTypeSelect || !slugInput) return true;
-
-			const selectedType = postTypeSelect.value || 'post';
-			const slugValue = String(slugInput.value || '').trim();
-			const allowed = allowedSlugSetForPostType(selectedType);
-			if (!slugValue || allowed.has(slugValue)) {
+			if (row) {
 				setSlugValidity(row, true);
-				return true;
 			}
-
-			setSlugValidity(
-				row,
-				false,
-				'Slug "' + slugValue + '" không hợp lệ cho loại nội dung này. Vui lòng chọn trong gợi ý.'
-			);
-			return false;
+			return true;
 		};
 
 		const applyPostTypeFilter = () => {
 			if (!postTypeFilter) return;
 			const selectedType = postTypeFilter.value;
 			tableBody.querySelectorAll('tr').forEach((row) => {
-				const rowType = row.dataset.postType || 'post';
-				row.style.display = (!selectedType || rowType === selectedType) ? '' : 'none';
+				const rowTypes = (row.dataset.postTypes || 'post').split(/\s+/);
+				row.style.display = (!selectedType || rowTypes.includes(selectedType)) ? '' : 'none';
 			});
 		};
 
@@ -1049,13 +1790,13 @@ function bhdt_wirecutter_render_home_blocks_admin_page() {
 				'<td><input type="checkbox" name="group_enabled[' + idx + ']" value="1"' + checked + '></td>' +
 				'<td><input class="regular-text" type="text" name="group_name_vi[' + idx + ']" value="' + escapeAttr(values.name_vi) + '"></td>' +
 				'<td><input class="regular-text" type="text" name="group_name_en[' + idx + ']" value="' + escapeAttr(values.name_en) + '"></td>' +
-				'<td><select name="group_post_type[' + idx + ']">' + postTypeOptionsHtml + '</select></td>' +
+				'<td>' + renderPostTypeChecks(idx, values.post_types || ['post']) + '</td>' +
 				'<td><input class="regular-text" type="text" name="group_desc_vi[' + idx + ']" value="' + escapeAttr(values.desc_vi) + '"></td>' +
 				'<td><input class="regular-text" type="text" name="group_desc_en[' + idx + ']" value="' + escapeAttr(values.desc_en) + '"></td>' +
 				'<td>' +
 					'<input class="regular-text bhdt-group-slug" type="text" name="group_slug[' + idx + ']" value="' + escapeAttr(values.slug) + '" list="bhdt-slug-list-' + idx + '">' +
 					'<datalist class="bhdt-slug-list" id="bhdt-slug-list-' + idx + '"></datalist>' +
-					'<p class="description bhdt-slug-hint">Chọn từ gợi ý để tránh sai slug.</p>' +
+					'<p class="description bhdt-slug-hint">Chọn gợi ý hoặc nhập slug mới.</p>' +
 				'</td>' +
 				'<td><input type="number" min="0" step="1" readonly name="group_order[' + idx + ']" value="' + defaultOrder + '"></td>' +
 				'<td><button type="button" class="button bhdt-duplicate-row">Nhân bản</button></td>' +
@@ -1090,13 +1831,9 @@ function bhdt_wirecutter_render_home_blocks_admin_page() {
 					desc_vi: row.querySelector('input[name^="group_desc_vi["]')?.value || '',
 					desc_en: row.querySelector('input[name^="group_desc_en["]')?.value || '',
 					slug: row.querySelector('input[name^="group_slug["]')?.value || '',
+					post_types: getSelectedPostTypes(row),
 					enabled: row.querySelector('input[type="checkbox"][name^="group_enabled["]')?.checked !== false
 				});
-				const selectedPostType = row.querySelector('select[name^="group_post_type["]')?.value || 'post';
-				const clonePostTypeSelect = clone.querySelector('select[name^="group_post_type["]');
-				if (clonePostTypeSelect) {
-					clonePostTypeSelect.value = selectedPostType;
-				}
 
 				row.insertAdjacentElement('afterend', clone);
 				bindRow(clone);
@@ -1119,14 +1856,14 @@ function bhdt_wirecutter_render_home_blocks_admin_page() {
 			bindRemove(row.querySelector('.bhdt-remove-row'));
 			bindDuplicate(row.querySelector('.bhdt-duplicate-row'));
 			bindDrag(row);
-			const postTypeSelect = row.querySelector('select[name^="group_post_type["]');
+			const postTypeInputs = row.querySelectorAll('input[name^="group_post_type["]');
 			const slugInput = row.querySelector('input.bhdt-group-slug');
-			if (postTypeSelect) {
-				postTypeSelect.addEventListener('change', () => {
+			if (postTypeInputs.length) {
+				postTypeInputs.forEach((input) => input.addEventListener('change', () => {
 					syncSlugSuggestions(row);
 					validateRowSlug(row);
 					applyPostTypeFilter();
-				});
+				}));
 			}
 			if (slugInput) {
 				slugInput.addEventListener('input', () => {
@@ -1218,6 +1955,18 @@ function bhdt_wirecutter_render_home_blocks_admin_page() {
 	#bhdt-home-blocks-table tr.is-dragging {
 		opacity: 0.55;
 		background: #f6f7f7;
+	}
+	#bhdt-home-blocks-table .bhdt-post-type-checks {
+		display: grid;
+		gap: 4px;
+		min-width: 135px;
+	}
+	#bhdt-home-blocks-table .bhdt-post-type-checks label {
+		display: flex;
+		align-items: center;
+		gap: 6px;
+		margin: 0;
+		white-space: nowrap;
 	}
 	#bhdt-home-blocks-table .bhdt-group-slug.bhdt-invalid-slug {
 		border-color: #d63638;
@@ -1478,17 +2227,38 @@ function bhdt_wirecutter_normalize_menu_url_key( $url ) {
 	return '' !== $normalized ? $normalized : esc_url_raw( (string) $url );
 }
 
-function bhdt_wirecutter_get_page_link_children_map( $meta_key ) {
+function bhdt_wirecutter_get_menu_linkable_post_types() {
+	return apply_filters(
+		'bhdt_wirecutter_menu_linkable_post_types',
+		array( 'page', 'post', 'bhdt_review', 'bhdt_comparison' )
+	);
+}
+
+function bhdt_wirecutter_get_post_type_menu_label( $post_type ) {
+	$post_type_object = get_post_type_object( $post_type );
+	if ( $post_type_object && ! empty( $post_type_object->labels->singular_name ) ) {
+		return (string) $post_type_object->labels->singular_name;
+	}
+
+	return __( 'Nội dung', 'bhdt-wirecutter' );
+}
+
+function bhdt_wirecutter_get_content_link_children_map( $meta_key, $post_types = array() ) {
 	$map = array();
 	if ( '' === $meta_key ) {
 		return $map;
 	}
 
+	$post_types = array_values( array_filter( array_map( 'sanitize_key', (array) $post_types ) ) );
+	if ( empty( $post_types ) ) {
+		$post_types = array( 'page' );
+	}
+
 	$slug_meta_key = '_bhdt_page_menu_block_parent_url' === $meta_key ? '_bhdt_page_menu_block_parent_slug' : '_bhdt_page_function_menu_parent_slug';
 
-	$pages = get_posts(
+	$items = get_posts(
 		array(
-			'post_type'      => 'page',
+			'post_type'      => $post_types,
 			'post_status'    => 'publish',
 			'posts_per_page' => -1,
 			'orderby'        => 'menu_order title',
@@ -1508,9 +2278,9 @@ function bhdt_wirecutter_get_page_link_children_map( $meta_key ) {
 		)
 	);
 
-	foreach ( $pages as $index => $page ) {
-		$parent_url = (string) get_post_meta( $page->ID, $meta_key, true );
-		$parent_slug = sanitize_title( (string) get_post_meta( $page->ID, $slug_meta_key, true ) );
+	foreach ( $items as $index => $item ) {
+		$parent_url  = (string) get_post_meta( $item->ID, $meta_key, true );
+		$parent_slug = sanitize_title( (string) get_post_meta( $item->ID, $slug_meta_key, true ) );
 		if ( '' === $parent_slug && '' !== $parent_url ) {
 			$parent_slug = sanitize_title( (string) wp_parse_url( $parent_url, PHP_URL_PATH ) );
 			$query = (string) wp_parse_url( $parent_url, PHP_URL_QUERY );
@@ -1522,15 +2292,15 @@ function bhdt_wirecutter_get_page_link_children_map( $meta_key ) {
 			}
 		}
 		$parent_key = bhdt_wirecutter_normalize_menu_url_key( $parent_url );
-		$page_url   = get_permalink( $page->ID );
+		$item_url   = get_permalink( $item->ID );
 		if ( '' === $parent_key && '' === $parent_slug ) {
 			continue;
 		}
-		if ( ! $page_url ) {
+		if ( ! $item_url ) {
 			continue;
 		}
 
-		$title = get_the_title( $page->ID );
+		$title = get_the_title( $item->ID );
 		if ( '' === $title ) {
 			continue;
 		}
@@ -1539,11 +2309,12 @@ function bhdt_wirecutter_get_page_link_children_map( $meta_key ) {
 			'label'          => $title,
 			'label_vi'       => $title,
 			'label_en'       => $title,
-			'url'            => $page_url,
-			'order'          => 9000 + ( (int) $page->menu_order * 10 ) + (int) $index,
+			'url'            => $item_url,
+			'order'          => 9000 + ( (int) $item->menu_order * 10 ) + (int) $index,
 			'enabled'        => 1,
-			'source'         => 'page_link',
-			'linked_page_id' => (int) $page->ID,
+			'source'         => 'content_link',
+			'linked_post_id' => (int) $item->ID,
+			'linked_post_type' => $item->post_type,
 		);
 
 		if ( '' !== $parent_key ) {
@@ -1565,6 +2336,10 @@ function bhdt_wirecutter_get_page_link_children_map( $meta_key ) {
 	return $map;
 }
 
+function bhdt_wirecutter_get_page_link_children_map( $meta_key ) {
+	return bhdt_wirecutter_get_content_link_children_map( $meta_key, array( 'page' ) );
+}
+
 function bhdt_wirecutter_get_menu_blocks( $include_disabled = false, $include_linked_children = null ) {
 	$saved = get_option( 'bhdt_wire_menu_blocks', array() );
 	if ( ! is_array( $saved ) || empty( $saved ) ) {
@@ -1576,7 +2351,35 @@ function bhdt_wirecutter_get_menu_blocks( $include_disabled = false, $include_li
 	if ( null === $include_linked_children ) {
 		$include_linked_children = ! $include_disabled;
 	}
-	$linked_children_map = $include_linked_children ? bhdt_wirecutter_get_page_link_children_map( '_bhdt_page_menu_block_parent_url' ) : array();
+	$linked_children_map = $include_linked_children ? bhdt_wirecutter_get_content_link_children_map( '_bhdt_page_menu_block_parent_url', bhdt_wirecutter_get_menu_linkable_post_types() ) : array();
+
+	// DEBUG: Log mapping keys and children for troubleshooting when WP_DEBUG is enabled.
+	$debug_log = "=== FUNCTION MENU DEBUG " . date('Y-m-d H:i:s') . " ===\n";
+	$debug_log .= "Total parents: " . count($rows) . "\n";
+	$debug_log .= "Linked children map keys: " . implode(', ', array_keys($linked_children_map)) . "\n\n";
+	foreach ($rows as $row) {
+		$parent_key = bhdt_wirecutter_normalize_menu_url_key($row['url'] ?? '');
+		$parent_slug_key = 'slug:' . sanitize_title($row['label_vi'] ?? '');
+		$debug_log .= "Parent: {$row['label_vi']} | URL: {$row['url']}\n";
+		$debug_log .= "  parent_key: $parent_key\n";
+		$debug_log .= "  parent_slug_key: $parent_slug_key\n";
+		if (isset($linked_children_map[$parent_key])) {
+			$debug_log .= "  ✓ Found " . count($linked_children_map[$parent_key]) . " children by parent_key\n";
+			foreach ($linked_children_map[$parent_key] as $child) {
+				$debug_log .= "    - {$child['label_vi']} ({$child['url']})\n";
+			}
+		}
+		if (isset($linked_children_map[$parent_slug_key])) {
+			$debug_log .= "  ✓ Found " . count($linked_children_map[$parent_slug_key]) . " children by parent_slug_key\n";
+			foreach ($linked_children_map[$parent_slug_key] as $child) {
+				$debug_log .= "    - {$child['label_vi']} ({$child['url']})\n";
+			}
+		}
+		$debug_log .= "\n";
+	}
+	if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+		file_put_contents( WP_CONTENT_DIR . '/function_menu_debug.log', $debug_log, FILE_APPEND );
+	}
 
 	foreach ( $rows as $row_index => $row ) {
 		if ( ! $include_disabled && 1 !== (int) $row['enabled'] ) {
@@ -2234,7 +3037,6 @@ function bhdt_wirecutter_render_menu_blocks_admin_page() {
 			Array.from(list.querySelectorAll('.bhdt-menu-admin-parent')).forEach((parent, parentIdx) => {
 				const parentFields = {
 					'menu_parent_enabled[': 'input[name^="menu_parent_enabled["]',
-					'menu_parent_icon[': 'input[name^="menu_parent_icon["]',
 					'menu_parent_label_vi[': 'input[name^="menu_parent_label_vi["]',
 					'menu_parent_label_en[': 'input[name^="menu_parent_label_en["]',
 					'menu_parent_url[': 'input[name^="menu_parent_url["]',
@@ -2498,7 +3300,7 @@ function bhdt_wirecutter_get_function_menu_blocks( $include_disabled = false, $i
 	if ( null === $include_linked_children ) {
 		$include_linked_children = ! $include_disabled;
 	}
-	$linked_children_map = $include_linked_children ? bhdt_wirecutter_get_page_link_children_map( '_bhdt_page_function_menu_parent_url' ) : array();
+	$linked_children_map = $include_linked_children ? bhdt_wirecutter_get_content_link_children_map( '_bhdt_page_function_menu_parent_url', bhdt_wirecutter_get_menu_linkable_post_types() ) : array();
 
 	// DEBUG: Log mapping keys and children for troubleshooting when WP_DEBUG is enabled.
 	$debug_log = "=== FUNCTION MENU DEBUG " . date('Y-m-d H:i:s') . " ===\n";
@@ -2922,14 +3724,15 @@ function bhdt_wirecutter_render_page_menu_link_meta_box( $post ) {
 	$current_function_parent = (string) get_post_meta( $post->ID, '_bhdt_page_function_menu_parent_url', true );
 	$current_menu_parent_key     = bhdt_wirecutter_normalize_menu_url_key( $current_menu_parent );
 	$current_function_parent_key = bhdt_wirecutter_normalize_menu_url_key( $current_function_parent );
-	$menu_parents            = bhdt_wirecutter_get_menu_blocks( true );
-	$function_parents        = bhdt_wirecutter_get_function_menu_blocks( true );
+	$menu_parents                = bhdt_wirecutter_get_menu_blocks( true );
+	$function_parents            = bhdt_wirecutter_get_function_menu_blocks( true );
+	$post_type_label             = bhdt_wirecutter_get_post_type_menu_label( $post->post_type );
 	?>
-	<p>Chọn mục cha để tự động thêm Page này thành mục con hover.</p>
+	<p><?php echo esc_html( sprintf( __( 'Chọn mục cha để tự động thêm %s này thành mục con hover.', 'bhdt-wirecutter' ), $post_type_label ) ); ?></p>
 	<p>
-		<label for="bhdt_page_menu_block_parent_url"><strong>Khối Menu</strong></label><br>
+		<label for="bhdt_page_menu_block_parent_url"><strong><?php esc_html_e( 'Menu cha', 'bhdt-wirecutter' ); ?></strong></label><br>
 		<select name="bhdt_page_menu_block_parent_url" id="bhdt_page_menu_block_parent_url" style="width:100%;max-width:460px;">
-			<option value="">Không liên kết vào Khối Menu</option>
+			<option value="">Không liên kết vào menu cha</option>
 			<?php foreach ( $menu_parents as $parent ) : ?>
 				<?php $parent_url = bhdt_wirecutter_build_parent_landing_url( 'function', $parent['label_vi'] ?? $parent['label'] ?? '' ); ?>
 				<option value="<?php echo esc_attr( $parent_url ); ?>" <?php selected( $current_menu_parent_key, bhdt_wirecutter_normalize_menu_url_key( $parent_url ) ); ?>><?php echo esc_html( $parent['label_vi'] ?? '' ); ?></option>
@@ -2937,9 +3740,9 @@ function bhdt_wirecutter_render_page_menu_link_meta_box( $post ) {
 		</select>
 	</p>
 	<p>
-		<label for="bhdt_page_function_menu_parent_url"><strong>Menu Chức Năng</strong></label><br>
+		<label for="bhdt_page_function_menu_parent_url"><strong><?php esc_html_e( 'Menu chức năng', 'bhdt-wirecutter' ); ?></strong></label><br>
 		<select name="bhdt_page_function_menu_parent_url" id="bhdt_page_function_menu_parent_url" style="width:100%;max-width:460px;">
-			<option value="">Không liên kết vào Menu Chức Năng</option>
+			<option value="">Không liên kết vào menu chức năng</option>
 			<?php foreach ( $function_parents as $parent ) : ?>
 				<?php $parent_url = (string) ( $parent['url'] ?? '' ); ?>
 				<option value="<?php echo esc_attr( $parent_url ); ?>" <?php selected( $current_function_parent_key, bhdt_wirecutter_normalize_menu_url_key( $parent_url ) ); ?>><?php echo esc_html( $parent['label_vi'] ?? '' ); ?></option>
@@ -2950,36 +3753,44 @@ function bhdt_wirecutter_render_page_menu_link_meta_box( $post ) {
 }
 
 function bhdt_wirecutter_register_page_menu_link_meta_box() {
-	add_meta_box(
-		'bhdt_page_menu_links',
-		'Liên kết menu cho Page',
-		'bhdt_wirecutter_render_page_menu_link_meta_box',
-		'page',
-		'side',
-		'default'
-	);
+	foreach ( bhdt_wirecutter_get_menu_linkable_post_types() as $post_type ) {
+		if ( ! post_type_exists( $post_type ) ) {
+			continue;
+		}
+
+		add_meta_box(
+			'bhdt_page_menu_links',
+			__( 'Liên kết menu cho nội dung', 'bhdt-wirecutter' ),
+			'bhdt_wirecutter_render_page_menu_link_meta_box',
+			$post_type,
+			'side',
+			'default'
+		);
+	}
 }
 add_action( 'add_meta_boxes', 'bhdt_wirecutter_register_page_menu_link_meta_box' );
 
 function bhdt_wirecutter_render_page_menu_link_quick_edit( $column_name, $post_type ) {
-	if ( 'page' !== $post_type || 'bhdt_page_menu_link_summary' !== $column_name ) {
+	if ( 'bhdt_page_menu_link_summary' !== $column_name || ! in_array( $post_type, bhdt_wirecutter_get_menu_linkable_post_types(), true ) ) {
 		return;
 	}
 
-	static $printed = false;
-	if ( $printed ) {
+	static $printed = array();
+	if ( isset( $printed[ $post_type ] ) ) {
 		return;
 	}
-	$printed = true;
+	$printed[ $post_type ] = true;
 
 	$menu_parents     = bhdt_wirecutter_get_menu_blocks( true );
 	$function_parents = bhdt_wirecutter_get_function_menu_blocks( true );
+	$post_type_object  = get_post_type_object( $post_type );
+	$post_type_label   = bhdt_wirecutter_get_post_type_menu_label( $post_type );
 	?>
 	<fieldset class="inline-edit-col-right bhdt-page-menu-links-quick-edit">
 		<div class="inline-edit-col">
-			<h4>Liên kết menu</h4>
+			<h4><?php echo esc_html( sprintf( __( 'Liên kết menu cho %s', 'bhdt-wirecutter' ), $post_type_label ) ); ?></h4>
 			<label class="alignleft">
-				<span class="title">Khối Menu</span>
+				<span class="title"><?php esc_html_e( 'Menu cha', 'bhdt-wirecutter' ); ?></span>
 				<select name="bhdt_page_menu_block_parent_url">
 					<option value="">Không liên kết</option>
 					<?php foreach ( $menu_parents as $parent ) : ?>
@@ -2989,7 +3800,7 @@ function bhdt_wirecutter_render_page_menu_link_quick_edit( $column_name, $post_t
 				</select>
 			</label>
 			<label class="alignleft" style="margin-top:8px;">
-				<span class="title">Menu Chức Năng</span>
+				<span class="title"><?php esc_html_e( 'Menu chức năng', 'bhdt-wirecutter' ); ?></span>
 				<select name="bhdt_page_function_menu_parent_url">
 					<option value="">Không liên kết</option>
 					<?php foreach ( $function_parents as $parent ) : ?>
@@ -3015,27 +3826,28 @@ function bhdt_wirecutter_print_page_menu_link_quick_edit_script() {
 		$post_type = 'post';
 	}
 
-	if ( 'page' !== $post_type ) {
+	if ( ! in_array( $post_type, bhdt_wirecutter_get_menu_linkable_post_types(), true ) ) {
 		return;
 	}
 
 	$map = array();
 	if ( isset( $wp_query->posts ) && is_array( $wp_query->posts ) ) {
 		foreach ( $wp_query->posts as $item ) {
-			if ( ! $item instanceof WP_Post || 'page' !== $item->post_type ) {
+			if ( ! $item instanceof WP_Post || ! in_array( $item->post_type, bhdt_wirecutter_get_menu_linkable_post_types(), true ) ) {
 				continue;
 			}
 
 			$map[ $item->ID ] = array(
 				'menu_parent'     => (string) get_post_meta( $item->ID, '_bhdt_page_menu_block_parent_url', true ),
 				'function_parent' => (string) get_post_meta( $item->ID, '_bhdt_page_function_menu_parent_url', true ),
+				'post_type'       => $item->post_type,
 			);
 		}
 	}
 	?>
 	<script>
-	window.bhdtPageMenuQuickEditMap = <?php echo wp_json_encode( $map ); ?>;
-	window.bhdtPageMenuHomeUrl = <?php echo wp_json_encode( home_url( '/' ) ); ?>;
+	window.bhdtMenuQuickEditMap = <?php echo wp_json_encode( $map ); ?>;
+	window.bhdtMenuHomeUrl = <?php echo wp_json_encode( home_url( '/' ) ); ?>;
 	(function ($) {
 		if (typeof inlineEditPost === 'undefined') {
 			return;
@@ -3045,7 +3857,7 @@ function bhdt_wirecutter_print_page_menu_link_quick_edit_script() {
 			let raw = String(value || '').trim();
 			if (!raw) return '';
 			try {
-				raw = new URL(raw, window.bhdtPageMenuHomeUrl || window.location.origin).href;
+				raw = new URL(raw, window.bhdtMenuHomeUrl || window.location.origin).href;
 			} catch (error) {}
 			raw = raw.replace(/^https?:\/\/[^/]+/i, '').split('#')[0].replace(/\/+$/, '');
 			return raw || '/';
@@ -3079,7 +3891,7 @@ function bhdt_wirecutter_print_page_menu_link_quick_edit_script() {
 				return;
 			}
 
-			const rowData = (window.bhdtPageMenuQuickEditMap && window.bhdtPageMenuQuickEditMap[postId]) || {};
+			const rowData = (window.bhdtMenuQuickEditMap && window.bhdtMenuQuickEditMap[postId]) || {};
 			const editRow = $('#edit-' + postId);
 			if (!editRow.length) {
 				return;
@@ -3105,6 +3917,11 @@ function bhdt_wirecutter_save_page_menu_link_meta( $post_id ) {
 		return;
 	}
 
+	$post_type = get_post_type( $post_id );
+	if ( ! in_array( $post_type, bhdt_wirecutter_get_menu_linkable_post_types(), true ) ) {
+		return;
+	}
+
 	$has_meta_box_nonce = isset( $_POST['bhdt_page_menu_links_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['bhdt_page_menu_links_nonce'] ) ), 'bhdt_save_page_menu_links' );
 	$has_quick_fields   = isset( $_POST['bhdt_page_menu_block_parent_url'] ) || isset( $_POST['bhdt_page_function_menu_parent_url'] );
 	$has_inline_nonce   = isset( $_POST['_inline_edit'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_inline_edit'] ) ), 'inlineeditnonce' );
@@ -3114,7 +3931,7 @@ function bhdt_wirecutter_save_page_menu_link_meta( $post_id ) {
 	}
 	$is_quick_edit = $has_quick_fields && $has_inline_nonce && ! $has_meta_box_nonce;
 
-	if ( ! current_user_can( 'edit_page', $post_id ) ) {
+	if ( ! current_user_can( 'edit_post', $post_id ) ) {
 		return;
 	}
 
@@ -3173,7 +3990,191 @@ function bhdt_wirecutter_save_page_menu_link_meta( $post_id ) {
 		delete_post_meta( $post_id, '_bhdt_page_function_menu_parent_slug' );
 	}
 }
-add_action( 'save_post_page', 'bhdt_wirecutter_save_page_menu_link_meta' );
+add_action( 'save_post', 'bhdt_wirecutter_save_page_menu_link_meta' );
+
+function bhdt_wirecutter_render_home_category_link_meta_box( $post ) {
+	wp_nonce_field( 'bhdt_save_home_category_links', 'bhdt_home_category_links_nonce' );
+
+	$current_key      = (string) get_post_meta( $post->ID, '_bhdt_home_category_block_key', true );
+	$current_choice   = bhdt_wirecutter_find_home_category_block_by_key( $current_key );
+	$post_type_label   = bhdt_wirecutter_get_post_type_menu_label( $post->post_type );
+	$category_choices = bhdt_wirecutter_get_home_category_block_choices();
+	?>
+	<p><?php echo esc_html( sprintf( __( 'Chọn Khối danh mục để gắn cho %s này.', 'bhdt-wirecutter' ), $post_type_label ) ); ?></p>
+	<p>
+		<label for="bhdt_home_category_block_key"><strong><?php esc_html_e( 'Khối danh mục', 'bhdt-wirecutter' ); ?></strong></label><br>
+		<select name="bhdt_home_category_block_key" id="bhdt_home_category_block_key" style="width:100%;max-width:460px;">
+			<option value=""><?php esc_html_e( 'Không liên kết', 'bhdt-wirecutter' ); ?></option>
+			<?php foreach ( $category_choices as $choice ) : ?>
+				<option value="<?php echo esc_attr( $choice['key'] ); ?>" <?php selected( $current_key === $choice['key'] || ( $current_choice && isset( $current_choice['key'] ) && $current_choice['key'] === $choice['key'] ) ); ?>><?php echo esc_html( $choice['option'] ); ?></option>
+			<?php endforeach; ?>
+		</select>
+	</p>
+	<?php if ( $current_choice ) : ?>
+		<p class="description"><?php echo esc_html( sprintf( __( 'Đang gắn vào: %s', 'bhdt-wirecutter' ), $current_choice['option'] ) ); ?></p>
+	<?php endif; ?>
+	<?php
+}
+
+function bhdt_wirecutter_register_home_category_link_meta_box() {
+	foreach ( bhdt_wirecutter_get_menu_linkable_post_types() as $post_type ) {
+		if ( ! post_type_exists( $post_type ) ) {
+			continue;
+		}
+
+		add_meta_box(
+			'bhdt_home_category_links',
+			__( 'Khối danh mục', 'bhdt-wirecutter' ),
+			'bhdt_wirecutter_render_home_category_link_meta_box',
+			$post_type,
+			'side',
+			'default'
+		);
+	}
+}
+add_action( 'add_meta_boxes', 'bhdt_wirecutter_register_home_category_link_meta_box' );
+
+function bhdt_wirecutter_render_home_category_link_quick_edit( $column_name, $post_type ) {
+	if ( 'bhdt_home_category_block_summary' !== $column_name || ! in_array( $post_type, bhdt_wirecutter_get_menu_linkable_post_types(), true ) ) {
+		return;
+	}
+
+	static $printed = array();
+	if ( isset( $printed[ $post_type ] ) ) {
+		return;
+	}
+	$printed[ $post_type ] = true;
+
+	$category_choices = bhdt_wirecutter_get_home_category_block_choices();
+	$post_type_label   = bhdt_wirecutter_get_post_type_menu_label( $post_type );
+	?>
+	<fieldset class="inline-edit-col-right bhdt-home-category-links-quick-edit">
+		<div class="inline-edit-col">
+			<h4><?php echo esc_html( sprintf( __( 'Khối danh mục cho %s', 'bhdt-wirecutter' ), $post_type_label ) ); ?></h4>
+			<label class="alignleft">
+				<span class="title"><?php esc_html_e( 'Khối danh mục', 'bhdt-wirecutter' ); ?></span>
+				<select name="bhdt_home_category_block_key">
+					<option value=""><?php esc_html_e( 'Không liên kết', 'bhdt-wirecutter' ); ?></option>
+					<?php foreach ( $category_choices as $choice ) : ?>
+						<option value="<?php echo esc_attr( $choice['key'] ); ?>"><?php echo esc_html( $choice['option'] ); ?></option>
+					<?php endforeach; ?>
+				</select>
+			</label>
+		</div>
+	</fieldset>
+	<?php
+}
+add_action( 'quick_edit_custom_box', 'bhdt_wirecutter_render_home_category_link_quick_edit', 10, 2 );
+
+function bhdt_wirecutter_print_home_category_link_quick_edit_script() {
+	global $pagenow, $typenow, $wp_query;
+
+	if ( 'edit.php' !== $pagenow ) {
+		return;
+	}
+
+	$post_type = isset( $_GET['post_type'] ) ? sanitize_key( wp_unslash( $_GET['post_type'] ) ) : $typenow;
+	if ( '' === $post_type ) {
+		$post_type = 'post';
+	}
+
+	if ( ! in_array( $post_type, bhdt_wirecutter_get_menu_linkable_post_types(), true ) ) {
+		return;
+	}
+
+	$map = array();
+	if ( isset( $wp_query->posts ) && is_array( $wp_query->posts ) ) {
+		foreach ( $wp_query->posts as $item ) {
+			if ( ! $item instanceof WP_Post || ! in_array( $item->post_type, bhdt_wirecutter_get_menu_linkable_post_types(), true ) ) {
+				continue;
+			}
+
+			$category_key = (string) get_post_meta( $item->ID, '_bhdt_home_category_block_key', true );
+			$category_choice = bhdt_wirecutter_find_home_category_block_by_key( $category_key );
+
+			$map[ $item->ID ] = array(
+				'category_key' => $category_choice['key'] ?? $category_key,
+			);
+		}
+	}
+	?>
+	<script>
+	window.bhdtHomeCategoryQuickEditMap = <?php echo wp_json_encode( $map ); ?>;
+	(function ($) {
+		if (typeof inlineEditPost === 'undefined') {
+			return;
+		}
+
+		const originalEdit = inlineEditPost.edit;
+		inlineEditPost.edit = function (id) {
+			originalEdit.apply(this, arguments);
+
+			let postId = 0;
+			if (typeof id === 'object') {
+				postId = parseInt(this.getId(id), 10);
+			} else {
+				postId = parseInt(id, 10);
+			}
+			if (!postId) {
+				return;
+			}
+
+			const rowData = (window.bhdtHomeCategoryQuickEditMap && window.bhdtHomeCategoryQuickEditMap[postId]) || {};
+			const editRow = $('#edit-' + postId);
+			if (!editRow.length) {
+				return;
+			}
+
+			window.setTimeout(() => {
+				editRow.find('select[name="bhdt_home_category_block_key"]').val(rowData.category_key || '');
+			}, 0);
+		};
+	})(jQuery);
+	</script>
+	<?php
+}
+add_action( 'admin_footer-edit.php', 'bhdt_wirecutter_print_home_category_link_quick_edit_script' );
+
+function bhdt_wirecutter_save_home_category_link_meta( $post_id ) {
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+		return;
+	}
+
+	if ( wp_is_post_revision( $post_id ) ) {
+		return;
+	}
+
+	$post_type = get_post_type( $post_id );
+	if ( ! in_array( $post_type, bhdt_wirecutter_get_menu_linkable_post_types(), true ) ) {
+		return;
+	}
+
+	$has_meta_box_nonce = isset( $_POST['bhdt_home_category_links_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['bhdt_home_category_links_nonce'] ) ), 'bhdt_save_home_category_links' );
+	$has_quick_fields   = isset( $_POST['bhdt_home_category_block_key'] );
+	$has_inline_nonce   = isset( $_POST['_inline_edit'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_inline_edit'] ) ), 'inlineeditnonce' );
+
+	if ( ! $has_meta_box_nonce && ! ( $has_quick_fields && $has_inline_nonce ) ) {
+		return;
+	}
+
+	if ( ! current_user_can( 'edit_post', $post_id ) ) {
+		return;
+	}
+
+	$category_key = isset( $_POST['bhdt_home_category_block_key'] ) ? sanitize_text_field( wp_unslash( $_POST['bhdt_home_category_block_key'] ) ) : '';
+
+	if ( '' !== $category_key ) {
+		$category_choice = bhdt_wirecutter_find_home_category_block_by_key( $category_key );
+		$category_key = $category_choice['key'] ?? '';
+	}
+
+	if ( '' !== $category_key ) {
+		update_post_meta( $post_id, '_bhdt_home_category_block_key', $category_key );
+	} else {
+		delete_post_meta( $post_id, '_bhdt_home_category_block_key' );
+	}
+}
+add_action( 'save_post', 'bhdt_wirecutter_save_home_category_link_meta' );
 
 function bhdt_wirecutter_page_menu_parent_label_by_url( $url, $rows ) {
 	$target_key = bhdt_wirecutter_normalize_menu_url_key( $url );
@@ -3218,16 +4219,17 @@ function bhdt_wirecutter_render_page_link_summary_column( $column_name, $post_id
 	$function_parent_url = (string) get_post_meta( $post_id, '_bhdt_page_function_menu_parent_url', true );
 	$menu_parents        = bhdt_wirecutter_get_menu_blocks( true );
 	$function_parents    = bhdt_wirecutter_get_function_menu_blocks( true );
+	$post_type_label     = bhdt_wirecutter_get_post_type_menu_label( get_post_type( $post_id ) );
 
 	$items = array();
 	if ( '' !== $menu_parent_url ) {
 		$menu_label = bhdt_wirecutter_page_menu_parent_label_by_url( $menu_parent_url, $menu_parents );
-		$items[] = 'Khối Menu > ' . ( '' !== $menu_label ? $menu_label : $menu_parent_url );
+		$items[] = 'Menu cha > ' . ( '' !== $menu_label ? $menu_label : $menu_parent_url );
 	}
 
 	if ( '' !== $function_parent_url ) {
 		$function_label = bhdt_wirecutter_page_menu_parent_label_by_url( $function_parent_url, $function_parents );
-		$items[] = 'Menu Chức Năng > ' . ( '' !== $function_label ? $function_label : $function_parent_url );
+		$items[] = 'Menu chức năng > ' . ( '' !== $function_label ? $function_label : $function_parent_url );
 	}
 
 	if ( empty( $items ) ) {
@@ -3235,9 +4237,51 @@ function bhdt_wirecutter_render_page_link_summary_column( $column_name, $post_id
 		return;
 	}
 
-	echo esc_html( 'Đang gắn vào: ' . implode( ' | ', $items ) );
+	echo esc_html( $post_type_label . ': ' . implode( ' | ', $items ) );
 }
 add_action( 'manage_pages_custom_column', 'bhdt_wirecutter_render_page_link_summary_column', 10, 2 );
+add_filter( 'manage_posts_columns', 'bhdt_wirecutter_add_page_link_summary_column' );
+add_action( 'manage_posts_custom_column', 'bhdt_wirecutter_render_page_link_summary_column', 10, 2 );
+add_filter( 'manage_bhdt_review_posts_columns', 'bhdt_wirecutter_add_page_link_summary_column' );
+add_action( 'manage_bhdt_review_posts_custom_column', 'bhdt_wirecutter_render_page_link_summary_column', 10, 2 );
+add_filter( 'manage_bhdt_comparison_posts_columns', 'bhdt_wirecutter_add_page_link_summary_column' );
+add_action( 'manage_bhdt_comparison_posts_custom_column', 'bhdt_wirecutter_render_page_link_summary_column', 10, 2 );
+
+function bhdt_wirecutter_add_home_category_link_summary_column( $columns ) {
+	$columns['bhdt_home_category_block_summary'] = 'Khối danh mục';
+
+	return $columns;
+}
+
+function bhdt_wirecutter_render_home_category_link_summary_column( $column_name, $post_id ) {
+	if ( 'bhdt_home_category_block_summary' !== $column_name ) {
+		return;
+	}
+
+	$current_key = (string) get_post_meta( $post_id, '_bhdt_home_category_block_key', true );
+	if ( '' === $current_key ) {
+		echo '<span aria-hidden="true">-</span>';
+		return;
+	}
+
+	$current_choice = bhdt_wirecutter_find_home_category_block_by_key( $current_key );
+	$post_type_label = bhdt_wirecutter_get_post_type_menu_label( get_post_type( $post_id ) );
+	if ( ! $current_choice ) {
+		echo esc_html( $post_type_label . ': ' . $current_key );
+		return;
+	}
+
+	echo esc_html( $post_type_label . ': ' . $current_choice['option'] );
+}
+
+add_filter( 'manage_pages_columns', 'bhdt_wirecutter_add_home_category_link_summary_column' );
+add_action( 'manage_pages_custom_column', 'bhdt_wirecutter_render_home_category_link_summary_column', 10, 2 );
+add_filter( 'manage_posts_columns', 'bhdt_wirecutter_add_home_category_link_summary_column' );
+add_action( 'manage_posts_custom_column', 'bhdt_wirecutter_render_home_category_link_summary_column', 10, 2 );
+add_filter( 'manage_bhdt_review_posts_columns', 'bhdt_wirecutter_add_home_category_link_summary_column' );
+add_action( 'manage_bhdt_review_posts_custom_column', 'bhdt_wirecutter_render_home_category_link_summary_column', 10, 2 );
+add_filter( 'manage_bhdt_comparison_posts_columns', 'bhdt_wirecutter_add_home_category_link_summary_column' );
+add_action( 'manage_bhdt_comparison_posts_custom_column', 'bhdt_wirecutter_render_home_category_link_summary_column', 10, 2 );
 
 function bhdt_wirecutter_current_lang_home_url() {
 	if ( function_exists( 'pll_current_language' ) ) {
@@ -3437,7 +4481,7 @@ function bhdt_wirecutter_polylang_translate( $translated, $original, $domain ) {
 		return $translated;
 	}
 	
-	$current_lang = pll_current_language();
+	$current_lang = pll_current_language( 'slug' );
 	
 	// If Vietnamese (default), return original Vietnamese string
 	if ( 'vi' === $current_lang ) {
@@ -3658,7 +4702,7 @@ class BHDT_Wirecutter_Top_Topics_Widget extends WP_Widget {
 		if ( ! empty( $items ) ) {
 			echo '<ul class="bhdt-topics-list">';
 			foreach ( $items as $item ) {
-				echo '<li><a href="' . esc_url( $item['url'] ) . '"><span class="bhdt-topics-label">' . esc_html( $item['label'] ) . '</span><span class="bhdt-topics-note">' . esc_html( $item['note'] ) . '</span></a></li>';
+				echo '<li><a href="' . esc_url( $item['url'] ) . '">' . esc_html( $item['label'] ) . '</a></li>';
 			}
 			echo '</ul>';
 		}
@@ -3760,14 +4804,31 @@ class BHDT_Wirecutter_Trending_Now_Widget extends WP_Widget {
 		}
 
 		if ( empty( $links ) ) {
-			$links = bhdt_wirecutter_trending_now_items();
+			$links = array(
+				array( 'label' => __( 'Xu hướng: xây dựng tự động hóa ESP32', 'bhdt-wirecutter' ),
+					'url'   => home_url( '/?s=esp32' ),
+					'note'  => __( 'Chủ đề phát triển nhanh nhất tuần này', 'bhdt-wirecutter' ),
+				),
+				array( 'label' => __( 'Xu hướng: đồng hồ vạn năng nổi bật', 'bhdt-wirecutter' ),
+					'url'   => get_post_type_archive_link( 'bhdt_review' ),
+					'note'  => __( 'Hướng dẫn mua cho nhu cầu rõ ràng', 'bhdt-wirecutter' ),
+				),
+				array( 'label' => __( 'Xu hướng: dự án mô-đun công suất', 'bhdt-wirecutter' ),
+					'url'   => home_url( '/?s=lm2596' ),
+					'note'  => __( 'Phổ biến trong DIY và sửa chữa', 'bhdt-wirecutter' ),
+				),
+				array( 'label' => __( 'Xu hướng: đồ hàn thiết yếu', 'bhdt-wirecutter' ),
+					'url'   => home_url( '/?s=soldering' ),
+					'note'  => __( 'Đồ cơ bản cho bàn làm việc', 'bhdt-wirecutter' ),
+				),
+			);
 		}
 
 		echo $args['before_widget'];
 		echo $args['before_title'] . esc_html( $title ) . $args['after_title'];
 		echo '<ul class="bhdt-trending-list">';
 		foreach ( $links as $link ) {
-			echo '<li><a href="' . esc_url( $link['url'] ) . '"><span class="bhdt-trending-label">' . esc_html( $link['label'] ) . '</span><span class="bhdt-trending-note">' . esc_html( $link['note'] ) . '</span></a></li>';
+			echo '<li><a href="' . esc_url( $link['url'] ) . '">' . esc_html( $link['label'] ) . '</a></li>';
 		}
 		echo '</ul>';
 		echo $args['after_widget'];
@@ -3829,7 +4890,7 @@ class BHDT_Wirecutter_Editor_Picks_Widget extends WP_Widget {
 		echo $args['before_title'] . esc_html( $title ) . $args['after_title'];
 		echo '<ul class="bhdt-editor-picks-list">';
 		foreach ( $links as $link ) {
-			echo '<li><a href="' . esc_url( $link['url'] ) . '"><span class="bhdt-editor-picks-label">' . esc_html( $link['label'] ) . '</span><span class="bhdt-editor-picks-note">' . esc_html( $link['note'] ) . '</span></a></li>';
+			echo '<li><a href="' . esc_url( $link['url'] ) . '">' . esc_html( $link['label'] ) . '</a></li>';
 		}
 		echo '</ul>';
 		echo $args['after_widget'];
@@ -3951,7 +5012,7 @@ class BHDT_Wirecutter_Popular_Searches_Widget extends WP_Widget {
 				array( 'label' => __( 'Máy đo đa năng', 'bhdt-wirecutter' ), 'url' => home_url( '/?s=multimeter' ), 'note' => __( 'Tìm bài hướng dẫn và đánh giá', 'bhdt-wirecutter' ) ),
 				array( 'label' => __( 'ESP32', 'bhdt-wirecutter' ), 'url' => home_url( '/?s=esp32' ), 'note' => __( 'Bo mạch và tự động hóa', 'bhdt-wirecutter' ) ),
 				array( 'label' => __( 'Nguồn điện', 'bhdt-wirecutter' ), 'url' => home_url( '/?s=power supply' ), 'note' => __( 'Đầu ra ổn định và kiểm tra tải', 'bhdt-wirecutter' ) ),
-				array( 'label' => __( 'Hàn', 'bhdt-wirecutter' ), 'url' => home_url( '/?s=soldering' ), 'note' => __( 'Thiết yếu cho bàn làm việc', 'bhdt-wirecutter' ) ),
+				array( 'label' => __( 'Hàn', 'bhdt-wirecutter' ), 'url' => home_url( '/?s=soldering' ), 'note' => __( 'Đồ cơ bản cho bàn làm việc', 'bhdt-wirecutter' ) ),
 			);
 		}
 
@@ -4081,7 +5142,7 @@ function bhdt_wirecutter_render_review_meta_box( $post ) {
 		<textarea id="bhdt_review_cons" name="bhdt_review_cons" rows="4" style="width:100%;"><?php echo esc_textarea( $cons ); ?></textarea>
 	</p>
 	<p>
-		<label for="bhdt_review_specs"><strong><?php esc_html_e( 'Thông số kỹ thuậ t', 'bhdt-wirecutter' ); ?></strong></label><br>
+		<label for="bhdt_review_specs"><strong><?php esc_html_e( 'Thông số kỹ thuật', 'bhdt-wirecutter' ); ?></strong></label><br>
 		<textarea id="bhdt_review_specs" name="bhdt_review_specs" rows="6" style="width:100%;"><?php echo esc_textarea( $specs ); ?></textarea>
 	</p>
 	<?php
@@ -4597,7 +5658,7 @@ function bhdt_wirecutter_top_topics() {
 		array(
 			'label' => __( 'Hàn', 'bhdt-wirecutter' ),
 			'url'   => home_url( '/?s=soldering' ),
-			'note'  => __( 'Thiết yếu cho bàn làm việc', 'bhdt-wirecutter' ),
+			'note'  => __( 'Đồ cơ bản cho bàn làm việc', 'bhdt-wirecutter' ),
 		),
 		array(
 			'label' => __( 'Bộ khởi đầu', 'bhdt-wirecutter' ),

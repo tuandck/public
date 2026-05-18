@@ -55,7 +55,10 @@ if ( ! empty( $bhdt_category_groups ) ) {
 	$bhdt_curated_post_types = array();
 
 	foreach ( $bhdt_category_groups as $bhdt_group ) {
-		$bhdt_curated_post_types[] = isset( $bhdt_group['post_type'] ) ? $bhdt_group['post_type'] : 'post';
+		$bhdt_group_post_types = function_exists( 'bhdt_wirecutter_normalize_home_block_post_types' )
+			? bhdt_wirecutter_normalize_home_block_post_types( $bhdt_group['post_types'] ?? ( $bhdt_group['post_type'] ?? 'post' ) )
+			: array( $bhdt_group['post_type'] ?? 'post' );
+		$bhdt_curated_post_types = array_merge( $bhdt_curated_post_types, $bhdt_group_post_types );
 		if ( ! empty( $bhdt_group['slug'] ) ) {
 			$bhdt_curated_tax_query[] = array(
 				'taxonomy' => 'category',
@@ -131,11 +134,83 @@ if ( $bhdt_has_woo ) {
 }
 ?>
 <main class="bhdt-wire-home">
-	<div class="bhdt-wire-home-topics" aria-label="<?php esc_attr_e( 'Chủ đề linh kiện', 'bhdt-wirecutter' ); ?>">
+	<div class="bhdt-wire-home-topics" aria-label="<?php esc_attr_e( 'Hot Keys', 'bhdt-wirecutter' ); ?>">
+		<div class="bhdt-hot-bubble-field" data-bhdt-hot-bubbles>
 		<?php foreach ( $bhdt_home_topics as $bhdt_topic ) : ?>
-			<a href="<?php echo esc_url( $bhdt_topic['url'] ); ?>"><?php echo esc_html( $bhdt_topic['label'] ); ?></a>
+			<a class="bhdt-hot-bubble" href="<?php echo esc_url( $bhdt_topic['url'] ); ?>"><?php echo esc_html( $bhdt_topic['label'] ); ?></a>
 		<?php endforeach; ?>
+		</div>
 	</div>
+	<script>
+	(() => {
+		const fields = document.querySelectorAll('[data-bhdt-hot-bubbles]');
+		if (!fields.length || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+			return;
+		}
+
+		fields.forEach((field) => {
+			const bubbles = Array.from(field.querySelectorAll('.bhdt-hot-bubble')).map((el, index) => ({
+				el,
+				x: 0,
+				y: 0,
+				vx: index % 2 ? 0.16 : -0.16,
+				phase: index * 1.7,
+			}));
+
+			const settle = () => {
+				bubbles.forEach((bubble) => {
+					bubble.width = bubble.el.offsetWidth;
+					bubble.height = bubble.el.offsetHeight;
+					bubble.baseLeft = bubble.el.offsetLeft;
+					bubble.baseTop = bubble.el.offsetTop;
+				});
+			};
+
+			settle();
+			window.addEventListener('resize', settle, { passive: true });
+			window.addEventListener('load', settle, { once: true });
+
+			const tick = (time) => {
+				bubbles.forEach((bubble, index) => {
+					bubble.vx += Math.sin(time / 900 + bubble.phase) * 0.006;
+					bubble.x += bubble.vx;
+					bubble.x *= 0.985;
+					bubble.y = Math.sin(time / 1200 + bubble.phase) * 1.6;
+					const limit = Math.max(6, Math.min(18, field.clientWidth * 0.018));
+
+					if (bubble.x > limit || bubble.x < -limit) {
+						bubble.vx *= -0.72;
+						bubble.x = Math.max(-limit, Math.min(limit, bubble.x));
+					}
+
+					for (let otherIndex = index + 1; otherIndex < bubbles.length; otherIndex++) {
+						const other = bubbles[otherIndex];
+						const leftA = bubble.baseLeft + bubble.x;
+						const rightA = leftA + bubble.width;
+						const leftB = other.baseLeft + other.x;
+						const rightB = leftB + other.width;
+						const sameRow = Math.abs((bubble.baseTop + bubble.y) - (other.baseTop + other.y)) < Math.max(bubble.height, other.height);
+						const overlap = Math.min(rightA, rightB) - Math.max(leftA, leftB);
+
+						if (sameRow && overlap > -4) {
+							const push = (overlap + 8) * 0.018;
+							bubble.vx -= push;
+							other.vx += push;
+						}
+					}
+				});
+
+				bubbles.forEach((bubble) => {
+					bubble.el.style.transform = `translate3d(${bubble.x}px, ${bubble.y}px, 0)`;
+				});
+
+				requestAnimationFrame(tick);
+			};
+
+			requestAnimationFrame(tick);
+		});
+	})();
+	</script>
 
 	<div class="bhdt-wire-layout">
 		<aside class="bhdt-wire-col bhdt-wire-col-left">
@@ -190,51 +265,81 @@ if ( $bhdt_has_woo ) {
 				<?php endif; ?>
 			</section>
 
+			<?php
+			// Seed disabled for now - use admin to manually create mixed content posts
+			// if ( function_exists( 'bhdt_wirecutter_seed_home_category_block_posts' ) ) {
+			//	bhdt_wirecutter_seed_home_category_block_posts();
+			// }
+			?>
+
 			<?php foreach ( $bhdt_category_groups as $bhdt_group ) : ?>
 				<?php
 				$bhdt_cat_name = $bhdt_group['name'];
 				$bhdt_cat_label = $bhdt_group['label'];
 				$bhdt_cat_subtitle = isset( $bhdt_group['subtitle'] ) ? $bhdt_group['subtitle'] : '';
-				$bhdt_cat_post_type = isset( $bhdt_group['post_type'] ) ? $bhdt_group['post_type'] : 'post';
-				$bhdt_term = get_term_by( 'slug', $bhdt_group['slug'], 'category' );
-				$bhdt_cat_query = null;
-
-				if ( $bhdt_term && ! is_wp_error( $bhdt_term ) ) {
-					$bhdt_cat_query = new WP_Query(
-						array(
-							'post_type'      => $bhdt_cat_post_type,
-							'posts_per_page' => 4,
-							'post_status'    => 'publish',
-							'no_found_rows'  => true,
-							'tax_query'      => array(
-								array(
-									'taxonomy' => 'category',
-									'field'    => 'term_id',
-									'terms'    => array( (int) $bhdt_term->term_id ),
-								),
-							),
-						)
-					);
-				}
+				$bhdt_cat_url = function_exists( 'bhdt_wirecutter_home_category_block_url' )
+					? bhdt_wirecutter_home_category_block_url( $bhdt_group )
+					: '#';
+				$bhdt_all_cat_posts = function_exists( 'bhdt_wirecutter_get_home_category_block_posts' )
+					? bhdt_wirecutter_get_home_category_block_posts( $bhdt_group )
+					: array();
 				?>
 				<section class="bhdt-wire-category-block">
 					<header class="bhdt-wire-category-head">
-						<h2><?php echo esc_html( $bhdt_cat_label ); ?></h2>
+						<h2><a href="<?php echo esc_url( $bhdt_cat_url ); ?>"><?php echo esc_html( $bhdt_cat_label ); ?></a></h2>
 						<?php if ( '' !== trim( (string) $bhdt_cat_subtitle ) ) : ?>
 							<p class="bhdt-wire-category-subtitle"><?php echo esc_html( $bhdt_cat_subtitle ); ?></p>
 						<?php endif; ?>
 					</header>
-					<?php if ( $bhdt_cat_query && ! empty( $bhdt_cat_query->posts ) ) : ?>
+					<?php if ( ! empty( $bhdt_all_cat_posts ) ) : ?>
 						<?php
-						$bhdt_cat_posts    = $bhdt_cat_query->posts;
-						$bhdt_featured_one = array_shift( $bhdt_cat_posts );
+						$bhdt_card_posts    = array_slice( $bhdt_all_cat_posts, 0, 4 );
+						$bhdt_older_posts   = array_slice( $bhdt_all_cat_posts, 4 );
+						$bhdt_featured_one  = array_shift( $bhdt_card_posts );
+						$bhdt_cat_posts     = $bhdt_card_posts;
 						$bhdt_featured_id  = (int) $bhdt_featured_one->ID;
+						$bhdt_featured_type = get_post_type( $bhdt_featured_id );
+						$bhdt_featured_type_label = 'Post';
+						if ( 'page' === $bhdt_featured_type ) {
+							$bhdt_featured_type_label = 'Page';
+						} elseif ( 'bhdt_review' === $bhdt_featured_type ) {
+							$bhdt_featured_type_label = 'Review';
+						} elseif ( 'bhdt_comparison' === $bhdt_featured_type ) {
+							$bhdt_featured_type_label = 'So sánh';
+						}
 						$bhdt_featured_excerpt = get_post_field( 'post_excerpt', $bhdt_featured_id );
 						if ( empty( trim( $bhdt_featured_excerpt ) ) ) {
 							$bhdt_featured_excerpt = get_post_field( 'post_content', $bhdt_featured_id );
 						}
 						?>
 						<article class="bhdt-wire-category-lead">
+							<?php if ( ! empty( $bhdt_older_posts ) ) : ?>
+								<aside class="bhdt-wire-older-list" aria-label="<?php echo esc_attr( sprintf( __( 'Bài cũ hơn trong %s', 'bhdt-wirecutter' ), $bhdt_cat_label ) ); ?>">
+									<?php foreach ( $bhdt_older_posts as $bhdt_older_post ) : ?>
+										<?php
+										$bhdt_older_id = (int) $bhdt_older_post->ID;
+										$bhdt_older_type = get_post_type( $bhdt_older_id );
+										$bhdt_older_type_label = 'Post';
+										if ( 'page' === $bhdt_older_type ) {
+											$bhdt_older_type_label = 'Page';
+										} elseif ( 'bhdt_review' === $bhdt_older_type ) {
+											$bhdt_older_type_label = 'Review';
+										} elseif ( 'bhdt_comparison' === $bhdt_older_type ) {
+											$bhdt_older_type_label = 'So sánh';
+										}
+										?>
+										<a class="bhdt-wire-older-item" href="<?php echo esc_url( get_permalink( $bhdt_older_id ) ); ?>">
+											<span class="bhdt-wire-content-type"><?php echo esc_html( $bhdt_older_type_label ); ?></span>
+											<strong><?php echo esc_html( get_the_title( $bhdt_older_id ) ); ?></strong>
+											<small><?php echo esc_html( get_the_modified_date( 'M j, Y', $bhdt_older_id ) ); ?></small>
+										</a>
+									<?php endforeach; ?>
+									<a class="bhdt-wire-see-all" href="<?php echo esc_url( bhdt_wirecutter_home_category_block_url( $bhdt_group ) ); ?>">
+										<?php esc_html_e( 'Xem thêm', 'bhdt-wirecutter' ); ?>
+										<span><?php esc_html_e( 'See all', 'bhdt-wirecutter' ); ?></span>
+									</a>
+								</aside>
+							<?php endif; ?>
 							<a class="bhdt-wire-category-lead-thumb" href="<?php echo esc_url( get_permalink( $bhdt_featured_id ) ); ?>" aria-label="<?php echo esc_attr( get_the_title( $bhdt_featured_id ) ); ?>">
 								<?php if ( has_post_thumbnail( $bhdt_featured_id ) ) : ?>
 									<?php echo wp_kses_post( get_the_post_thumbnail( $bhdt_featured_id, 'large' ) ); ?>
@@ -243,6 +348,7 @@ if ( $bhdt_has_woo ) {
 								<?php endif; ?>
 							</a>
 							<div class="bhdt-wire-category-lead-copy">
+								<p class="bhdt-wire-content-type"><?php echo esc_html( $bhdt_featured_type_label ); ?></p>
 								<h3><a href="<?php echo esc_url( get_permalink( $bhdt_featured_id ) ); ?>"><?php echo esc_html( get_the_title( $bhdt_featured_id ) ); ?></a></h3>
 								<p class="bhdt-wire-meta"><?php echo esc_html( sprintf( __( 'Cập nhật %s', 'bhdt-wirecutter' ), get_the_modified_date( 'M j, Y', $bhdt_featured_id ) ) ); ?></p>
 								<p><?php echo esc_html( wp_trim_words( wp_strip_all_tags( $bhdt_featured_excerpt ), 30, '...' ) ); ?></p>
@@ -254,6 +360,15 @@ if ( $bhdt_has_woo ) {
 								<?php foreach ( $bhdt_cat_posts as $bhdt_sub_post ) : ?>
 									<?php
 									$bhdt_sub_id       = (int) $bhdt_sub_post->ID;
+									$bhdt_sub_type     = get_post_type( $bhdt_sub_id );
+									$bhdt_sub_type_label = 'Post';
+									if ( 'page' === $bhdt_sub_type ) {
+										$bhdt_sub_type_label = 'Page';
+									} elseif ( 'bhdt_review' === $bhdt_sub_type ) {
+										$bhdt_sub_type_label = 'Review';
+									} elseif ( 'bhdt_comparison' === $bhdt_sub_type ) {
+										$bhdt_sub_type_label = 'So sánh';
+									}
 									$bhdt_sub_excerpt  = get_post_field( 'post_excerpt', $bhdt_sub_id );
 									if ( empty( trim( $bhdt_sub_excerpt ) ) ) {
 										$bhdt_sub_excerpt = get_post_field( 'post_content', $bhdt_sub_id );
@@ -267,6 +382,7 @@ if ( $bhdt_has_woo ) {
 														<div class="bhdt-wire-thumb-fallback"><?php esc_html_e( 'Không có hình ảnh', 'bhdt-wirecutter' ); ?></div>
 											<?php endif; ?>
 										</a>
+										<p class="bhdt-wire-content-type"><?php echo esc_html( $bhdt_sub_type_label ); ?></p>
 										<h3><a href="<?php echo esc_url( get_permalink( $bhdt_sub_id ) ); ?>"><?php echo esc_html( get_the_title( $bhdt_sub_id ) ); ?></a></h3>
 										<p class="bhdt-wire-meta"><?php echo esc_html( sprintf( __( 'Cập nhật %s', 'bhdt-wirecutter' ), get_the_modified_date( 'M j, Y', $bhdt_sub_id ) ) ); ?></p>
 										<p><?php echo esc_html( wp_trim_words( wp_strip_all_tags( $bhdt_sub_excerpt ), 18, '...' ) ); ?></p>

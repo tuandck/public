@@ -1,6 +1,6 @@
 <?php
 /**
- * Category archive template.
+ * Archive template for bhdt_comparison.
  *
  * @package BHDT_Wirecutter_Clone
  */
@@ -11,16 +11,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 get_header();
 
-$category_count = (int) ( get_queried_object()->count ?? 0 );
+$post_count = wp_count_posts( 'bhdt_comparison' );
 ?>
 <main class="bhdt-home-grid">
 	<section class="bhdt-archive-hero">
-		<p class="bhdt-card-kicker"><?php esc_html_e( 'Lưu trữ danh mục', 'bhdt-wirecutter' ); ?></p>
-		<h1><?php single_cat_title(); ?></h1>
-		<?php if ( category_description() ) : ?>
-			<p><?php echo wp_kses_post( category_description() ); ?></p>
-		<?php endif; ?>
-		<p class="bhdt-card-meta"><?php echo esc_html( sprintf( __( '%d mục trong danh mục này', 'bhdt-wirecutter' ), $category_count ) ); ?></p>
+		<p class="bhdt-card-kicker"><?php esc_html_e( 'Lưu trữ so sánh', 'bhdt-wirecutter' ); ?></p>
+		<h1><?php post_type_archive_title(); ?></h1>
+		<p><?php esc_html_e( 'Chỉ mục bài so sánh biên tập với bố cục ngắn gọn, rõ ràng để đi thẳng vào khác biệt quan trọng.', 'bhdt-wirecutter' ); ?></p>
+		<p class="bhdt-card-meta"><?php echo esc_html( sprintf( __( '%d bài so sánh được xuất bản', 'bhdt-wirecutter' ), (int) ( $post_count->publish ?? 0 ) ) ); ?></p>
 	</section>
 
 	<?php if ( have_posts() ) : ?>
@@ -31,16 +29,16 @@ $category_count = (int) ( get_queried_object()->count ?? 0 );
 						<?php the_post_thumbnail( 'large' ); ?>
 					<?php else : ?>
 						<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:'Noto Sans',Arial,sans-serif;color:#888;">
-								<?php esc_html_e( 'Không có hình ảnh', 'bhdt-wirecutter' ); ?>
+							<?php esc_html_e( 'Không có hình ảnh', 'bhdt-wirecutter' ); ?>
 						</div>
 					<?php endif; ?>
 				</a>
 				<div class="bhdt-card-body">
-						<p class="bhdt-card-kicker"><?php esc_html_e( 'Bài đăng danh mục', 'bhdt-wirecutter' ); ?></p>
+					<p class="bhdt-card-kicker"><?php esc_html_e( 'So sánh', 'bhdt-wirecutter' ); ?></p>
 					<h2 class="bhdt-card-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
 					<p class="bhdt-card-meta"><?php echo esc_html( bhdt_wirecutter_post_meta_line() ); ?></p>
-					<p class="bhdt-card-excerpt"><?php echo esc_html( bhdt_wirecutter_excerpt_fallback( 30 ) ); ?></p>
-					<a class="bhdt-read-more" href="<?php the_permalink(); ?>"><?php esc_html_e( 'Đọc thêm', 'bhdt-wirecutter' ); ?></a>
+					<p class="bhdt-card-excerpt"><?php echo esc_html( bhdt_wirecutter_excerpt_fallback( 28 ) ); ?></p>
+					<a class="bhdt-read-more" href="<?php the_permalink(); ?>"><?php esc_html_e( 'Đọc bài so sánh', 'bhdt-wirecutter' ); ?></a>
 				</div>
 			</article>
 		<?php endwhile; ?>
