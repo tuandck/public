@@ -23,6 +23,7 @@ require_once BHDT_PATH . 'includes/class-api-receiver.php';
 require_once BHDT_PATH . 'includes/class-assets.php';
 require_once BHDT_PATH . 'includes/class-shortcodes.php';
 require_once BHDT_PATH . 'includes/class-template-loader.php';
+require_once BHDT_PATH . 'includes/class-zenclau-v1-content-system.php';
 
 if ( ! class_exists( 'BHDT_Core_System' ) ) {
 	/**
@@ -58,6 +59,7 @@ if ( ! class_exists( 'BHDT_Core_System' ) ) {
 			BHDT_Assets::init();
 			BHDT_Shortcodes::init();
 			BHDT_Template_Loader::init();
+			Zenclau_V1_Content_System::init();
 
 			register_activation_hook( __FILE__, array( __CLASS__, 'activate' ) );
 			register_deactivation_hook( __FILE__, array( __CLASS__, 'deactivate' ) );
@@ -70,6 +72,9 @@ if ( ! class_exists( 'BHDT_Core_System' ) ) {
 		 */
 		public static function activate() {
 			BHDT_CPT_Init::register_post_types();
+			Zenclau_V1_Content_Model::install_tables();
+			update_option( 'zenclau_v1_content_db_version', '1.3.0', false );
+			Zenclau_V1_Content_System::ensure_channel_cron_scheduled();
 			flush_rewrite_rules();
 		}
 
@@ -79,6 +84,7 @@ if ( ! class_exists( 'BHDT_Core_System' ) ) {
 		 * @return void
 		 */
 		public static function deactivate() {
+			Zenclau_V1_Content_System::clear_channel_cron();
 			flush_rewrite_rules();
 		}
 	}
