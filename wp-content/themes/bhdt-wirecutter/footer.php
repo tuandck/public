@@ -14,11 +14,13 @@ $bhdt_footer_settings = function_exists( 'bhdt_wirecutter_get_footer_settings' )
 	: array();
 
 $bhdt_footer_defaults = array(
+	'use_widgets' => 0,
 	'logo_text'   => 'Banhangdientu',
 	'logo_image'  => '',
 	'description' => __( 'Bố cục biên tập gọn gàng, cảm hứng từ Wirecutter.', 'bhdt-wirecutter' ),
 	'middle_text' => __( 'Hướng dẫn thực tế, đánh giá linh kiện, ghi chú dự án.', 'bhdt-wirecutter' ),
 	'copyright'   => '© {year} Banhangdientu',
+	'right_text'  => '',
 	'facebook'    => '',
 	'youtube'     => '',
 	'tiktok'      => '',
@@ -48,6 +50,23 @@ $bhdt_footer_socials = array(
 	<footer class="bhdt-site-footer" style="<?php echo esc_attr( $bhdt_footer_style ); ?>">
 		<div class="bhdt-footer-inner">
 			<div class="bhdt-footer-grid">
+				<?php if ( ! empty( $bhdt_footer_settings['use_widgets'] ) ) : ?>
+					<div>
+						<?php if ( is_active_sidebar( 'bhdt-footer-1' ) ) : ?>
+							<?php dynamic_sidebar( 'bhdt-footer-1' ); ?>
+						<?php endif; ?>
+					</div>
+					<div>
+						<?php if ( is_active_sidebar( 'bhdt-footer-2' ) ) : ?>
+							<?php dynamic_sidebar( 'bhdt-footer-2' ); ?>
+						<?php endif; ?>
+					</div>
+					<div>
+						<?php if ( is_active_sidebar( 'bhdt-footer-3' ) ) : ?>
+							<?php dynamic_sidebar( 'bhdt-footer-3' ); ?>
+						<?php endif; ?>
+					</div>
+				<?php else : ?>
 				<div>
 					<div class="bhdt-footer-brand">
 						<?php if ( ! empty( $bhdt_footer_settings['logo_image'] ) ) : ?>
@@ -76,7 +95,11 @@ $bhdt_footer_socials = array(
 							<?php endif; ?>
 						<?php endforeach; ?>
 					</div>
+					<?php if ( ! empty( $bhdt_footer_settings['right_text'] ) ) : ?>
+						<p class="bhdt-footer-extra-text"><?php echo nl2br( esc_html( $bhdt_footer_settings['right_text'] ) ); ?></p>
+					<?php endif; ?>
 				</div>
+				<?php endif; ?>
 			</div>
 		</div>
 	</footer>

@@ -1,0 +1,38 @@
+# Local WordPress config and tooling
+wp-config.php
+wp-cli.phar
+local-xdebuginfo.php
+
+# Runtime and debug logs
+*.log
+wp-content/*.log
+wp-content/debug.log
+wp-content/bhdt-import.log
+wp-content/function_menu_debug.log
+
+# Local/cache artifacts
+.DS_Store
+Thumbs.db
+*.tmp
+*.bak
+*.sql
+*.sql.gz
+*.zip
+*.tar
+*.tar.gz
+
+# Secrets and Python worker artifacts
+.env
+.env.*
+!.env.example
+__pycache__/
+*.py[cod]
+
+# WordPress generated/cache folders
+wp-content/cache/
+wp-content/upgrade/
+wp-content/backup*/
+wp-content/uploads/cache/
+
+# Keep uploads out of code pushes; migrate media separately.
+wp-content/uploads/

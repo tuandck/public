@@ -37,6 +37,49 @@
 		}
 	};
 
+	function escapeHtml(value) {
+		return String(value || '').replace(/[&<>"']/g, function (char) {
+			return {
+				'&': '&amp;',
+				'<': '&lt;',
+				'>': '&gt;',
+				'"': '&quot;',
+				"'": '&#039;'
+			}[char];
+		});
+	}
+
+	function normalizePinoutItem(item) {
+		const key = String(item.slug || item.key || item.name || '').trim().toLowerCase();
+		if (!key || !item.name) {
+			return null;
+		}
+
+		return {
+			name: String(item.name || ''),
+			filename: String(item.filename || 'pinout-placeholder.webp'),
+			summary: String(item.summary || 'Pinout placeholder duoc tao tu thu vien linh kien. Hay bo sung so do chan, nguon va ghi chu dau noi.'),
+			imageUrl: String(item.image_url || ''),
+			datasheetUrl: String(item.datasheet_url || ''),
+			officialUrl: String(item.official_url || ''),
+			notes: Array.isArray(item.notes) ? item.notes.map(String).filter(Boolean) : [],
+			specs: Array.isArray(item.specs) ? item.specs.map(String).filter(Boolean) : [],
+			aliases: Array.isArray(item.aliases) ? item.aliases.map(function (alias) {
+				return String(alias || '').toLowerCase();
+			}).filter(Boolean) : []
+		};
+	}
+
+	if (window.bhdtPinoutLibrary && Array.isArray(window.bhdtPinoutLibrary.items)) {
+		window.bhdtPinoutLibrary.items.forEach(function (item) {
+			const normalized = normalizePinoutItem(item);
+			const key = String(item.slug || item.key || item.name || '').trim().toLowerCase();
+			if (normalized && key && !pinoutDictionary[key]) {
+				pinoutDictionary[key] = normalized;
+			}
+		});
+	}
+
 	function initPinoutFinder() {
 		document.querySelectorAll('[data-bhdt-pinout-finder]').forEach(function (finder) {
 			const input = finder.querySelector('[data-bhdt-pinout-input]');
@@ -57,7 +100,10 @@
 				}
 
 				const matches = Object.keys(pinoutDictionary).filter(function (key) {
-					return key.indexOf(query) !== -1 || pinoutDictionary[key].name.toLowerCase().indexOf(query) !== -1;
+					const item = pinoutDictionary[key];
+					return key.indexOf(query) !== -1 || item.name.toLowerCase().indexOf(query) !== -1 || (item.aliases || []).some(function (alias) {
+						return alias.indexOf(query) !== -1;
+					});
 				});
 
 				presetButtons.forEach(function (button) {
@@ -72,13 +118,20 @@
 				results.innerHTML = matches.map(function (key) {
 					const item = pinoutDictionary[key];
 					const notes = item.notes.map(function (note) {
-						return '<li>' + note + '</li>';
+						return '<li>' + escapeHtml(note) + '</li>';
 					}).join('');
 					const specs = item.specs.map(function (spec) {
-						return '<span class="bhdt-spec-pill">' + spec + '</span>';
+						return '<span class="bhdt-spec-pill">' + escapeHtml(spec) + '</span>';
 					}).join('');
+					const sources = [
+						item.datasheetUrl ? '<a href="' + escapeHtml(item.datasheetUrl) + '" target="_blank" rel="noopener">Datasheet</a>' : '',
+						item.officialUrl ? '<a href="' + escapeHtml(item.officialUrl) + '" target="_blank" rel="noopener">Official docs</a>' : ''
+					].filter(Boolean).join(' ');
+					const visual = item.imageUrl
+						? '<img src="' + escapeHtml(item.imageUrl) + '" alt="' + escapeHtml(item.name) + ' pinout" loading="lazy">'
+						: '<div><span>.webp diagram</span><br><strong>' + escapeHtml(item.filename) + '</strong></div>';
 
-					return '<article class="bhdt-placeholder-card"><div class="bhdt-pinout-figure"><div><h3>' + item.name + '</h3><p>' + item.summary + '</p><div class="bhdt-pinout-specs">' + specs + '</div><ul>' + notes + '</ul></div><div class="bhdt-image-placeholder"><div><span>.webp diagram</span><br><strong>' + item.filename + '</strong></div></div></div></article>';
+					return '<article class="bhdt-placeholder-card"><div class="bhdt-pinout-figure"><div><h3>' + escapeHtml(item.name) + '</h3><p>' + escapeHtml(item.summary) + '</p><div class="bhdt-pinout-specs">' + specs + '</div><ul>' + notes + '</ul><p class="bhdt-pinout-sources">' + sources + '</p></div><div class="bhdt-image-placeholder">' + visual + '</div></div></article>';
 				}).join('');
 			}
 

@@ -12,12 +12,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 get_header();
 
 $bhdt_has_woo = class_exists( 'WooCommerce' );
+$bhdt_home_editorial_post_types = array( 'post', 'bhdt_comparison', 'bhdt_review' );
 
 $bhdt_latest_args = array(
-	'post_type'      => $bhdt_has_woo ? 'product' : 'post',
-	'posts_per_page' => 7,
-	'post_status'    => 'publish',
-	'no_found_rows'  => true,
+	'post_type'        => $bhdt_home_editorial_post_types,
+	'posts_per_page'   => 7,
+	'post_status'      => 'publish',
+	'no_found_rows'    => true,
+	'suppress_filters' => true,
+	'lang'             => '',
 );
 
 $bhdt_latest_query = new WP_Query( $bhdt_latest_args );
@@ -28,10 +31,12 @@ $bhdt_featured_product_id = (int) apply_filters(
 );
 
 $bhdt_hero_query_args = array(
-	'post_type'      => $bhdt_has_woo ? 'product' : 'post',
-	'posts_per_page' => 1,
-	'post_status'    => 'publish',
-	'no_found_rows'  => true,
+	'post_type'        => $bhdt_home_editorial_post_types,
+	'posts_per_page'   => 1,
+	'post_status'      => 'publish',
+	'no_found_rows'    => true,
+	'suppress_filters' => true,
+	'lang'             => '',
 );
 
 if ( $bhdt_featured_product_id > 0 ) {
@@ -108,6 +113,8 @@ if ( empty( $bhdt_curated_links ) ) {
 }
 
 $bhdt_deals_query = null;
+$bhdt_manual_deals_settings = function_exists( 'bhdt_wirecutter_get_daily_deals_settings' ) ? bhdt_wirecutter_get_daily_deals_settings() : array();
+$bhdt_manual_deals = function_exists( 'bhdt_wirecutter_get_active_daily_deals' ) ? bhdt_wirecutter_get_active_daily_deals() : array();
 if ( $bhdt_has_woo ) {
 	$bhdt_deals_query = new WP_Query(
 		array(
@@ -214,6 +221,9 @@ if ( $bhdt_has_woo ) {
 
 	<div class="bhdt-wire-layout">
 		<aside class="bhdt-wire-col bhdt-wire-col-left">
+			<?php if ( is_active_sidebar( 'bhdt-home-left' ) ) : ?>
+				<?php dynamic_sidebar( 'bhdt-home-left' ); ?>
+			<?php else : ?>
 			<section class="bhdt-wire-panel">
 				<h2><?php esc_html_e( 'Mới nhất', 'bhdt-wirecutter' ); ?></h2>
 				<?php if ( $bhdt_latest_query->have_posts() ) : ?>
@@ -230,6 +240,7 @@ if ( $bhdt_has_woo ) {
 					<p><?php esc_html_e( 'Chưa có nội dung mới.', 'bhdt-wirecutter' ); ?></p>
 				<?php endif; ?>
 			</section>
+			<?php endif; ?>
 		</aside>
 
 		<section class="bhdt-wire-col bhdt-wire-col-main">
@@ -417,9 +428,40 @@ if ( $bhdt_has_woo ) {
 		</section>
 
 		<aside class="bhdt-wire-col bhdt-wire-col-right">
+			<?php if ( is_active_sidebar( 'bhdt-home-right' ) ) : ?>
+				<?php dynamic_sidebar( 'bhdt-home-right' ); ?>
+			<?php else : ?>
 			<section class="bhdt-wire-panel">
-				<h2><?php esc_html_e( 'Ưu đãi hàng ngày', 'bhdt-wirecutter' ); ?></h2>
-				<?php if ( $bhdt_has_woo && $bhdt_deals_query && $bhdt_deals_query->have_posts() ) : ?>
+				<h2><?php echo esc_html( $bhdt_manual_deals_settings['title'] ?? __( 'Ưu đãi hàng ngày', 'bhdt-wirecutter' ) ); ?></h2>
+				<?php if ( ! empty( $bhdt_manual_deals ) ) : ?>
+					<div class="bhdt-wire-deals-list">
+						<?php foreach ( $bhdt_manual_deals as $bhdt_deal ) : ?>
+							<article class="bhdt-wire-deal-item">
+								<a class="bhdt-wire-deal-thumb" href="<?php echo esc_url( $bhdt_deal['link'] ); ?>" target="_blank" rel="noopener noreferrer" aria-label="<?php echo esc_attr( $bhdt_deal['name'] ); ?>">
+									<?php if ( ! empty( $bhdt_deal['image'] ) ) : ?>
+										<img src="<?php echo esc_url( $bhdt_deal['image'] ); ?>" alt="<?php echo esc_attr( $bhdt_deal['name'] ); ?>">
+									<?php else : ?>
+										<div class="bhdt-wire-thumb-fallback"><?php echo esc_html( $bhdt_deal['source'] ?: __( 'Deal', 'bhdt-wirecutter' ) ); ?></div>
+									<?php endif; ?>
+								</a>
+								<div class="bhdt-wire-deal-copy">
+									<?php if ( ! empty( $bhdt_deal['source'] ) ) : ?>
+										<p class="bhdt-wire-deal-source"><?php echo esc_html( $bhdt_deal['source'] ); ?></p>
+									<?php endif; ?>
+									<h3><a href="<?php echo esc_url( $bhdt_deal['link'] ); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html( $bhdt_deal['name'] ); ?></a></h3>
+									<p class="bhdt-wire-deal-price-line">
+										<?php if ( '' !== (string) ( $bhdt_deal['sale_price'] ?? '' ) ) : ?>
+											<span class="bhdt-wire-sale-price"><?php echo esc_html( $bhdt_deal['sale_price'] ); ?></span>
+										<?php endif; ?>
+										<?php if ( '' !== (string) ( $bhdt_deal['regular_price'] ?? '' ) ) : ?>
+											<del><?php echo esc_html( $bhdt_deal['regular_price'] ); ?></del>
+										<?php endif; ?>
+									</p>
+								</div>
+							</article>
+						<?php endforeach; ?>
+					</div>
+				<?php elseif ( $bhdt_has_woo && $bhdt_deals_query && $bhdt_deals_query->have_posts() ) : ?>
 					<div class="bhdt-wire-deals-list">
 						<?php while ( $bhdt_deals_query->have_posts() ) : $bhdt_deals_query->the_post(); ?>
 							<?php $bhdt_product = wc_get_product( get_the_ID() ); ?>
@@ -459,9 +501,10 @@ if ( $bhdt_has_woo ) {
 					</div>
 					<?php wp_reset_postdata(); ?>
 				<?php else : ?>
-				<p><?php esc_html_e( 'Ưu đãi hàng ngày sẽ hiển thị khi WooCommerce và giá khuyến mãi sẵn sàng.', 'bhdt-wirecutter' ); ?></p>
+				<p><?php echo esc_html( $bhdt_manual_deals_settings['empty_text'] ?? __( 'Ưu đãi hàng ngày sẽ hiển thị khi có deal đang bật.', 'bhdt-wirecutter' ) ); ?></p>
 				<?php endif; ?>
 			</section>
+			<?php endif; ?>
 		</aside>
 	</div>
 </main>

@@ -86,7 +86,7 @@ DEFAULT_ENV_PATH = SCRIPT_DIR / ".env"
 LOG_PATH = SCRIPT_DIR / "zenclau_worker_v1.log"
 DEFAULT_MODEL_NAME = "gemini-flash-latest"
 HTTP_TIMEOUT = 30
-MAX_MARKDOWN_CHARS = 32000
+MAX_MARKDOWN_CHARS = 64000
 MAX_TRANSCRIPT_CHARS = 24000
 MAX_PDF_IMAGE_DIMENSION = 1200
 PDF_MIME_TYPES = {"application/pdf", "application/x-pdf"}
@@ -102,6 +102,8 @@ DEFAULT_PROMPT_RULES = """
 - Use Official URL and PDF URL source text for specifications and official claims.
 - Do not invent prices or certifications.
 - Keep comparison_table to 6-12 rows when the schema includes it.
+- Do not use Markdown heading syntax in generated article fields: no ### headings and no bullet-only outline.
+- Start section headings with plain numbering such as I., II., III. or 1., 2., 3.; bold is allowed only for product names or short key terms.
 """.strip()
 DEFAULT_JSON_SCHEMA = """
 {
@@ -381,11 +383,46 @@ def extract_pdf_text(pdf_bytes: bytes, official_url: str) -> str:
         except Exception as exc:
             raise ZenclauWorkerError(f"Could not extract PDF text from official_url={official_url}: {exc}") from exc
 
-    text = re.sub(r"\n{3,}", "\n\n", "\n\n".join(pages))
-    text = re.sub(r"[ \t]+", " ", text).strip()
+    text = clean_source_text_noise("\n\n".join(pages))
     if not text:
         raise ZenclauWorkerError(f"Official PDF produced empty text: {official_url}")
     return text[:MAX_MARKDOWN_CHARS]
+
+
+def clean_source_text_noise(text: str) -> str:
+    """Remove encoded blobs and extraction junk before sending source text to Gemini."""
+    if not text:
+        return ""
+
+    text = re.sub(r"data:[^,\s]+;base64,[A-Za-z0-9+/=_-]+", " ", text, flags=re.IGNORECASE)
+    text = re.sub(r"(?<![A-Za-z0-9+/=_-])(?:PHN2Zy|PD94bWw|iVBORw0KGgo|R0lGODlh|/9j/)[A-Za-z0-9+/=_-]{24,}", " ", text)
+    text = re.sub(r"(?<![A-Za-z0-9+/=_-])[A-Za-z0-9+/=_-]{80,}(?![A-Za-z0-9+/=_-])", " ", text)
+
+    cleaned_lines: list[str] = []
+    for raw_line in text.splitlines():
+        line = re.sub(r"[ \t]+", " ", raw_line).strip()
+        if not line:
+            cleaned_lines.append("")
+            continue
+
+        compact = re.sub(r"\s+", "", line)
+        long_tokens = re.findall(r"(?<![A-Za-z0-9+/=_-])[A-Za-z0-9+/=_-]{48,}(?![A-Za-z0-9+/=_-])", line)
+        long_token_chars = sum(len(token) for token in long_tokens)
+        if (
+            len(compact) >= 48
+            and long_token_chars / max(1, len(compact)) > 0.7
+            and not re.search(r"[^\x00-\x7F]", compact)
+        ):
+            continue
+
+        line = re.sub(r"(?<![A-Za-z0-9+/=_-])[A-Za-z0-9+/=_-]{48,79}(?![A-Za-z0-9+/=_-])", " ", line)
+        line = re.sub(r"[ \t]{2,}", " ", line).strip()
+        if line:
+            cleaned_lines.append(line)
+
+    text = "\n".join(cleaned_lines)
+    text = re.sub(r"\n{3,}", "\n\n", text)
+    return text.strip()
 
 
 def safe_asset_slug(value: str) -> str:
@@ -593,9 +630,7 @@ def scrape_official_markdown(session: requests.Session, official_url: str) -> st
 
     main = soup.find("main") or soup.find("article") or soup.body or soup
     markdown = html_to_markdown(str(main), heading_style="ATX", strip=["a"])
-    markdown = re.sub(r"\n{3,}", "\n\n", markdown)
-    markdown = re.sub(r"[ \t]+", " ", markdown)
-    markdown = markdown.strip()
+    markdown = clean_source_text_noise(markdown)
     if not markdown:
         raise ZenclauWorkerError(f"Official page produced empty Markdown: {official_url}")
     return markdown[:MAX_MARKDOWN_CHARS]
@@ -719,6 +754,7 @@ Return ONLY valid JSON. No Markdown fences. No commentary.
 Fill every field in the requested schema with useful detail when evidence exists.
 Make review_content long-form and practical: include overview, key specifications, notable features, setup/usage notes, strengths, limitations, and who should buy/use it.
 Do not compress the article into a brief abstract. Aim for depth and clarity while staying faithful to the sources.
+In generated article fields, do not write ### headings. Use plain numbered section headings such as I., II., III. or 1., 2., 3. Bold is allowed only for product names or short key terms.
 
 Required JSON schema:
 {json_schema}
@@ -888,7 +924,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--official-text-override-b64", default="", help="Base64-encoded edited Official/PDF source text from preview.")
     parser.add_argument("--transcript-override-file", default="", help="UTF-8 file containing edited transcript text from preview.")
     parser.add_argument("--official-text-override-file", default="", help="UTF-8 file containing edited Official/PDF source text from preview.")
-    parser.add_argument("--max-output-tokens", type=int, default=8192, help="Gemini max output tokens. Default: 8192.")
+    parser.add_argument("--max-output-tokens", type=int, default=8192, help="Gemini max output tokens. Default: 8192, max: 65536.")
     parser.add_argument("--asset-dir", default="", help="Directory where extracted PDF images should be written.")
     parser.add_argument("--asset-url-base", default="", help="Public URL base matching --asset-dir.")
     parser.add_argument("--max-pdf-images", type=int, default=6, help="Maximum PDF images to extract. Default: 6.")
@@ -907,7 +943,7 @@ def main() -> int:
     json_schema = decode_json_schema(args.json_schema_b64)
     transcript_override = read_optional_text_file(args.transcript_override_file, "transcript override file") or decode_optional_text(args.transcript_override_b64, "transcript override")
     official_text_override = read_optional_text_file(args.official_text_override_file, "official text override file") or decode_optional_text(args.official_text_override_b64, "official text override")
-    max_output_tokens = min(32768, max(1024, int(args.max_output_tokens or 8192)))
+    max_output_tokens = min(65536, max(1024, int(args.max_output_tokens or 8192)))
     max_pdf_images = min(12, max(1, int(args.max_pdf_images or 6)))
     if args.compare_pdf_url.strip():
         max_pdf_images = 12
@@ -968,6 +1004,7 @@ def main() -> int:
                     args.compare_pdf_url,
                 )
                 official_text = official_text + "\n\n---\n\n# Compare product 2 sources\n\n" + compare_text
+            official_text = clean_source_text_noise(official_text)
             pdf_images: list[dict[str, Any]] = []
             pdf_image_error = ""
             try:
@@ -1048,7 +1085,7 @@ def main() -> int:
         for index, product in enumerate(products, start=1):
             log.info("[%d/%d] Processing product_id=%s", index, len(products), product.id)
             try:
-                official_markdown = official_text_override[:MAX_MARKDOWN_CHARS] if official_text_override else build_official_sources_markdown(http, product)
+                official_markdown = clean_source_text_noise(official_text_override if official_text_override else build_official_sources_markdown(http, product))[:MAX_MARKDOWN_CHARS]
                 compare_markdown = build_compare_sources_markdown(
                     http,
                     args.compare_product_name,

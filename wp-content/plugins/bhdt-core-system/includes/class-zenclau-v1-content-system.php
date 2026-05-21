@@ -1497,19 +1497,19 @@ if ( ! class_exists( 'Zenclau_V1_REST_API' ) ) {
 				array(
 					'id'           => 'template_1',
 					'name'         => 'Mẫu 1 - Review kỹ thuật',
-					'prompt_rules' => "- Use Vietnamese.\n- Write a complete, information-rich technical review, not a short summary.\n- Focus on product evaluation, comparison, buying advice, strengths, weaknesses, practical use cases, and who should/should not choose it.\n- Use YouTube transcript only for hands-on observations when a YouTube URL is provided.\n- Use Official URL and especially PDF URL as the primary source for specifications, limits, dimensions, electrical ratings, included features, official claims, warnings, and compatibility.\n- Prefer exact values from the PDF. If the PDF and Official URL disagree, mention the conflict and prefer the PDF unless the source text clearly says otherwise.\n- Do not invent specs, prices, certifications, benchmark numbers, or personal test results.\n- If evidence is missing, write that it needs verification instead of guessing.\n- Make review_content long-form with clear sections and detailed paragraphs.\n- Keep comparison_table to 6-12 rows when the schema includes it.",
+					'prompt_rules' => "- Use Vietnamese.\n- Write a complete, information-rich technical review, not a short summary.\n- Focus on product evaluation, comparison, buying advice, strengths, weaknesses, practical use cases, and who should/should not choose it.\n- Use YouTube transcript only for hands-on observations when a YouTube URL is provided.\n- Use Official URL and especially PDF URL as the primary source for specifications, limits, dimensions, electrical ratings, included features, official claims, warnings, and compatibility.\n- Prefer exact values from the PDF. If the PDF and Official URL disagree, mention the conflict and prefer the PDF unless the source text clearly says otherwise.\n- Do not invent specs, prices, certifications, benchmark numbers, or personal test results.\n- If evidence is missing, write that it needs verification instead of guessing.\n- Make review_content long-form with clear sections and detailed paragraphs.\n- Do not use Markdown heading syntax in generated article fields: no ### headings and no bullet-only outline.\n- Start section headings with plain numbering such as I., II., III. or 1., 2., 3.; bold is allowed only for product names or short key terms.\n- Keep comparison_table to 6-12 rows when the schema includes it.",
 					'schema'       => "{\n  \"title\": \"string\",\n  \"summary\": \"string\",\n  \"review_content\": \"string\",\n  \"comparison_table\": [\n    {\n      \"criteria\": \"string\",\n      \"product_value\": \"string\",\n      \"notes\": \"string\"\n    }\n  ]\n}",
 				),
 				array(
 					'id'           => 'template_2',
 					'name'         => 'Mẫu 2 - Tổng hợp / giải thích Official PDF',
-					'prompt_rules' => "- Use Vietnamese.\n- Write a complete, information-rich explainer and source summary, not a short abstract.\n- Focus on explaining what the product is, how it works, important specifications, official claims, PDF details, usage scenarios, setup notes, limitations, safety notes, and compatibility.\n- Use Official URL and especially PDF URL as the primary source. Stay close to the PDF wording for technical facts, numeric specs, warnings, pinouts, ratings, dimensions, protocols, included parts, and operating conditions.\n- Extract as many useful facts as the sources support, but do not pad with invented information.\n- If the source is unclear, say it is unclear. If a spec is not found, say it is not found in the provided sources.\n- Do not invent prices, certifications, test results, comparisons, or claims that are not present in the Official/PDF text.\n- Make review_content the main public article. It must include the most important details from source_summary, key_specifications, official_claims, pdf_details, recommended_use_cases, and limitations_or_notes in natural prose.\n- Treat arrays such as key_specifications, official_claims, pdf_details, recommended_use_cases, and limitations_or_notes as supporting extraction data, not a replacement for review_content.\n- Make source_summary and review_content detailed with clear sections and practical explanations.\n- In key_specifications, include source labels such as PDF URL or Official URL whenever possible.",
+					'prompt_rules' => "- Use Vietnamese.\n- Write a complete, information-rich explainer and source summary, not a short abstract.\n- Focus on explaining what the product is, how it works, important specifications, official claims, PDF details, usage scenarios, setup notes, limitations, safety notes, and compatibility.\n- Use Official URL and especially PDF URL as the primary source. Stay close to the PDF wording for technical facts, numeric specs, warnings, pinouts, ratings, dimensions, protocols, included parts, and operating conditions.\n- Extract as many useful facts as the sources support, but do not pad with invented information.\n- If the source is unclear, say it is unclear. If a spec is not found, say it is not found in the provided sources.\n- Do not invent prices, certifications, test results, comparisons, or claims that are not present in the Official/PDF text.\n- Make review_content the main public article. It must include the most important details from source_summary, key_specifications, official_claims, pdf_details, recommended_use_cases, and limitations_or_notes in natural prose.\n- Treat arrays such as key_specifications, official_claims, pdf_details, recommended_use_cases, and limitations_or_notes as supporting extraction data, not a replacement for review_content.\n- Make source_summary and review_content detailed with clear sections and practical explanations.\n- Do not use Markdown heading syntax in generated article fields: no ### headings and no bullet-only outline.\n- Start section headings with plain numbering such as I., II., III. or 1., 2., 3.; bold is allowed only for product names or short key terms.\n- In key_specifications, include source labels such as PDF URL or Official URL whenever possible.",
 					'schema'       => "{\n  \"title\": \"string\",\n  \"summary\": \"string\",\n  \"source_summary\": \"string\",\n  \"key_specifications\": [\n    {\n      \"name\": \"string\",\n      \"value\": \"string\",\n      \"source\": \"Official URL or PDF URL\"\n    }\n  ],\n  \"official_claims\": [\n    \"string\"\n  ],\n  \"pdf_details\": [\n    \"string\"\n  ],\n  \"recommended_use_cases\": [\n    \"string\"\n  ],\n  \"limitations_or_notes\": [\n    \"string\"\n  ],\n  \"review_content\": \"string\"\n}",
 				),
 				array(
 					'id'           => 'template_3',
 					'name'         => 'Mẫu 3 - So sánh 2 sản phẩm',
-					'prompt_rules' => "- Use Vietnamese.\n- Write a complete, evidence-based comparison between Product 1 and Product 2.\n- Product 1 comes from selected Product ID. Product 2 comes from the Compare product 2 fields.\n- Use Official URL and PDF URL of both products as the primary sources. Prefer PDF values for technical specs.\n- Compare concrete specs, architecture, performance class, I/O, voltage/current limits, connectivity, software ecosystem, learning curve, project suitability, strengths, weaknesses, and buying recommendation.\n- Do not invent specs, benchmark scores, prices, certifications, or claims. If a value is not found in the provided sources, write that it was not found.\n- If sources conflict, mention the conflict and prefer the PDF unless the source text clearly says otherwise.\n- Make review_content the main public article with detailed sections and practical advice.\n- Make comparison_table detailed with 8-16 rows when evidence supports it.\n- End with clear recommendations: choose Product 1 when..., choose Product 2 when..., and choose neither/verify more when needed.",
+					'prompt_rules' => "- Use Vietnamese.\n- Write a complete, evidence-based comparison between Product 1 and Product 2.\n- Product 1 comes from selected Product ID. Product 2 comes from the Compare product 2 fields.\n- Use Official URL and PDF URL of both products as the primary sources. Prefer PDF values for technical specs.\n- Compare concrete specs, architecture, performance class, I/O, voltage/current limits, connectivity, software ecosystem, learning curve, project suitability, strengths, weaknesses, and buying recommendation.\n- Do not invent specs, benchmark scores, prices, certifications, or claims. If a value is not found in the provided sources, write that it was not found.\n- If sources conflict, mention the conflict and prefer the PDF unless the source text clearly says otherwise.\n- Make review_content the main public article with detailed sections and practical advice.\n- Do not use Markdown heading syntax in generated article fields: no ### headings and no bullet-only outline.\n- Start section headings with plain numbering such as I., II., III. or 1., 2., 3.; bold is allowed only for product names or short key terms.\n- Make comparison_table detailed with 8-16 rows when evidence supports it.\n- End with clear recommendations: choose Product 1 when..., choose Product 2 when..., and choose neither/verify more when needed.",
 					'schema'       => "{\n  \"title\": \"string\",\n  \"summary\": \"string\",\n  \"product_1\": {\n    \"name\": \"string\",\n    \"best_for\": [\"string\"],\n    \"key_specs\": [\n      {\n        \"name\": \"string\",\n        \"value\": \"string\",\n        \"source\": \"Official URL or PDF URL\"\n      }\n    ]\n  },\n  \"product_2\": {\n    \"name\": \"string\",\n    \"best_for\": [\"string\"],\n    \"key_specs\": [\n      {\n        \"name\": \"string\",\n        \"value\": \"string\",\n        \"source\": \"Official URL or PDF URL\"\n      }\n    ]\n  },\n  \"comparison_table\": [\n    {\n      \"criteria\": \"string\",\n      \"product_1_value\": \"string\",\n      \"product_2_value\": \"string\",\n      \"winner_or_note\": \"string\"\n    }\n  ],\n  \"recommendation\": \"string\",\n  \"review_content\": \"string\"\n}",
 				),
 			);
@@ -1627,7 +1627,7 @@ if ( ! class_exists( 'Zenclau_V1_REST_API' ) ) {
 		 * @return WP_REST_Response
 		 */
 		public function get_max_output_tokens() {
-			$value = max( 1024, min( 32768, absint( get_option( 'zenclau_v1_max_output_tokens', 16384 ) ) ) );
+			$value = max( 1024, min( 65536, absint( get_option( 'zenclau_v1_max_output_tokens', 16384 ) ) ) );
 
 			return rest_ensure_response(
 				array(
@@ -1645,7 +1645,7 @@ if ( ! class_exists( 'Zenclau_V1_REST_API' ) ) {
 		public function update_max_output_tokens( WP_REST_Request $request ) {
 			$params = (array) $request->get_json_params();
 			$value  = isset( $params['max_output_tokens'] ) ? absint( $params['max_output_tokens'] ) : 16384;
-			$value  = max( 1024, min( 32768, $value ) );
+			$value  = max( 1024, min( 65536, $value ) );
 
 			update_option( 'zenclau_v1_max_output_tokens', $value, false );
 
@@ -2312,8 +2312,8 @@ if ( ! class_exists( 'Zenclau_V1_REST_API' ) ) {
 			}
 
 			$title          = sanitize_text_field( $content['title'] ?? '' );
-			$summary        = sanitize_textarea_field( $content['summary'] ?? '' );
-			$review_content = sanitize_textarea_field( $content['review_content'] ?? ( $content['body'] ?? '' ) );
+			$summary        = $this->clean_generated_article_text( sanitize_textarea_field( $content['summary'] ?? '' ) );
+			$review_content = $this->clean_generated_article_text( sanitize_textarea_field( $content['review_content'] ?? ( $content['body'] ?? '' ) ) );
 
 			if ( '' === $title ) {
 				return new WP_Error( 'zenclau_v1_finish_missing_title', __( 'V1: Title is required before finishing.', 'bhdt-core-system' ), array( 'status' => 400 ) );
@@ -2408,7 +2408,7 @@ if ( ! class_exists( 'Zenclau_V1_REST_API' ) ) {
 			);
 
 			if ( ! isset( $map[ $key ] ) ) {
-				return new WP_Error( 'zenclau_v1_finish_invalid_destination', __( 'V1: Finish destination must be Post, Review, or So sanh.', 'bhdt-core-system' ), array( 'status' => 400 ) );
+				return new WP_Error( 'zenclau_v1_finish_invalid_destination', __( 'V1: Finish destination must be Post, Review, or So sánh.', 'bhdt-core-system' ), array( 'status' => 400 ) );
 			}
 
 			if ( ! post_type_exists( $map[ $key ]['post_type'] ) ) {
@@ -2512,17 +2512,17 @@ if ( ! class_exists( 'Zenclau_V1_REST_API' ) ) {
 		 * @return string
 		 */
 		private function build_finished_post_content( array $content, array $queue_item ) {
-			$summary        = (string) ( $content['summary'] ?? '' );
-			$review_content = (string) ( $content['review_content'] ?? '' );
+			$summary        = $this->clean_generated_article_text( (string) ( $content['summary'] ?? '' ) );
+			$review_content = $this->clean_generated_article_text( (string) ( $content['review_content'] ?? '' ) );
 			$youtube_url    = esc_url_raw( $queue_item['youtube_url'] ?? '' );
 			$html           = '';
 
 			if ( '' !== trim( $summary ) ) {
-				$html .= '<h2>Tóm tắt</h2>' . wpautop( esc_html( $summary ) );
+				$html .= '<h2>Tóm tắt</h2>' . wp_kses_post( wpautop( $summary ) );
 			}
 
 			if ( '' !== trim( $review_content ) ) {
-				$html .= '<h2>Nội dung review</h2>' . wpautop( esc_html( $review_content ) );
+				$html .= '<h2>Nội dung review</h2>' . wp_kses_post( wpautop( $review_content ) );
 			}
 
 			if ( ! empty( $content['comparison_table'] ) && is_array( $content['comparison_table'] ) ) {
@@ -2533,13 +2533,13 @@ if ( ! class_exists( 'Zenclau_V1_REST_API' ) ) {
 						continue;
 					}
 					$html .= '<tr>';
-					$html .= '<td>' . esc_html( $row['criteria'] ?? '' ) . '</td>';
+					$html .= '<td>' . wp_kses_post( $this->clean_generated_article_text( (string) ( $row['criteria'] ?? '' ) ) ) . '</td>';
 					$product_value = $row['product_value'] ?? '';
 					if ( '' === $product_value && ( isset( $row['product_1_value'] ) || isset( $row['product_2_value'] ) ) ) {
 						$product_value = trim( 'SP1: ' . ( $row['product_1_value'] ?? '' ) . ' | SP2: ' . ( $row['product_2_value'] ?? '' ) );
 					}
-					$html .= '<td>' . esc_html( $product_value ) . '</td>';
-					$html .= '<td>' . esc_html( $row['winner_or_note'] ?? ( $row['notes'] ?? '' ) ) . '</td>';
+					$html .= '<td>' . wp_kses_post( $this->clean_generated_article_text( (string) $product_value ) ) . '</td>';
+					$html .= '<td>' . wp_kses_post( $this->clean_generated_article_text( (string) ( $row['winner_or_note'] ?? ( $row['notes'] ?? '' ) ) ) ) . '</td>';
 					$html .= '</tr>';
 				}
 				$html .= '</tbody></table>';
@@ -2591,7 +2591,7 @@ if ( ! class_exists( 'Zenclau_V1_REST_API' ) ) {
 					$json = wp_json_encode( $value, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES );
 					$html .= '<pre>' . esc_html( false === $json ? '' : $json ) . '</pre>';
 				} else {
-					$html .= wpautop( esc_html( (string) $value ) );
+					$html .= wp_kses_post( wpautop( $this->clean_generated_article_text( (string) $value ) ) );
 				}
 			}
 
@@ -2600,6 +2600,83 @@ if ( ! class_exists( 'Zenclau_V1_REST_API' ) ) {
 			}
 
 			return $html;
+		}
+
+		/**
+		 * Remove unwanted Markdown while preserving intentional bold text.
+		 *
+		 * @param string $text Generated article text.
+		 * @return string
+		 */
+		private function clean_generated_article_text( $text ) {
+			$text = str_replace( array( "\r\n", "\r" ), "\n", (string) $text );
+			$text = $this->normalize_generated_headings( $text );
+			$text = preg_replace_callback(
+				'/\*\*([^*\n][^*\n]*?)\*\*/u',
+				function ( $matches ) {
+					return '<strong>' . esc_html( trim( $matches[1] ) ) . '</strong>';
+				},
+				$text
+			);
+			$text = preg_replace( '/(^|[\s(])\*([^*\n]+?)\*([\s).,:;!?]|$)/u', '$1$2$3', $text );
+			$text = preg_replace( '/^[ \t]*[-*+][ \t]+/m', '', $text );
+			$text = preg_replace( '/[ \t]+$/m', '', $text );
+			$text = preg_replace( "/\n{3,}/", "\n\n", $text );
+
+			return trim( $text );
+		}
+
+		/**
+		 * Convert Markdown headings into plain numbered headings.
+		 *
+		 * @param string $text Generated article text.
+		 * @return string
+		 */
+		private function normalize_generated_headings( $text ) {
+			$heading_index = 1;
+			$lines         = explode( "\n", (string) $text );
+
+			foreach ( $lines as $index => $line ) {
+				if ( ! preg_match( '/^[ \t]{0,3}#{1,6}[ \t]+(.+)$/u', $line, $matches ) ) {
+					continue;
+				}
+
+				$heading = trim( $matches[1] );
+				if ( ! preg_match( '/^(?:[IVXLCDM]+\.\s+|\d+[\.)]\s+)/i', $heading ) ) {
+					$heading = $this->int_to_roman( $heading_index ) . '. ' . $heading;
+				}
+				$heading_index++;
+				$lines[ $index ] = $heading;
+			}
+
+			return implode( "\n", $lines );
+		}
+
+		/**
+		 * Convert a small positive integer to a Roman numeral.
+		 *
+		 * @param int $number Number.
+		 * @return string
+		 */
+		private function int_to_roman( $number ) {
+			$number = max( 1, min( 20, (int) $number ) );
+			$map    = array(
+				10 => 'X',
+				9  => 'IX',
+				5  => 'V',
+				4  => 'IV',
+				1  => 'I',
+			);
+			$roman  = '';
+
+			foreach ( $map as $value => $letter ) {
+				while ( $number >= $value ) {
+					$roman .= $letter;
+					$number -= $value;
+				}
+			}
+
+			return $roman;
 		}
 
 		/**
@@ -2627,7 +2704,7 @@ if ( ! class_exists( 'Zenclau_V1_REST_API' ) ) {
 			$json_schema = isset( $params['json_schema'] ) ? trim( (string) wp_unslash( $params['json_schema'] ) ) : '';
 			$schema_template_id = isset( $params['schema_template_id'] ) ? sanitize_key( $params['schema_template_id'] ) : '';
 			$max_output_tokens = isset( $params['max_output_tokens'] ) ? absint( $params['max_output_tokens'] ) : 8192;
-			$max_output_tokens = max( 1024, min( 32768, $max_output_tokens ) );
+			$max_output_tokens = max( 1024, min( 65536, $max_output_tokens ) );
 			$compare_product_name = isset( $params['compare_product_name'] ) ? sanitize_text_field( wp_unslash( $params['compare_product_name'] ) ) : '';
 			$compare_official_url = isset( $params['compare_official_url'] ) ? esc_url_raw( $params['compare_official_url'] ) : '';
 			$compare_pdf_url      = isset( $params['compare_pdf_url'] ) ? esc_url_raw( $params['compare_pdf_url'] ) : '';
@@ -2686,6 +2763,24 @@ if ( ! class_exists( 'Zenclau_V1_REST_API' ) ) {
 			}
 
 			return (string) apply_filters( 'zenclau_v1_python_bin', 'python' );
+		}
+
+		/**
+		 * Create a temp file for large worker inputs.
+		 *
+		 * @param string $prefix Filename prefix.
+		 * @return string|false
+		 */
+		private function create_worker_temp_file( $prefix ) {
+			if ( ! function_exists( 'wp_tempnam' ) ) {
+				require_once ABSPATH . 'wp-admin/includes/file.php';
+			}
+
+			if ( function_exists( 'wp_tempnam' ) ) {
+				return wp_tempnam( $prefix );
+			}
+
+			return tempnam( get_temp_dir(), sanitize_file_name( $prefix ) );
 		}
 
 		/**
@@ -2793,14 +2888,14 @@ if ( ! class_exists( 'Zenclau_V1_REST_API' ) ) {
 				$cmd .= ' --json-schema-b64 ' . escapeshellarg( base64_encode( $json_schema ) );
 			}
 			if ( '' !== trim( $transcript_override ) ) {
-				$temp_file = wp_tempnam( 'zenclau-transcript-override-' );
+				$temp_file = $this->create_worker_temp_file( 'zenclau-transcript-override-' );
 				if ( $temp_file && false !== file_put_contents( $temp_file, $transcript_override ) ) {
 					$temp_files[] = $temp_file;
 					$cmd .= ' --transcript-override-file ' . escapeshellarg( $temp_file );
 				}
 			}
 			if ( '' !== trim( $official_text_override ) ) {
-				$temp_file = wp_tempnam( 'zenclau-official-text-override-' );
+				$temp_file = $this->create_worker_temp_file( 'zenclau-official-text-override-' );
 				if ( $temp_file && false !== file_put_contents( $temp_file, $official_text_override ) ) {
 					$temp_files[] = $temp_file;
 					$cmd .= ' --official-text-override-file ' . escapeshellarg( $temp_file );
@@ -3027,8 +3122,8 @@ if ( ! class_exists( 'Zenclau_V1_Admin_UI' ) ) {
 		 */
 		public function render_page() {
 			Zenclau_V1_Content_Model::maybe_install_tables();
-			$saved_max_output_tokens = max( 1024, min( 32768, absint( get_option( 'zenclau_v1_max_output_tokens', 16384 ) ) ) );
-			$default_prompt_rules = "- Use Vietnamese.\n- Write a complete, information-rich product article, not a short summary.\n- Prefer detailed paragraphs, concrete specs, practical notes, and source-backed explanation.\n- If YouTube transcript is available, use it for hands-on observations.\n- If YouTube URL is empty, write from Official URL and PDF URL only.\n- Use Official URL and PDF URL source text for specifications and official claims.\n- Be factual and cautious. If evidence is missing, say it needs verification.\n- Do not invent prices or certifications.\n- Keep comparison_table to 6-12 rows when the schema includes it.";
+			$saved_max_output_tokens = max( 1024, min( 65536, absint( get_option( 'zenclau_v1_max_output_tokens', 16384 ) ) ) );
+			$default_prompt_rules = "- Use Vietnamese.\n- Write a complete, information-rich product article, not a short summary.\n- Prefer detailed paragraphs, concrete specs, practical notes, and source-backed explanation.\n- If YouTube transcript is available, use it for hands-on observations.\n- If YouTube URL is empty, write from Official URL and PDF URL only.\n- Use Official URL and PDF URL source text for specifications and official claims.\n- Be factual and cautious. If evidence is missing, say it needs verification.\n- Do not invent prices or certifications.\n- Do not use Markdown heading syntax in generated article fields: no ### headings and no bullet-only outline.\n- Start section headings with plain numbering such as I., II., III. or 1., 2., 3.; bold is allowed only for product names or short key terms.\n- Keep comparison_table to 6-12 rows when the schema includes it.";
 			$default_json_schema  = "{\n  \"title\": \"string\",\n  \"summary\": \"string\",\n  \"review_content\": \"string\",\n  \"comparison_table\": [\n    {\n      \"criteria\": \"string\",\n      \"product_value\": \"string\",\n      \"notes\": \"string\"\n    }\n  ]\n}";
 			?>
 			<div class="wrap zenclau-v1-admin" data-zenclau-v1-admin>
@@ -3173,15 +3268,15 @@ soldering tutorial</textarea>
 							<div class="zenclau-v1-subpanel" data-channel-subpanel="watchlist">
 								<h2>Channels</h2>
 								<div class="zenclau-v1-row-actions">
-									<button type="button" class="button button-secondary" data-sort-channels-subs>Sort subscribers â†“</button>
+									<button type="button" class="button button-secondary" data-sort-channels-subs>Sort subscribers desc</button>
 								</div>
 								<div class="zenclau-v1-list" data-channels-list></div>
 							</div>
 							<div class="zenclau-v1-subpanel" data-channel-subpanel="videos">
 								<h2>Pending videos</h2>
 								<div class="zenclau-v1-row-actions">
-									<button type="button" class="button button-secondary" data-sort-videos-views>Sort views â†“</button>
-									<button type="button" class="button button-secondary" data-sort-videos-newest>Sort newest â†“</button>
+									<button type="button" class="button button-secondary" data-sort-videos-views>Sort views desc</button>
+									<button type="button" class="button button-secondary" data-sort-videos-newest>Sort newest desc</button>
 								</div>
 								<div class="zenclau-v1-list" data-channel-videos-list></div>
 							</div>
@@ -3218,7 +3313,7 @@ soldering tutorial</textarea>
 						</label>
 						<label>
 							<span>Max output tokens</span>
-							<input type="number" name="max_output_tokens" min="1024" max="32768" step="1" value="<?php echo esc_attr( $saved_max_output_tokens ); ?>" />
+							<input type="number" name="max_output_tokens" min="1024" max="65536" step="1" value="<?php echo esc_attr( $saved_max_output_tokens ); ?>" />
 						</label>
 						<div class="zenclau-v1-schema-tools">
 							<label>
@@ -3316,7 +3411,7 @@ soldering tutorial</textarea>
 								<select name="destination">
 									<option value="post">Posts</option>
 									<option value="review">Review</option>
-									<option value="comparison">So sanh</option>
+									<option value="comparison">So sánh</option>
 								</select>
 							</label>
 							<button type="submit" class="button button-primary">Finish</button>
@@ -4066,7 +4161,7 @@ soldering tutorial</textarea>
 					try {
 						parsed = JSON.parse(form.elements.json_schema.value);
 					} catch (error) {
-						toast('JSON schema chua hop le.');
+						toast('JSON schema chưa hợp lệ.');
 						return;
 					}
 					if (!parsed.title) {

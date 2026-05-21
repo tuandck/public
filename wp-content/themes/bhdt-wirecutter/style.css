@@ -1002,6 +1002,11 @@ img {
 	color: var(--bhdt-footer-text, #fff);
 }
 
+.bhdt-footer-extra-text {
+	margin-top: 0.8rem;
+	white-space: pre-line;
+}
+
 .bhdt-home-grid {
 	display: grid;
 	grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1389,7 +1394,7 @@ img {
 
 .bhdt-front-edit-button {
 	position: fixed;
-	right: 1.25rem;
+	left: 1.25rem;
 	bottom: 1.25rem;
 	z-index: 9999;
 	display: inline-flex;
@@ -1415,6 +1420,35 @@ img {
 	border-color: var(--bhdt-accent-dark);
 	color: #ffffff;
 	text-decoration: none;
+}
+
+.bhdt-scroll-top-button {
+	position: fixed;
+	right: 1.25rem;
+	bottom: 1.25rem;
+	z-index: 9999;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 46px;
+	height: 46px;
+	border: 1px solid #111111;
+	border-radius: 999px;
+	background: #111111;
+	box-shadow: 0 12px 28px rgba(17, 17, 17, 0.18);
+	color: #ffffff;
+	cursor: pointer;
+	font-family: 'Noto Sans', Arial, sans-serif;
+	font-size: 1.25rem;
+	font-weight: 900;
+	line-height: 1;
+}
+
+.bhdt-scroll-top-button:hover,
+.bhdt-scroll-top-button:focus-visible {
+	background: var(--bhdt-accent-dark);
+	border-color: var(--bhdt-accent-dark);
+	color: #ffffff;
 }
 
 .bhdt-entry-content h2,
@@ -2196,6 +2230,15 @@ img {
 	text-decoration: none;
 }
 
+.bhdt-wire-deal-source {
+	margin: 0;
+	color: var(--bhdt-accent);
+	font-size: 0.72rem;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
 .bhdt-wire-deal-price-line {
 	margin: 0;
 	font-family: 'Noto Sans', Arial, sans-serif;
@@ -2443,5 +2486,220 @@ img {
 		height: auto;
 		min-height: 0;
 		padding-bottom: 1rem;
+	}
+}
+
+.bhdt-search-results-page {
+	display: block;
+}
+
+.bhdt-search-results-list {
+	display: grid;
+	gap: 1rem;
+}
+
+.bhdt-search-result {
+	display: grid;
+	grid-template-columns: 112px minmax(0, 1fr);
+	gap: 1rem;
+	align-items: start;
+	padding: 1rem;
+	border: 1px solid var(--bhdt-border);
+	border-radius: 12px;
+	background: var(--bhdt-card);
+}
+
+.bhdt-search-result-no-thumb {
+	grid-template-columns: 1fr;
+}
+
+.bhdt-search-result-thumb {
+	display: block;
+	width: 112px;
+	aspect-ratio: 1 / 1;
+	overflow: hidden;
+	border-radius: 10px;
+	background: #f5f5f5;
+}
+
+.bhdt-search-result-thumb img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.bhdt-search-result-body {
+	display: grid;
+	gap: 0.45rem;
+	min-width: 0;
+}
+
+.bhdt-search-result-url {
+	display: block;
+	overflow-wrap: anywhere;
+	color: #0a6b65;
+	font-size: 0.88rem;
+	text-decoration: none;
+}
+
+.bhdt-search-result-url:hover,
+.bhdt-search-result-url:focus {
+	text-decoration: underline;
+}
+
+.bhdt-search-result mark {
+	padding: 0.05em 0.18em;
+	border-radius: 4px;
+	background: #fff1a8;
+	color: inherit;
+}
+
+@media (max-width: 640px) {
+	.bhdt-search-result {
+		grid-template-columns: 72px minmax(0, 1fr);
+		padding: 0.85rem;
+	}
+
+	.bhdt-search-result-thumb {
+		width: 72px;
+		border-radius: 8px;
+	}
+}
+
+.bhdt-site-header {
+	--bhdt-sticky-header-offset: 0px;
+	--bhdt-sticky-header-height: 104px;
+	padding-top: var(--bhdt-sticky-header-height);
+}
+
+body.admin-bar .bhdt-site-header {
+	--bhdt-sticky-header-offset: 32px;
+}
+
+.bhdt-sticky-header-bar {
+	position: fixed;
+	top: var(--bhdt-sticky-header-offset);
+	left: 0;
+	right: 0;
+	z-index: 999;
+	background: rgba(255, 255, 255, 0.96);
+	border-bottom: 1px solid var(--bhdt-line);
+	box-shadow: 0 8px 22px rgba(0, 0, 0, 0.06);
+	backdrop-filter: blur(10px);
+	transform: translateY(0);
+	transition: background-color 180ms ease, box-shadow 180ms ease, transform 220ms ease;
+}
+
+.bhdt-sticky-header-bar .bhdt-header-inner,
+.bhdt-site-header .bhdt-sticky-header-bar .bhdt-header-inner {
+	position: relative;
+	top: auto;
+	z-index: auto;
+	width: min(1180px, calc(100% - 4rem));
+	max-width: none;
+	margin: 0 auto;
+	padding: 1rem 0;
+	background: transparent;
+	box-shadow: none;
+	transition: padding 180ms ease;
+}
+
+.bhdt-sticky-header-bar .bhdt-branding {
+	font-size: clamp(1.55rem, 2.4vw, 2.25rem);
+	line-height: 1.1;
+	transition: font-size 180ms ease, transform 180ms ease;
+}
+
+.bhdt-sticky-header-bar .bhdt-header-utility {
+	margin-left: clamp(1rem, 2vw, 1.75rem);
+	transition: margin-left 180ms ease;
+}
+
+.bhdt-sticky-header-bar .bhdt-wire-search {
+	width: min(100%, 520px);
+	margin-right: clamp(0.75rem, 1.8vw, 1.5rem);
+	transition: width 220ms ease, margin-right 180ms ease, transform 180ms ease;
+}
+
+.bhdt-sticky-header-bar .bhdt-header-actions {
+	display: inline-flex;
+	max-width: 360px;
+	opacity: 1;
+	overflow: hidden;
+	transform: translateY(0);
+	transition: opacity 160ms ease, max-width 220ms ease, transform 180ms ease, margin 180ms ease;
+}
+
+body.bhdt-header-is-scrolled .bhdt-sticky-header-bar .bhdt-header-actions {
+	max-width: 0;
+	margin-left: 0;
+	opacity: 0;
+	pointer-events: none;
+	transform: translateY(-8px);
+	visibility: hidden;
+}
+
+body.bhdt-header-is-scrolled .bhdt-sticky-header-bar {
+	background: rgba(255, 255, 255, 0.98);
+	box-shadow: 0 10px 28px rgba(0, 0, 0, 0.09);
+	transform: translateY(0);
+}
+
+body.bhdt-header-is-scrolled .bhdt-sticky-header-bar .bhdt-header-inner,
+body.bhdt-header-is-scrolled .bhdt-site-header .bhdt-sticky-header-bar .bhdt-header-inner {
+	padding: 0.78rem 0;
+}
+
+body.bhdt-header-is-scrolled .bhdt-sticky-header-bar .bhdt-branding {
+	transform: translateY(-1px);
+}
+
+body.bhdt-header-is-scrolled .bhdt-sticky-header-bar .bhdt-wire-search {
+	width: min(100%, 620px);
+	margin-right: 0;
+}
+
+@media (max-width: 782px) {
+	body.admin-bar .bhdt-site-header {
+		--bhdt-sticky-header-offset: 46px;
+	}
+}
+
+@media (max-width: 720px) {
+	.bhdt-site-header {
+		--bhdt-sticky-header-height: 152px;
+	}
+
+	.bhdt-sticky-header-bar .bhdt-header-inner,
+	.bhdt-site-header .bhdt-sticky-header-bar .bhdt-header-inner {
+		width: min(100% - 2rem, 1180px);
+		padding: 0.75rem 0;
+		gap: 0.65rem;
+	}
+
+	.bhdt-sticky-header-bar .bhdt-header-utility {
+		width: 100%;
+		margin-left: 0;
+		gap: 0.6rem;
+	}
+
+	.bhdt-sticky-header-bar .bhdt-wire-search {
+		width: 100%;
+		margin-right: 0;
+	}
+
+	body.bhdt-header-is-scrolled .bhdt-sticky-header-bar .bhdt-header-actions {
+		max-width: 0;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.bhdt-sticky-header-bar,
+	.bhdt-sticky-header-bar .bhdt-header-inner,
+	.bhdt-sticky-header-bar .bhdt-branding,
+	.bhdt-sticky-header-bar .bhdt-header-utility,
+	.bhdt-sticky-header-bar .bhdt-wire-search,
+	.bhdt-sticky-header-bar .bhdt-header-actions {
+		transition: none;
 	}
 }
