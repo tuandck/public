@@ -428,6 +428,7 @@ img {
 	width: min(1180px, calc(100% - 2rem));
 	margin: 0 auto;
 	padding: 0.85rem 0;
+	position: relative;
 }
 
 .bhdt-function-menu-inner {
@@ -490,6 +491,164 @@ img {
 .bhdt-function-menu-link.is-active {
 	border-color: #111111;
 	background: #ffffff;
+}
+
+.bhdt-function-menu-link.bhdt-chat-ant-target {
+	animation: bhdt-chat-ant-target-glow 18s linear infinite;
+}
+
+.bhdt-menu-ant {
+	--bhdt-ant-start-x: 0px;
+	--bhdt-ant-end-x: 100%;
+	--bhdt-ant-y: 0px;
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 16px;
+	height: 10px;
+	z-index: 26;
+	pointer-events: none;
+	transform: translate(var(--bhdt-ant-end-x), var(--bhdt-ant-y)) scaleX(-1);
+	animation: bhdt-menu-ant-crawl 18s linear infinite;
+}
+
+.bhdt-menu-ant::before {
+	content: '';
+	position: absolute;
+	left: 1px;
+	top: 3px;
+	width: 4px;
+	height: 4px;
+	border-radius: 50%;
+	background: #111111;
+	box-shadow: 5px 0 0 #111111, 10px 0 0 #111111;
+}
+
+.bhdt-menu-ant::after {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 16px;
+	height: 10px;
+	background:
+		linear-gradient(45deg, transparent 43%, #111111 46%, #111111 54%, transparent 57%) 1px 0 / 5px 5px no-repeat,
+		linear-gradient(-45deg, transparent 43%, #111111 46%, #111111 54%, transparent 57%) 1px 5px / 5px 5px no-repeat,
+		linear-gradient(45deg, transparent 43%, #111111 46%, #111111 54%, transparent 57%) 11px 0 / 5px 5px no-repeat,
+		linear-gradient(-45deg, transparent 43%, #111111 46%, #111111 54%, transparent 57%) 11px 5px / 5px 5px no-repeat;
+	opacity: 0.82;
+	animation: bhdt-menu-ant-outer-legs 0.36s steps(2, end) infinite;
+}
+
+.bhdt-menu-ant-antenna {
+	position: absolute;
+	right: -1px;
+	top: 2px;
+	width: 4px;
+	height: 1px;
+	background: #111111;
+	transform: rotate(-24deg);
+	transform-origin: left center;
+}
+
+.bhdt-menu-ant-midlegs {
+	position: absolute;
+	left: 6px;
+	top: 0;
+	width: 5px;
+	height: 10px;
+	background:
+		linear-gradient(45deg, transparent 43%, #111111 46%, #111111 54%, transparent 57%) 0 0 / 5px 5px no-repeat,
+		linear-gradient(-45deg, transparent 43%, #111111 46%, #111111 54%, transparent 57%) 0 5px / 5px 5px no-repeat;
+	opacity: 0.82;
+	animation: bhdt-menu-ant-middle-legs 0.36s steps(2, end) infinite;
+}
+
+@keyframes bhdt-menu-ant-crawl {
+	0% {
+		opacity: 0;
+		transform: translate(var(--bhdt-ant-end-x), var(--bhdt-ant-y)) scaleX(-1);
+	}
+
+	8%,
+	82% {
+		opacity: 1;
+	}
+
+	86% {
+		opacity: 1;
+		transform: translate(var(--bhdt-ant-start-x), var(--bhdt-ant-y)) scaleX(-1);
+	}
+
+	94% {
+		opacity: 1;
+		transform: translate(calc(var(--bhdt-ant-start-x) - 10px), calc(var(--bhdt-ant-y) + 13px)) scaleX(-1) rotate(14deg);
+	}
+
+	100% {
+		opacity: 0;
+		transform: translate(calc(var(--bhdt-ant-start-x) - 24px), calc(var(--bhdt-ant-y) + 22px)) scaleX(-1) rotate(24deg);
+	}
+}
+
+@keyframes bhdt-menu-ant-outer-legs {
+	0% {
+		background-position:
+			1px 0,
+			1px 5px,
+			11px 0,
+			11px 5px;
+	}
+
+	50% {
+		background-position:
+			2px 1px,
+			0 4px,
+			12px 1px,
+			10px 4px;
+	}
+}
+
+@keyframes bhdt-menu-ant-middle-legs {
+	0% {
+		background-position:
+			1px 1px,
+			-1px 4px;
+	}
+
+	50% {
+		background-position:
+			0 0,
+			1px 5px;
+	}
+}
+
+@keyframes bhdt-chat-ant-target-glow {
+	0%,
+	82%,
+	100% {
+		border-color: var(--bhdt-line);
+		background: #fafafa;
+		box-shadow: none;
+	}
+
+	87% {
+		border-color: rgba(15, 118, 110, 0.55);
+		background: #f0fdfa;
+		box-shadow: 0 0 0 4px rgba(20, 184, 166, 0.13), 0 8px 18px rgba(15, 118, 110, 0.13);
+	}
+
+	94% {
+		border-color: rgba(15, 118, 110, 0.28);
+		background: #ffffff;
+		box-shadow: 0 0 0 2px rgba(20, 184, 166, 0.08);
+	}
+}
+
+@media (max-width: 720px), (prefers-reduced-motion: reduce) {
+	.bhdt-menu-ant {
+		display: none;
+	}
 }
 
 .bhdt-function-child-list {
